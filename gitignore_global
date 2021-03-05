@@ -1,0 +1,6 @@
+*.un~
+dadbods.vim
+jira.vim
+project.vim
+devbox.zsh
+.env
