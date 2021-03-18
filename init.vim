@@ -19,20 +19,14 @@ Plug 'junegunn/fzf.vim'                  " Fzf <3 Vim
 " Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' } " Fuzzy finder in floating window
 Plug 'tpope/vim-surround'                " Vim surround command 's'
 " Plug 'simnalamburt/vim-mundo'            " Show vim's undotree in a graphical way
-" Plug 'mg979/vim-localhistory'            " Local history / Autobackup
-" Plug 'christoomey/vim-system-copy'     " Copy & paste with system clipboard
-" Plug 'haya14busa/vim-poweryank'          " Copy text via terminal clipboard using the OSC 52 escape sequence
 Plug 'easymotion/vim-easymotion'         " Move around easier
-Plug 'junegunn/vim-peekaboo'             " Peek in the registers before pasting
 " Plug 'junegunn/vim-easy-align'           " Align text
 Plug 'mhinz/vim-startify'                " Start screen for vim
+Plug 'junegunn/vim-peekaboo'             " Peek in the registers before pasting
 Plug 'svermeulen/vim-cutlass'            " use the black hole register for: c, cc, C, s, S, d, dd, D, x, X
 
 " -- Tree explorers
-" Plug 'cocopon/vaffle.vim'                " Easy tree explorer
-" Plug 'francoiscabrol/ranger.vim'         " Ranger integration
-" Plug 'rbgrouleff/bclose.vim'             " dependency for ranger.vim
-" Plug 'ipod825/vim-netranger'             " File explorer
+Plug 'cocopon/vaffle.vim'                " Easy tree explorer
 Plug 'kevinhwang91/rnvimr'               " Open ranger in floating window
 
 " -- Coding tools
@@ -51,9 +45,6 @@ Plug 'captbaritone/better-indent-support-for-php-with-html'
 Plug 'pangloss/vim-javascript'      " Better javascript indent and syntax highlighting
 " Plug 'tpope/vim-dadbod'             " SQL for Vim
 " Plug 'kristijanhusak/vim-dadbod-ui' " DadbodUI for visual navigation
-" Plug 'mattn/emmet-vim'            " Emmet expansion for vim
-" Plug 'ludovicchabant/vim-gutentags' " Automatic tag generation
-" Plug 'chrisbra/csv.vim'             " Wrapper for working with CSV files
 
 " Tabnine AI autocompletion
 Plug 'zxqfl/tabnine-vim'
@@ -340,320 +331,12 @@ nnoremap <leader>C :w<CR>:T m2c && gulp css && exit<CR>
 "   Plugin settings
 " ------------------------------------------------------------------------------
 
+" ### Generic Tools
 
 "   Neoterm settings
 " --------------------
 let g:neoterm_autoinsert = 1                    " Autostart new terminal in insert mode
 let g:neoterm_default_mod = 'vertical botright' " Set default terminal location
-
-
-"   Fugitive settings
-" ---------------------
-nmap <leader>Gs :Gstatus<CR><C-w>5+
-" Fugitive Conflict Resolution
-" nnoremap <leader>gd :Gvdiff<CR>
-" nnoremap gdh :diffget //2<CR>
-" nnoremap gdl :diffget //3<CR>
-
-
-"   Gutentags settings
-" ----------------------
-" https://www.reddit.com/r/vim/comments/d77t6j/guide_how_to_setup_ctags_with_gutentags_properly/
-" let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')   " Set dir for all tag files
-" let g:gutentags_generate_on_new = 1
-" let g:gutentags_generate_on_missing = 1
-" let g:gutentags_generate_on_write = 1
-" let g:gutentags_generate_on_empty_buffer = 0
-
-" Set custom gutenberg project dir
-" let g:gutentags_add_default_project_roots = 0
-" let g:gutentags_project_root = ['.aja']
-
-" Explaining --fields=+ailmnS (info gathered from: $ ctags --list-fields)
-" a: Access (or export) of class members
-" i: Inheritance information
-" l: Language of input file containing tag
-" m: Implementation information
-" n: Line number of tag definition
-" S: Signature of routine (e.g. prototype or parameter list)
-" let g:gutentags_ctags_extra_args = [
-"         \ '--tag-relative=yes',
-"         \ '--fields=+ailmnS',
-"         \ ]
-
-" Making Gutentags faster by ignoring a lot of unnecessary filetypes
-" let g:gutentags_ctags_exclude = [
-"         \ '*.git', '*.svg', '*.hg',
-"         \ '*/tests/*',
-"         \ 'build',
-"         \ 'dist',
-"         \ '*sites/*/files/*',
-"         \ 'bin',
-"         \ 'node_modules',
-"         \ 'bower_components',
-"         \ 'cache',
-"         \ 'compiled',
-"         \ 'docs',
-"         \ 'example',
-"         \ 'bundle',
-"         \ '*.md',
-"         \ '*-lock.json',
-"         \ '*.lock',
-"         \ '*bundle*.js',
-"         \ '*build*.js',
-"         \ '.*rc*',
-"         \ '*.json',
-"         \ '*.min.*',
-"         \ '*.map',
-"         \ '*.bak',
-"         \ '*.zip',
-"         \ '*.pyc',
-"         \ '*.class',
-"         \ '*.sln',
-"         \ '*.Master',
-"         \ '*.csproj',
-"         \ '*.tmp',
-"         \ '*.csproj.user',
-"         \ '*.cache',
-"         \ '*.pdb',
-"         \ 'tags*',
-"         \ 'cscope.*',
-"         \ '*.css',
-"         \ '*.less',
-"         \ '*.scss',
-"         \ '*.exe', '*.dll',
-"         \ '*.mp3', '*.ogg', '*.flac',
-"         \ '*.swp', '*.swo',
-"         \ '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png',
-"         \ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
-"         \ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
-"         \ ]
-
-
-"   Vdebug settings
-" ------------------
-let g:vdebug_keymap = {
-\    "run_to_cursor" : "<Leader><Left>",
-\    "step_over" : "<Leader><Down>",
-\    "step_into" : "<Leader><Right>",
-\    "step_out" : "<Leader><Up>",
-\    "get_context" : "<Leader>c"
-\}
-
-
-"   Tabnine (YCM) settings
-" --------------------------
-let g:ycm_filetype_blacklist = {
-        \ 'peekaboo' : 1,
-        \ 'text': 1
-        \}
-
-
-"   Peekabo settings
-" -------------------
-let g:peekaboo_delay = 1000
-
-
-"   Ranger settings
-" --------------------------
-let g:ranger_map_keys = 0
-
-
-"   BClose plugin settings
-let g:bclose_no_plugin_maps = 1
-
-
-"   Coc settings & keys
-" ----------------------
-"" Everything is commented out
-" "   <leader>gd    - Jump to definition of current symbol
-" "   <leader>gr    - Jump to references of current symbol
-" "   <leader>gi    - Jump to implementation of current symbol
-" "   <leader>gs    - Fuzzy search current project symbols
-" "   <leader>p     - Show yanklist
-" "   <(S-)tab>     - Navigate autocompletion list
-" "   <leader>D     - Show documentation for current symbol
-" nmap <silent> <leader>gd <Plug>(coc-definition)
-" nmap <silent> <leader>gr <Plug>(coc-references)
-" nmap <silent> <leader>gi <Plug>(coc-implementation)
-" nnoremap <silent> <leader>gs :<C-u>CocList -I -N --top symbols<CR>
-" nnoremap <silent> <space>p   :<C-u>CocList -A --normal yank<cr>
-" vnoremap <silent> <space>p   :<C-u>CocList -A --normal yank<cr>
-" inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" inoremap <expr> <C-l> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" " use <tab> for trigger completion and navigate to the next complete item
-" inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-" " Use D to show documentation in preview window.
-" nnoremap <silent> <leader>D :call <SID>show_documentation()<CR>
-" function! s:show_documentation()
-"   if (index(['vim','help'], &filetype) >= 0)
-"     execute 'h '.expand('<cword>')
-"   else
-"     call CocAction('doHover')
-"   endif
-" endfunction
-" " Special jump to symbol under cursor
-" " nnoremap <silent> <leader>gs :exe 'CocList -I --normal --input='.expand('<cword>').' symbols'<CR>
-
-
-"   Vim Vaffle settings & keys
-" -----------------------------
-" let g:vaffle_auto_cd = 1
-" let g:vaffle_show_hidden_files = 1
-
-" -- Keys
-" map <leader>E <Cmd>Vaffle<CR>
-" map <leader>e <Cmd>Vaffle %<CR>
-" function! s:customize_vaffle_mappings() abort
-"     " Customize key mappings here
-"     nmap  <buffer> <Bslash> <Plug>(vaffle-open-root)
-"     nmap  <buffer> cd       <Plug>(vaffle-chdir-here)
-"     nmap  <buffer> J        <Plug>(vaffle-toggle-current)
-"     nmap  <buffer> <Tab>    <Plug>(vaffle-toggle-current)
-"     nmap  <buffer> <S-Tab>  <Plug>(vaffle-toggle-current)kk
-"     nmap  <buffer> <Esc>    <Plug>(vaffle-quit)
-"     unmap <buffer> <space>
-" endfunction
-" augroup vimrc_vaffle
-"     autocmd!
-"     autocmd FileType vaffle call s:customize_vaffle_mappings()
-" augroup END
-
-
-"   Rnvimr settings
-" -----------------------------
-nnoremap <silent> <leader>e :RnvimrToggle<CR>
-tnoremap <silent> <leader>e <C-\><C-n>:RnvimrToggle<CR>
-" tnoremap <silent> <Esc> q
-" let g:rnvimr_ranger_cmd = 'ranger'
-" let g:rnvimr_vanilla = 1 " Use vanilla ranger config
-let g:rnvimr_enable_ex = 1 " Make Ranger replace Netrw and be the file explorer
-let g:rnvimr_enable_picker = 1 " Make Ranger to be hidden after picking a file
-" let g:rnvimr_hide_gitignore = 1 " Hide the files included in gitignore
-" let g:rnvimr_draw_border = 0 " Border for floating window
-" let g:rnvimr_border_attr = {'fg': 14, 'bg': 13} " Change the border's color
-" Fullscreen for initial layout
-let g:rnvimr_layout = {
-            \ 'relative': 'editor',
-            \ 'width': float2nr(1.0 * &columns),
-            \ 'height': float2nr(1.0 * &lines) - 2,
-            \ 'col': 0,
-            \ 'row': 0,
-            \ 'style': 'minimal'
-            \ }
-
-
-"   Mundo settings
-" ------------------
-let g:mundo_width = 120
-let g:mundo_preview_height = 25
-let g:mundo_right = 1
-let g:mundo_inline_undo = 1
-" let g:mundo_preview_bottom = 1
-
-
-"   Illuminate current word
-" --------------------------
-let g:Illuminate_delay = 1000
-" Change color of current symbol highlight
-highlight illuminatedWord cterm=underline ctermbg=60 gui=underline guibg=MediumPurple4
-
-
-"   Gitgutter settings
-" ----------------------
-" let g:gitgutter_override_sign_column_highlight = 0  " Don't override default bg color
-highlight GitGutterAdd    guifg=#009900 guibg=0 ctermfg=2 ctermbg=0
-highlight GitGutterChange guifg=#bbbb00 guibg=0 ctermfg=3 ctermbg=0
-highlight GitGutterChangeDelete guifg=#ee80ee guibg=0 ctermfg=4 ctermbg=0
-highlight GitGutterDelete guifg=#ff2222 guibg=0 ctermfg=1 ctermbg=0
-
-
-"   Local history settings
-" -------------------------
-" let g:lh_basedir = '~/.local_history'
-" let g:lh_autobackup_first = 1
-" let g:lh_autobackup_size = 51200 " Default is 10240
-" let g:lh_autobackup_frequency = 15
-
-
-"   Easymotion settings & keys
-" ------------------------------
-" Disable default mappings
-let g:EasyMotion_do_mapping = 0
-" Turn on case-insensitive feature
-let g:EasyMotion_smartcase = 1
-
-" -- Keys
-" Search for two chars - s{char}{char} to move to {char}{char}
-nmap <leader>s <Plug>(easymotion-overwin-f2)
-" Search for any number of chars
-nmap <leader>S <Plug>(easymotion-sn)
-" map  <leader>/ <Plug>(easymotion-sn)
-" omap <leader>/ <Plug>(easymotion-tn)
-
-
-"   Startify settings
-" --------------------
-let g:startify_session_persistence = 1 " Autosave sessions on exit when leaving vim and loading a new session
-let g:startify_update_oldfiles = 0     " Update v:oldfiles on-the-fly
-" let g:startify_relative_path = 1     " Show files with or without relativ path
-let g:startify_change_to_dir = 0       " Don't change to files dir when opening
-" let g:startify_change_to_vcs_root = 1  " Change to VCS dir if there is one (git & hg)
-let g:startify_restore_position = 1    " Jump to last position when opening a file
-" Set what to show on startpage
-let g:startify_lists = [
-            \ { 'type': 'sessions',  'header': ['   Sessions']       },
-            \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
-            \ { 'type': 'files',     'header': ['   MRU']            },
-            \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
-            \ { 'type': 'commands',  'header': ['   Commands']       },
-            \ ]
-" Add custom bookmarks
-let g:startify_bookmarks = [
-            \ {'cf': '~/.dotfiles/config.fish'},
-            \ {'ci': '~/.dotfiles/init.vim'},
-            \ {'cz': '~/.dotfiles/zshrc'},
-            \ {'ch': '~/.dotfiles/hammerspoon/init.lua'},
-            \ {'cs': '~/.dotfiles/surfingkeys.js'},
-            \ {'ck': '~/.dotfiles/kitty.conf'}
-            \ ]
-" How many files to display in the files & dir lists
-let g:startify_files_number = 5
-
-
-"   Matchup settings
-" --------------------
-" let g:matchup_matchparen_nomode = 'i'               " Turn off match highlighting in insert mode
-" let g:matchup_surround_enabled = 1                  " Activate ds% and cs%
-" let g:matchup_matchparen_deferred = 1               " Wait for cursor movement to stop
-" let g:matchup_matchparen_deferred_show_delay = 90   " Timeout to wait
-
-
-"   DelimitMate settings
-" ------------------------
-" let delimitMate_autoclose = 0       " Turn off automagic closing of pairs
-let delimitMate_matchpairs = "[:],{:},<:>"
-let delimitMate_expand_cr = 1       " Expand <CR> (Enter) when inserting {}
-let delimitMate_expand_space = 1    " Expand space at the end too
-let delimitMate_quotes = ""         " Turn off quote completion
-
-
-"   Tagalong settings
-" ---------------------
-" Print out a message every time it auto-updates a closing/opening tag
-let g:tagalong_verbose = 1
-
-
-"   Vim-polyglot settings
-" -------------------------
-let g:csv_no_conceal = 1
-
-
-"   Smoothie settings
-" ---------------------
-let g:smoothie_update_interval = 5
-let g:smoothie_base_speed = 5
 
 
 "   Vim Clap settings
@@ -771,6 +454,228 @@ let g:fzf_preview_preview_key_bindings = "ctrl-d:preview-down,ctrl-u:preview-up,
 " nnoremap <silent> [fzf-p]q  <Cmd>FzfPreviewQuickFix<CR>
 "" nnoremap <silent> [fzf-p]/     :<C-u>FzfPreviewLines -add-fzf-arg=--no-sort -add-fzf-arg=--query="'"<CR>
 "" nnoremap <silent> [fzf-p]*     :<C-u>FzfPreviewLines -add-fzf-arg=--no-sort -add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
+
+
+"   Mundo settings
+" ------------------
+let g:mundo_width = 120
+let g:mundo_preview_height = 25
+let g:mundo_right = 1
+let g:mundo_inline_undo = 1
+" let g:mundo_preview_bottom = 1
+
+
+"   Easymotion settings & keys
+" ------------------------------
+" Disable default mappings
+let g:EasyMotion_do_mapping = 0
+" Turn on case-insensitive feature
+let g:EasyMotion_smartcase = 1
+
+" -- Keys
+" Search for two chars - s{char}{char} to move to {char}{char}
+nmap <leader>s <Plug>(easymotion-overwin-f2)
+" Search for any number of chars
+nmap <leader>S <Plug>(easymotion-sn)
+" map  <leader>/ <Plug>(easymotion-sn)
+" omap <leader>/ <Plug>(easymotion-tn)
+
+
+"   Startify settings
+" --------------------
+let g:startify_session_persistence = 1 " Autosave sessions on exit when leaving vim and loading a new session
+let g:startify_update_oldfiles = 0     " Update v:oldfiles on-the-fly
+" let g:startify_relative_path = 1     " Show files with or without relativ path
+let g:startify_change_to_dir = 0       " Don't change to files dir when opening
+" let g:startify_change_to_vcs_root = 1  " Change to VCS dir if there is one (git & hg)
+let g:startify_restore_position = 1    " Jump to last position when opening a file
+" Set what to show on startpage
+let g:startify_lists = [
+            \ { 'type': 'sessions',  'header': ['   Sessions']       },
+            \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+            \ { 'type': 'files',     'header': ['   MRU']            },
+            \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+            \ { 'type': 'commands',  'header': ['   Commands']       },
+            \ ]
+" Add custom bookmarks
+let g:startify_bookmarks = [
+            \ {'cf': '~/.dotfiles/config.fish'},
+            \ {'ci': '~/.dotfiles/init.vim'},
+            \ {'cz': '~/.dotfiles/zshrc'},
+            \ {'ch': '~/.dotfiles/hammerspoon/init.lua'},
+            \ {'cs': '~/.dotfiles/surfingkeys.js'},
+            \ {'ck': '~/.dotfiles/kitty.conf'}
+            \ ]
+" How many files to display in the files & dir lists
+let g:startify_files_number = 5
+
+
+"   Peekabo settings
+" -------------------
+let g:peekaboo_delay = 1000
+
+
+" ### Tree explorers
+
+
+"   Vim Vaffle settings & keys
+" -----------------------------
+let g:vaffle_auto_cd = 1
+let g:vaffle_show_hidden_files = 1
+
+" -- Keys
+" map <leader>e <Cmd>Vaffle<CR>
+map <leader>E <Cmd>Vaffle %<CR>
+" function! s:customize_vaffle_mappings() abort
+"     " Customize key mappings here
+"     nmap  <buffer> <Bslash> <Plug>(vaffle-open-root)
+"     nmap  <buffer> cd       <Plug>(vaffle-chdir-here)
+"     nmap  <buffer> J        <Plug>(vaffle-toggle-current)
+"     nmap  <buffer> <Tab>    <Plug>(vaffle-toggle-current)
+"     nmap  <buffer> <S-Tab>  <Plug>(vaffle-toggle-current)kk
+"     nmap  <buffer> <Esc>    <Plug>(vaffle-quit)
+"     unmap <buffer> <space>
+" endfunction
+" augroup vimrc_vaffle
+"     autocmd!
+"     autocmd FileType vaffle call s:customize_vaffle_mappings()
+" augroup END
+
+
+"   Rnvimr settings
+" -----------------------------
+nnoremap <silent> <leader>e :RnvimrToggle<CR>
+tnoremap <silent> <leader>e <C-\><C-n>:RnvimrToggle<CR>
+" tnoremap <silent> <Esc> q
+" let g:rnvimr_ranger_cmd = 'ranger'
+" let g:rnvimr_vanilla = 1 " Use vanilla ranger config
+let g:rnvimr_enable_ex = 1 " Make Ranger replace Netrw and be the file explorer
+let g:rnvimr_enable_picker = 1 " Make Ranger to be hidden after picking a file
+" let g:rnvimr_hide_gitignore = 1 " Hide the files included in gitignore
+" let g:rnvimr_draw_border = 0 " Border for floating window
+" let g:rnvimr_border_attr = {'fg': 14, 'bg': 13} " Change the border's color
+" Fullscreen for initial layout
+let g:rnvimr_layout = {
+            \ 'relative': 'editor',
+            \ 'width': float2nr(1.0 * &columns),
+            \ 'height': float2nr(1.0 * &lines) - 2,
+            \ 'col': 0,
+            \ 'row': 0,
+            \ 'style': 'minimal'
+            \ }
+
+
+" ### Coding tools
+
+
+"   Vdebug settings
+" ------------------
+let g:vdebug_keymap = {
+\    "run_to_cursor" : "<Leader><Left>",
+\    "step_over" : "<Leader><Down>",
+\    "step_into" : "<Leader><Right>",
+\    "step_out" : "<Leader><Up>",
+\    "get_context" : "<Leader>c"
+\}
+
+
+"   Gitgutter settings
+" ----------------------
+" let g:gitgutter_override_sign_column_highlight = 0  " Don't override default bg color
+highlight GitGutterAdd    guifg=#009900 guibg=0 ctermfg=2 ctermbg=0
+highlight GitGutterChange guifg=#bbbb00 guibg=0 ctermfg=3 ctermbg=0
+highlight GitGutterChangeDelete guifg=#ee80ee guibg=0 ctermfg=4 ctermbg=0
+highlight GitGutterDelete guifg=#ff2222 guibg=0 ctermfg=1 ctermbg=0
+
+
+"   Fugitive settings
+" ---------------------
+nmap <leader>Gs :Gstatus<CR><C-w>5+
+" Fugitive Conflict Resolution
+" nnoremap <leader>gd :Gvdiff<CR>
+" nnoremap gdh :diffget //2<CR>
+" nnoremap gdl :diffget //3<CR>
+
+
+"   Matchup settings
+" --------------------
+" let g:matchup_matchparen_nomode = 'i'               " Turn off match highlighting in insert mode
+" let g:matchup_surround_enabled = 1                  " Activate ds% and cs%
+" let g:matchup_matchparen_deferred = 1               " Wait for cursor movement to stop
+" let g:matchup_matchparen_deferred_show_delay = 90   " Timeout to wait
+
+
+"   Tagalong settings
+" ---------------------
+" Print out a message every time it auto-updates a closing/opening tag
+let g:tagalong_verbose = 1
+
+
+"   DelimitMate settings
+" ------------------------
+" let delimitMate_autoclose = 0       " Turn off automagic closing of pairs
+let delimitMate_matchpairs = "[:],{:},<:>"
+let delimitMate_expand_cr = 1       " Expand <CR> (Enter) when inserting {}
+let delimitMate_expand_space = 1    " Expand space at the end too
+let delimitMate_quotes = ""         " Turn off quote completion
+
+
+"   Tabnine (YCM) settings
+" --------------------------
+let g:ycm_filetype_blacklist = {
+        \ 'peekaboo' : 1,
+        \ 'text': 1
+        \}
+
+
+"   Coc settings & keys
+" ----------------------
+"" Everything is commented out
+" "   <leader>gd    - Jump to definition of current symbol
+" "   <leader>gr    - Jump to references of current symbol
+" "   <leader>gi    - Jump to implementation of current symbol
+" "   <leader>gs    - Fuzzy search current project symbols
+" "   <leader>p     - Show yanklist
+" "   <(S-)tab>     - Navigate autocompletion list
+" "   <leader>D     - Show documentation for current symbol
+" nmap <silent> <leader>gd <Plug>(coc-definition)
+" nmap <silent> <leader>gr <Plug>(coc-references)
+" nmap <silent> <leader>gi <Plug>(coc-implementation)
+" nnoremap <silent> <leader>gs :<C-u>CocList -I -N --top symbols<CR>
+" nnoremap <silent> <space>p   :<C-u>CocList -A --normal yank<cr>
+" vnoremap <silent> <space>p   :<C-u>CocList -A --normal yank<cr>
+" inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" inoremap <expr> <C-l> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" " use <tab> for trigger completion and navigate to the next complete item
+" inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" " Use D to show documentation in preview window.
+" nnoremap <silent> <leader>D :call <SID>show_documentation()<CR>
+" function! s:show_documentation()
+"   if (index(['vim','help'], &filetype) >= 0)
+"     execute 'h '.expand('<cword>')
+"   else
+"     call CocAction('doHover')
+"   endif
+" endfunction
+" " Special jump to symbol under cursor
+" " nnoremap <silent> <leader>gs :exe 'CocList -I --normal --input='.expand('<cword>').' symbols'<CR>
+
+
+" ### Visual improvements
+
+
+"   Smoothie settings
+" ---------------------
+let g:smoothie_update_interval = 5
+let g:smoothie_base_speed = 5
+
+
+"   Illuminate current word
+" --------------------------
+let g:Illuminate_delay = 1000
+" Change color of current symbol highlight
+highlight illuminatedWord cterm=underline ctermbg=60 gui=underline guibg=MediumPurple4
 
 
 
