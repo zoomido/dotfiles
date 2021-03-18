@@ -549,7 +549,7 @@ tnoremap <silent> <leader>e <C-\><C-n>:RnvimrToggle<CR>
 " tnoremap <silent> <Esc> q
 " let g:rnvimr_ranger_cmd = 'ranger'
 " let g:rnvimr_vanilla = 1 " Use vanilla ranger config
-let g:rnvimr_enable_ex = 1 " Make Ranger replace Netrw and be the file explorer
+" let g:rnvimr_enable_ex = 1 " Make Ranger replace Netrw and be the file explorer
 let g:rnvimr_enable_picker = 1 " Make Ranger to be hidden after picking a file
 " let g:rnvimr_hide_gitignore = 1 " Hide the files included in gitignore
 " let g:rnvimr_draw_border = 0 " Border for floating window
