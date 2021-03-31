@@ -524,8 +524,8 @@ let g:vaffle_auto_cd = 1
 let g:vaffle_show_hidden_files = 1
 
 " -- Keys
-" map <leader>e <Cmd>Vaffle<CR>
-map <leader>E <Cmd>Vaffle %<CR>
+map <leader>E <Cmd>Vaffle<CR>
+map <leader>e <Cmd>Vaffle %<CR>
 " function! s:customize_vaffle_mappings() abort
 "     " Customize key mappings here
 "     nmap  <buffer> <Bslash> <Plug>(vaffle-open-root)
@@ -544,8 +544,8 @@ map <leader>E <Cmd>Vaffle %<CR>
 
 "   Rnvimr settings
 " -----------------------------
-nnoremap <silent> <leader>e :RnvimrToggle<CR>
-tnoremap <silent> <leader>e <C-\><C-n>:RnvimrToggle<CR>
+" nnoremap <silent> <leader>e :RnvimrToggle<CR>
+" tnoremap <silent> <leader>e <C-\><C-n>:RnvimrToggle<CR>
 " tnoremap <silent> <Esc> q
 " let g:rnvimr_ranger_cmd = 'ranger'
 " let g:rnvimr_vanilla = 1 " Use vanilla ranger config
