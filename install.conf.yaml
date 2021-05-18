@@ -2,6 +2,7 @@
     link:
         create: true
         relink: true
+        force: true
     shell:
         stdin: true
         stdout: true
@@ -15,12 +16,9 @@
     ~/.config/nvim/init.vim:
         path: init.vim
     ~/.config/fish/config.fish:
-        path: config.fish
-    ~/.config/fish/fishfile:
-        path: fishfile
-    ~/.config/starship.toml:
-        force: true
-        path: starship.toml
+        path: fish/config.fish
+    ~/.config/fish/fish_plugins:
+        path: fish/fish_plugins
     ~/.config/kitty/kitty.conf:
         if: '[ `uname` = Darwin ]'
         path: kitty.conf
@@ -32,41 +30,46 @@
     - description: install homebrew
       command: bash -c 'if ! command -v "brew" &> /dev/null; then /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"; fi'
     - description: Set homebrew in path
-#      command: sudo ln -s /home/linuxbrew/.linuxbrew/bin/brew /usr/local/bin/brew
+#old      command: sudo ln -s /home/linuxbrew/.linuxbrew/bin/brew /usr/local/bin/brew
       command: export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
-    - description: Install fzf
-      command: brew install fzf
-    - description: Install ripgrep
-      command: brew install rg
-    - description: Install starship prompt
-      command: brew install starship
-    - description: Install exa, modern file lister
-      command: brew install exa
+#    - description: Install fzf
+#      command: brew install fzf
+#    - description: Install ripgrep
+#      command: brew install rg
+#    - description: Install exa, modern file lister
+#      command: brew install exa
 #    - description: Install bat, file previewer
 #      command: brew install bat
-    - description: Install ranger, vim like file explorer
-      command: brew install ranger
-    - description: Install neovim
-      command: brew install nvim
-    - description: Install pynvim for nvim python support
-      command: python3 -m pip install --user --upgrade pynvim
-    - description: Install vim-plug, plugin manager for vim
-      command: sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    - description: Install base16-shell configs
-      command: git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
-    - description: Install fish shell
-      command: brew install fish
-    - description: Symlink fish to /usr/local/bin
-      command: sudo ln -s /home/linuxbrew/.linuxbrew/bin/fish /usr/local/bin/fish
+#    - description: Install ranger, vim like file explorer
+#      command: brew install ranger
+#
+#    - description: Install neovim
+#      command: brew install nvim
+#    - description: Install pynvim for nvim python support
+#      command: python3 -m pip install --user --upgrade pynvim
+#    - description: Install vim-plug, plugin manager for vim
+#      command: sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+#
+#    - description: Install base16-shell configs
+#      command: git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
+#
+#    - description: Install fish shell
+#      command: brew install fish
+#    - description: Symlink fish to /usr/local/bin
+#      command: sudo ln -s /home/linuxbrew/.linuxbrew/bin/fish /usr/local/bin/fish
 #    - description: Add fish shell as login shell
 #      command: echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
 #    - description: Change shell to fish
 #      command: chsh -s /usr/local/bin/fish
-    - description: Install fisher, plugin manager for fish shell
-      command: /usr/local/bin/fish -c "curl -sL git.io/fisher | source && fisher install jorgebucaran/fisher && fisher update"
+#    - description: Install fisher, plugin manager for fish shell
+#      command: /usr/local/bin/fish -c "curl -sL git.io/fisher | source && fisher install jorgebucaran/fisher && fisher update"
+
     - description: See this for problems when using cd
       command: echo "https://github.com/b4b4r07/enhancd/issues/132"
+
     - description: Logout and run to copy terminfo
       command: echo "infocmp xterm-kitty | ssh <servername> tic -x -o \~/.terminfo /dev/stdin"
-    - description Run this for lemonade on linux
-      echo "cd /usr/local/bin && https://github.com/lemonade-command/lemonade/releases/latest/download/lemonade_linux_amd64.tar.gz | sudo tar xzv"
+
+    - description: Run this for lemonade on linux
+      command: echo "cd /usr/local/bin && https://github.com/lemonade-command/lemonade/releases/latest/download/lemonade_linux_amd64.tar.gz | sudo tar xzv"
+
