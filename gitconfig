@@ -1,5 +1,7 @@
 # This is Git's per-user configuration file.
 [user]
+	email = me@zoomido.se
+	name = Alex
 [core]
     excludesfile = $HOME/.gitignore_global
 
