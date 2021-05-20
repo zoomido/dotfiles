@@ -70,6 +70,6 @@
     - description: Logout and run to copy terminfo
       command: echo "infocmp xterm-kitty | ssh <servername> tic -x -o \~/.terminfo /dev/stdin"
 
-    - description: Run this for lemonade on linux
+    - description: Run this for lemonade on linux and don't forget to add ~/.config/lemonade.toml with "host = '10.0.2.2"
       command: echo "cd /usr/local/bin && wget -c https://github.com/lemonade-command/lemonade/releases/latest/download/lemonade_linux_amd64.tar.gz -O - | sudo tar xzv"
 
