@@ -71,5 +71,5 @@
       command: echo "infocmp xterm-kitty | ssh <servername> tic -x -o \~/.terminfo /dev/stdin"
 
     - description: Run this for lemonade on linux
-      command: echo "cd /usr/local/bin && https://github.com/lemonade-command/lemonade/releases/latest/download/lemonade_linux_amd64.tar.gz | sudo tar xzv"
+      command: echo "cd /usr/local/bin && wget -c https://github.com/lemonade-command/lemonade/releases/latest/download/lemonade_linux_amd64.tar.gz -O - | sudo tar xzv"
 
