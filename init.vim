@@ -32,7 +32,7 @@ Plug 'kevinhwang91/rnvimr'               " Open ranger in floating window
 " -- Coding tools
 " Plug 'vim-vdebug/vdebug'            " Debugger for DBGP protocol (eg. xdebug for php)
 Plug 'tpope/vim-commentary'         " Vim commentary for commenting
-" Plug 'airblade/vim-rooter'          " Set the working dir to closest VCS root
+Plug 'airblade/vim-rooter'          " Set the working dir to closest VCS root
 Plug 'airblade/vim-gitgutter'       " Show Git changes in gutter
 " Plug 'mhinz/vim-signify'          " Shows VCS changes in file
 Plug 'tpope/vim-fugitive'           " Git wrapper for vim
