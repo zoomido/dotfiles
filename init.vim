@@ -631,6 +631,7 @@ let delimitMate_quotes = ""         " Turn off quote completion
 
 "   Tabnine (YCM) settings
 " --------------------------
+let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_filetype_blacklist = {
         \ 'peekaboo' : 1,
         \ 'text': 1
