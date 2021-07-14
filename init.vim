@@ -227,8 +227,13 @@ let mapleader = "\<Space>"
 " Make Y yank to end of line (as C & D)
 map Y y$
 
-" Remap p to not out replaced text in registers
-xnoremap <expr> p 'pgv"'.v:register.'y'
+" Make p and P use the 0 register by default so same text can be pasted again. But preserve behaviour for other registers
+noremap p "0p
+noremap P "0P
+for s:i in ['"','*','+','-','.',':','%','/','=','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+    execute 'noremap "'.s:i.'p "'.s:i.'p'
+    execute 'noremap "'.s:i.'P "'.s:i.'P'
+endfor
 
 " Use + to cut text
 vnoremap + d
@@ -243,14 +248,6 @@ nnoremap ++ dd
 " nnoremap d "_d
 " nnoremap D "_D
 " nnoremap dd "_dd
-
-" Make p and P use the 0 register by default. But preserve behaviour for other registers
-" noremap p "0p
-" noremap P "0P
-" for s:i in ['"','*','+','-','.',':','%','/','=','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-"     execute 'noremap "'.s:i.'p "'.s:i.'p'
-"     execute 'noremap "'.s:i.'P "'.s:i.'P'
-" endfor
 
 " Move j & k in wrapped lines too, unless a count is provided before
 nnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
