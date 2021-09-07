@@ -227,16 +227,15 @@ let mapleader = "\<Space>"
 " Make Y yank to end of line (as C & D)
 map Y y$
 
-" Make p and P use the 0 register by default so same text can be pasted again. But preserve behaviour for other registers
-noremap p "0p
-noremap P "0P
-for s:i in ['"','*','+','-','.',':','%','/','=','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-    execute 'noremap "'.s:i.'p "'.s:i.'p'
-    execute 'noremap "'.s:i.'P "'.s:i.'P'
-endfor
+" Make p and P use the 0 register by default so same text can be pasted again.
+xnoremap <silent> p p:let @"=@0<CR>
 
 " Use + to cut text
-vnoremap + d
+" vnoremap + d
+" nnoremap ++ dd
+" Binding for cutlass
+nnoremap + d
+xnoremap + d
 nnoremap ++ dd
 
 " Testing the cutlass plugin for this instead
