@@ -6,6 +6,10 @@
 call plug#begin('~/.vim/neoplugged')
 
 " -- Generic Tools
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update. Dep for telescope
+Plug 'nvim-lua/plenary.nvim'             " Dependency for telescope
+Plug 'nvim-telescope/telescope.nvim'     " Search everything
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'kassio/neoterm'                    " Wrapper to reuse same terminal
 Plug 'junegunn/fzf', {
             \ 'do': './install --all' }   " Install fzf globally with vim-plug
@@ -47,7 +51,17 @@ Plug 'pangloss/vim-javascript'      " Better javascript indent and syntax highli
 " Plug 'kristijanhusak/vim-dadbod-ui' " DadbodUI for visual navigation
 
 " Tabnine AI autocompletion
-Plug 'zxqfl/tabnine-vim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+" Plug 'hrsh7th/cmp-path'
+Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
+Plug 'hrsh7th/nvim-cmp'
+
+" Plug 'zxqfl/tabnine-vim' "OLD
+" Plug 'nvim-lua/completion-nvim'
+" Plug 'aca/completion-tabnine', { 'do': 'version=3.1.9 ./install.sh' } " Fixed version for: https://github.com/aca/completion-tabnine/issues/3
+" Plug 'steelsojka/completion-buffers'
 
 " Plug 'autozimu/LanguageClient-neovim', {
 " \   'branch': 'next',
@@ -125,6 +139,7 @@ set splitright          " Open splits to right
 set splitbelow          " Open splits below
 set undofile            " Set undofile to autosave all changes in an external file
 set inccommand=nosplit  " Neovim only. inccommand shows you in realtime what changes your ex command should make. Right now it only supports s.
+set completeopt=menuone,noinsert,noselect " Set completeopt to have a better completion experience
 autocmd FileType * setlocal formatoptions-=cro   " Dont add a comment on newline
 " autocmd FileType javascript setlocal equalprg=js-beautify\ --stdin      " Use js beautifier on javascript files
 
@@ -139,7 +154,6 @@ autocmd InsertEnter,FocusGained,BufEnter * if mode() != 'c' | checktime | endif
 " ------------------------------------------------------------------------------
 "   Project specifics or other local settings
 " ------------------------------------------------------------------------------
-
 
 " Source all files in a dir
 function! SourceDirectory(path)
@@ -329,6 +343,64 @@ nnoremap <leader>C :w<CR>:T m2c && gulp css && exit<CR>
 
 " ### Generic Tools
 
+"   Telescope settings
+" ---------------------
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>gf <cmd>lua require('telescope.builtin').git_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>gs <cmd>lua require('telescope.builtin').grep_string()<cr>
+nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>l <cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>
+nnoremap <leader>fr <cmd>lua require('telescope.builtin').registers()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').file_browser()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+
+lua <<EOF
+local actions = require('telescope.actions')
+require('telescope').setup{
+    defaults = {
+        layout_config = {
+            horizontal = { width = 0.95, height = 0.95 }
+            -- other layout configuration here
+        },
+        mappings = {
+            i = {
+                ["<C-l>"] = actions.select_default,
+                ["<C-j>"] = actions.move_selection_next,
+                ["<C-k>"] = actions.move_selection_previous,
+            },
+        },
+    },
+    pickers = {
+        buffers = {
+            mappings = {
+                i = {
+                }
+            }
+        }
+    },
+    extensions = {
+    }
+}
+require('telescope').load_extension('fzf')
+
+local M = {}
+M.project_files = function()
+  local opts = {} -- define here if you want to define something
+  local ok = pcall(require'telescope.builtin'.git_files, opts)
+  if not ok then require'telescope.builtin'.find_files(opts) end
+end
+return M
+
+-- call via:
+-- :lua require'telescope-config'.project_files()
+
+-- example keymap:
+-- vim.api.nvim_set_keymap('n', '<Leader><Space>', '<CMD>lua require\'telescope-config\'.project_files()<CR>', {noremap = true, silent = true})
+EOF
+
+
+
 "   Neoterm settings
 " --------------------
 let g:neoterm_autoinsert = 1                    " Autostart new terminal in insert mode
@@ -354,15 +426,15 @@ let g:fzf_layout = { 'window': {'width': 0.95, 'height': 0.9} } " Open fzf in a 
 let g:fzf_history_dir = '~/.local/share/fzf-history'            " Enable per-command history in specified dir. CTRL-N & CTRL-P for next-history & previous-history
 
 " -- Keys
-nnoremap <leader>b  <Cmd>FzfBuffers<CR>
-nnoremap <leader>f  <Cmd>FzfFiles<CR>
-nnoremap <leader>l  <Cmd>FzfLinesWithPreview<CR>
-nnoremap <leader>L  <Cmd>FzfLines<CR>
-nnoremap <leader>g  <Cmd>FzfRg<CR>
-nnoremap <leader>G  <Cmd>RG<CR>
-nnoremap <leader>G! <Cmd>RG!<CR>
-vnoremap <leader>g  :call RgWithGivenRange()<CR>
-" xnoremap <leader>g  "sy:FzfPreviewProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
+" nnoremap <leader>b  <Cmd>FzfBuffers<CR>
+" nnoremap <leader>f  <Cmd>FzfFiles<CR>
+" nnoremap <leader>l  <Cmd>FzfLinesWithPreview<CR>
+" nnoremap <leader>L  <Cmd>FzfLines<CR>
+" nnoremap <leader>g  <Cmd>FzfRg<CR>
+" nnoremap <leader>G  <Cmd>RG<CR>
+" nnoremap <leader>G! <Cmd>RG!<CR>
+" vnoremap <leader>g  :call RgWithGivenRange()<CR>
+"" xnoremap <leader>g  "sy:FzfPreviewProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
 
 " -- Fzf functions
 " Make the preview window smaller for buffer listing
@@ -625,13 +697,60 @@ let delimitMate_expand_space = 1    " Expand space at the end too
 let delimitMate_quotes = ""         " Turn off quote completion
 
 
+"   CMP (& Tabnine) settings
+" ----------------------------------
+lua <<EOF
+  -- Setup nvim-cmp.
+  local cmp = require'cmp'
+
+  cmp.setup({
+    mapping = {
+      ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.close(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    },
+    sources = {
+      { name = 'cmp_tabnine' },
+      { name = 'nvim_lsp' },
+      { name = 'buffer' },
+      { name = 'path' },
+    }
+  })
+
+  local tabnine = require('cmp_tabnine.config')
+    tabnine:setup({
+    max_lines = 1000;
+    max_num_results = 20;
+    sort = true;
+    run_on_every_keystroke = true;
+    snippet_placeholder = '..';
+  })
+EOF
+
+
+"   Completion (& Tabnine) settings
+" ----------------------------------
+" Use completion-nvim in every buffer
+" autocmd BufEnter * lua require'completion'.on_attach()
+" let g:completion_auto_change_source = 1
+" let g:completion_chain_complete_list = {
+"     \ 'default': [
+"     \    {'complete_items': ['tabnine', 'lsp', 'buffers', 'snippet']},
+"     \    {'mode': '<c-p>'},
+"     \    {'mode': '<c-n>'}
+"     \]
+" \}
+
+
 "   Tabnine (YCM) settings
 " --------------------------
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_filetype_blacklist = {
-        \ 'peekaboo' : 1,
-        \ 'text': 1
-        \}
+" let g:ycm_autoclose_preview_window_after_completion = 1
+" let g:ycm_filetype_blacklist = {
+"         \ 'peekaboo' : 1,
+"         \ 'text': 1
+"         \}
 
 
 "   Coc settings & keys
