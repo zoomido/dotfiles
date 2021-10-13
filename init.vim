@@ -10,6 +10,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend upda
 Plug 'nvim-lua/plenary.nvim'             " Dependency for telescope
 Plug 'nvim-telescope/telescope.nvim'     " Search everything
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'AckslD/nvim-neoclip.lua'           " Clipboard manager
 Plug 'kassio/neoterm'                    " Wrapper to reuse same terminal
 Plug 'junegunn/fzf', {
             \ 'do': './install --all' }   " Install fzf globally with vim-plug
@@ -345,15 +346,16 @@ nnoremap <leader>C :w<CR>:T m2c && gulp css && exit<CR>
 
 "   Telescope settings
 " ---------------------
-nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>gf <cmd>lua require('telescope.builtin').git_files()<cr>
-nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>F <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>f <cmd>lua require('telescope.builtin').git_files()<cr>
+nnoremap <leader>g <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>gs <cmd>lua require('telescope.builtin').grep_string()<cr>
 nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>l <cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>
 nnoremap <leader>fr <cmd>lua require('telescope.builtin').registers()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').file_browser()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+nnoremap <leader>p <cmd>lua require('telescope').extensions.neoclip.default()<cr>
 
 lua <<EOF
 local actions = require('telescope.actions')
@@ -361,7 +363,6 @@ require('telescope').setup{
     defaults = {
         layout_config = {
             horizontal = { width = 0.95, height = 0.95 }
-            -- other layout configuration here
         },
         mappings = {
             i = {
@@ -383,22 +384,21 @@ require('telescope').setup{
     }
 }
 require('telescope').load_extension('fzf')
+require('neoclip').setup({
+    -- default_register = '"',
+    -- on_paste = {
+    --    set_reg = false,
+    -- },
+    keys = {
+        i = {
+            paste = '<c-l>',
+            paste_behind = '<c-h>',
+        },
+    },
+})
+require('telescope').load_extension('neoclip')
 
-local M = {}
-M.project_files = function()
-  local opts = {} -- define here if you want to define something
-  local ok = pcall(require'telescope.builtin'.git_files, opts)
-  if not ok then require'telescope.builtin'.find_files(opts) end
-end
-return M
-
--- call via:
--- :lua require'telescope-config'.project_files()
-
--- example keymap:
--- vim.api.nvim_set_keymap('n', '<Leader><Space>', '<CMD>lua require\'telescope-config\'.project_files()<CR>', {noremap = true, silent = true})
 EOF
-
 
 
 "   Neoterm settings
