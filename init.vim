@@ -375,6 +375,7 @@ require('telescope').setup{
     },
     pickers = {
         buffers = {
+            sort_lastused = true,
             layout_strategy = "vertical",
             layout_config = {
                 vertical = { width = 0.95, height = 0.95, preview_height = 0.3, preview_cutoff = 20 }
