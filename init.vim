@@ -269,11 +269,11 @@ nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
 
 " w - save a file | W - save and quit
 nnoremap <leader>w <Cmd>w<CR>
-nnoremap <leader>W <Cmd>wq<CR>
+" nnoremap <leader>W <Cmd>wq<CR>
 
 " q - delete/close buffer | Q - quit
 nnoremap <leader>q <Cmd>bwipeout<CR>
-nnoremap <leader>Q <Cmd>quit<CR>
+" nnoremap <leader>Q <Cmd>quit<CR>
 
 " Navigate splits easier
 nnoremap <C-h> <C-w>h
@@ -333,8 +333,8 @@ nnoremap <silent> <leader>T :belowright Tnew<CR>
 
 "   Run commands
 " ----------------
-nnoremap <leader>c :w<CR>:T gulp css && exit<CR>
-nnoremap <leader>C :w<CR>:T m2c && gulp css && exit<CR>
+" nnoremap <leader>c :w<CR>:T gulp css && exit<CR>
+" nnoremap <leader>C :w<CR>:T m2c && gulp css && exit<CR>
 
 
 
@@ -349,12 +349,13 @@ nnoremap <leader>C :w<CR>:T m2c && gulp css && exit<CR>
 nnoremap <leader>F <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>f <cmd>lua require('telescope.builtin').git_files()<cr>
 nnoremap <leader>g <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>gs <cmd>lua require('telescope.builtin').grep_string()<cr>
+vnoremap <leader>g "zy:Telescope live_grep default_text=<C-r>z<cr>
+" nnoremap <leader>gs <cmd>lua require('telescope.builtin').grep_string()<cr>
 nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>B <cmd>lua require('telescope.builtin').file_browser()<cr>
 nnoremap <leader>l <cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>
-nnoremap <leader>fr <cmd>lua require('telescope.builtin').registers()<cr>
-nnoremap <leader>fb <cmd>lua require('telescope.builtin').file_browser()<cr>
-nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+" nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+nnoremap <leader>P <cmd>lua require('telescope.builtin').registers()<cr>
 nnoremap <leader>p <cmd>lua require('telescope').extensions.neoclip.default()<cr>
 
 lua <<EOF
@@ -374,6 +375,10 @@ require('telescope').setup{
     },
     pickers = {
         buffers = {
+            layout_strategy = "vertical",
+            layout_config = {
+                vertical = { width = 0.95, height = 0.95, preview_height = 0.4, preview_cutoff = 20 }
+            },
             mappings = {
                 i = {
                 }
