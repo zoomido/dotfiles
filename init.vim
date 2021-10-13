@@ -377,7 +377,7 @@ require('telescope').setup{
         buffers = {
             layout_strategy = "vertical",
             layout_config = {
-                vertical = { width = 0.95, height = 0.95, preview_height = 0.4, preview_cutoff = 20 }
+                vertical = { width = 0.95, height = 0.95, preview_height = 0.3, preview_cutoff = 20 }
             },
             mappings = {
                 i = {
