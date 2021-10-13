@@ -375,6 +375,7 @@ require('telescope').setup{
     },
     pickers = {
         buffers = {
+            path_display = {"absolute"},
             sort_lastused = true,
             layout_strategy = "vertical",
             layout_config = {
