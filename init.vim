@@ -2,7 +2,6 @@
 "   Vim-plug
 " ------------------------------------------------------------------------------
 
-
 call plug#begin('~/.vim/neoplugged')
 
 " -- Generic Tools
@@ -12,22 +11,21 @@ Plug 'nvim-telescope/telescope.nvim'     " Search everything
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'AckslD/nvim-neoclip.lua'           " Clipboard manager
 Plug 'kassio/neoterm'                    " Wrapper to reuse same terminal
-Plug 'junegunn/fzf', {
-            \ 'do': './install --all' }   " Install fzf globally with vim-plug
-                                         " Plug 'junegunn/fzf', {
-                                         " \ 'dir': '~/.fzf',
-"            \ 'do': './install --all' } " Install fzf globally with vim-plug and specify a dir (don't remember why the dir though?)
-Plug 'junegunn/fzf.vim'                  " Fzf <3 Vim
+" Plug 'junegunn/fzf', {
+    " \ 'do': './install --all' }        " Install fzf globally with vim-plug
+" Plug 'junegunn/fzf', {
+    " \ 'dir': '~/.fzf',
+    " \ 'do': './install --all' }        " Install fzf globally with vim-plug and specify a dir (don't remember why the dir though?)
+" Plug 'junegunn/fzf.vim'                  " Fzf <3 Vim
 " Plug 'yuki-ycino/fzf-preview.vim'        " Interface for fzf
 " Plug 'Yggdroot/LeaderF',               " LeaderF interactive fuzzy finder
                                          " \ { 'do': './install.sh' }
-" Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' } " Fuzzy finder in floating window
 Plug 'tpope/vim-surround'                " Vim surround command 's'
 " Plug 'simnalamburt/vim-mundo'            " Show vim's undotree in a graphical way
-Plug 'easymotion/vim-easymotion'         " Move around easier
+" Plug 'easymotion/vim-easymotion'         " Move around easier
 " Plug 'junegunn/vim-easy-align'           " Align text
 Plug 'mhinz/vim-startify'                " Start screen for vim
-Plug 'junegunn/vim-peekaboo'             " Peek in the registers before pasting
+" Plug 'junegunn/vim-peekaboo'             " Peek in the registers before pasting
 Plug 'svermeulen/vim-cutlass'            " use the black hole register for: c, cc, C, s, S, d, dd, D, x, X
 
 " -- Tree explorers
@@ -41,13 +39,13 @@ Plug 'airblade/vim-rooter'          " Set the working dir to closest VCS root
 Plug 'airblade/vim-gitgutter'       " Show Git changes in gutter
 " Plug 'mhinz/vim-signify'          " Shows VCS changes in file
 Plug 'tpope/vim-fugitive'           " Git wrapper for vim
-Plug 'idanarye/vim-merginal'        " Interface for Git branches :Merginal
+" Plug 'idanarye/vim-merginal'        " Interface for Git branches :Merginal
 Plug 'samoshkin/vim-mergetool'      " Mergetool for vim
 " Plug 'andymass/vim-matchup'       " Better % (matching html tags)
 Plug 'AndrewRadev/tagalong.vim'     " Edit HTML tags together automatically
-Plug 'Raimondi/delimitMate'         " Auto closing pairs but nicer
-Plug 'captbaritone/better-indent-support-for-php-with-html'
-Plug 'pangloss/vim-javascript'      " Better javascript indent and syntax highlighting
+" Plug 'Raimondi/delimitMate'         " Auto closing pairs but nicer
+" Plug 'captbaritone/better-indent-support-for-php-with-html'
+" Plug 'pangloss/vim-javascript'      " Better javascript indent and syntax highlighting
 " Plug 'tpope/vim-dadbod'             " SQL for Vim
 " Plug 'kristijanhusak/vim-dadbod-ui' " DadbodUI for visual navigation
 
@@ -93,7 +91,7 @@ Plug 'chriskempson/base16-vim'          " Load base16 colorscheme into vim
 " Plug 'sheerun/vim-polyglot'             " Better syntax highlighting
 " Plug 'junegunn/rainbow_parentheses.vim' " Make matching parentheses same color
 Plug 'psliwka/vim-smoothie'             " Smooth scrolling with Ctrl+D,U,F,B
-Plug 'RRethy/vim-illuminate'            " Highlight same words
+" Plug 'RRethy/vim-illuminate'            " Highlight same words
 Plug 'machakann/vim-highlightedyank'    " Highlight yanks
 " Plug 'vim-airline/vim-airline'          " Airline statusline
 " Plug 'vim-airline/vim-airline-theme
@@ -243,7 +241,8 @@ let mapleader = "\<Space>"
 map Y y$
 
 " Make p and P use the 0 register by default so same text can be pasted again.
-xnoremap <silent> p p:let @"=@0<CR>
+" xnoremap <silent> p p:let @"=@0<CR>
+" xnoremap <silent> p p:let @+=@0<CR>:let @"=@0<CR>
 
 " Use + to cut text
 " vnoremap + d
@@ -293,18 +292,18 @@ nnoremap } ]}
 
 " Select whole row except newline char
 " vnoremap <silent> al :<C-u>norm!0v$h<CR>
-vnoremap <silent> il :<C-u>norm!^vg_<CR>
+" vnoremap <silent> il :<C-u>norm!^vg_<CR>
 
 " Auto indent when pasting
-nnoremap p p=`.`.
+" nnoremap p p=`.`.
 
 " Replace word under cursor
 nnoremap <leader>r :%s/\<<C-r><C-w>\>//c<Left><Left>
 vnoremap <leader>r :s/\<<C-r><C-w>\>//c<Left><Left>
 
 " Search visual selection
-vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR>
-vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR>
+" vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR>
+" vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR>
 
 " Remove search highlighting
 nnoremap <leader><Esc> <Cmd>nohlsearch<CR>
@@ -349,14 +348,14 @@ nnoremap <silent> <leader>T :belowright Tnew<CR>
 nnoremap <leader>F <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>f <cmd>lua require('telescope.builtin').git_files()<cr>
 nnoremap <leader>g <cmd>lua require('telescope.builtin').live_grep()<cr>
-vnoremap <leader>g "zy:Telescope live_grep default_text=<C-r>z<cr>
-" nnoremap <leader>gs <cmd>lua require('telescope.builtin').grep_string()<cr>
+" vnoremap <leader>g "zy:Telescope live_grep default_text=<C-r>z<cr>
+nnoremap <leader>gs <cmd>lua require('telescope.builtin').grep_string()<cr>
 nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>B <cmd>lua require('telescope.builtin').file_browser()<cr>
 nnoremap <leader>l <cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>
-" nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
-nnoremap <leader>P <cmd>lua require('telescope.builtin').registers()<cr>
-nnoremap <leader>p <cmd>lua require('telescope').extensions.neoclip.default()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+" nnoremap <leader>P <cmd>lua require('telescope.builtin').registers()<cr>
+" nnoremap <leader>p <cmd>lua require('telescope').extensions.neoclip.default()<cr>
 
 lua <<EOF
 local actions = require('telescope.actions')
@@ -674,7 +673,7 @@ highlight GitGutterDelete guifg=#ff2222 guibg=0 ctermfg=1 ctermbg=0
 
 "   Fugitive settings
 " ---------------------
-nmap <leader>Gs :Gstatus<CR><C-w>5+
+" nmap <leader>Gs :Gstatus<CR><C-w>5+
 " Fugitive Conflict Resolution
 " nnoremap <leader>gd :Gvdiff<CR>
 " nnoremap gdh :diffget //2<CR>
