@@ -828,15 +828,17 @@ iabbrev vd; var_dump();<Left><Left><Space><Left>
 "   Functions
 " ------------------------------------------------------------------------------
 
+" Wipe all registers with :WipeReg then save with :wshada! before restart neovim
+command! WipeReg for i in range(34,122) | silent! call setreg(nr2char(i), []) | endfor
 
 " Search for visual selection
-function! s:VSetSearch()
-  let temp = @@
-  norm! gvy
-  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
-  let @@ = temp
-  norm! #
-endfunction
+" function! s:VSetSearch()
+"   let temp = @@
+"   norm! gvy
+"   let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+"   let @@ = temp
+"   norm! #
+" endfunction
 
 
 
