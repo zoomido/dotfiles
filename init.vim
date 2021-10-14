@@ -724,32 +724,6 @@ endfunction
 "   Custom statusline
 " ------------------------------------------------------------------------------
 
-" function! GitBranch()
-"   return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
-" endfunction
-
-" function! StatuslineGit()
-"   let l:branchname = GitBranch()
-"   return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
-" endfunction
-
-" set statusline=
-" set statusline+=%#PmenuSel#
-" " set statusline+=%{StatuslineGit()}
-" set statusline+=\ %{FugitiveHead(5)}
-" set statusline+=\ %#LineNr#
-" set statusline+=\ %f
-" set statusline+=%m
-" set statusline+=%=
-" set statusline+=%#CursorColumn#
-" set statusline+=\ %y
-" set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
-" set statusline+=\[%{&fileformat}\]
-" set statusline+=\ %p%%
-" set statusline+=\ %l:%c
-" " set statusline+=\
-
-
 " Statusline & Tabline/Buffer line
 " ---------------------------------
 " Statusline
@@ -777,21 +751,6 @@ let g:currentmode={
       \ 't'  : 'Terminal '
       \}
 
-
-" " Automatically change the statusline color depending on mode
-" function! ChangeStatuslineColor()
-"   if (mode() =~# '\v(n|no)')
-"     exe 'hi! StatusLine ctermfg=008 guifg=fgcolor gui=None cterm=None'
-"   elseif (mode() =~# '\v(v|V)' || g:currentmode[mode()] ==# 'V·Block' || get(g:currentmode, mode(), '') ==# 't')
-"     exe 'hi! StatusLine ctermfg=005 guifg=#00ff00 gui=None cterm=None'
-"   elseif (mode() ==# 'i')
-"     exe 'hi! StatusLine ctermfg=004 guifg=#6CBCE8 gui=None cterm=None'
-"   else
-"     exe 'hi! StatusLine ctermfg=006 guifg=orange gui=None cterm=None'
-"   endif
-
-"   return ''
-" endfunction
 
 " Find out current buffer's size and output it.
 function! FileSize()
@@ -856,74 +815,3 @@ set statusline+=%4*%-3(%{FileSize()}%)                       " File size
 set statusline+=%4*\                                        " Separator
 set statusline+=%4*\ %3p%%\ ☰\                               " Rownumber/total (%)
 set statusline+=%3*\ %l:%c\                                  " Rownumber/total (%)
-
-
-
-" Another custom statusline
-" --------------------------
-" function! ActiveStatus()
-"   let statusline=""
-"   " let statusline.="%1*"
-"   " let statusline.="%(%{'help'!=&filetype?'\ \ '.bufnr('%'):''}\ %)"
-"   " let statusline.="%2*"
-"   " let statusline.=""
-"   let statusline.="%{fugitive#head()!=''?'\ \ '.fugitive#head().'\ ':''}"
-"   " let statusline.="%3*"
-"   " let statusline.=""
-"   let statusline.="%4*"
-"   let statusline.="\ %<"
-"   let statusline.="%f"
-"   let statusline.="%{&modified?'\ \ +':''}"
-"   let statusline.="%{&readonly?'\ \ ':''}"
-"   let statusline.="%="
-"   let statusline.="\ %{''!=#&filetype?&filetype:'none'}"
-"   let statusline.="%(\ %{(&bomb\|\|'^$\|utf-8'!~#&fileencoding?'\ '.&fileencoding.(&bomb?'-bom':''):'').('unix'!=#&fileformat?'\ '.&fileformat:'')}%)"
-"   let statusline.="%(\ \ %{&modifiable?(&expandtab?'et\ ':'noet\ ').&shiftwidth:''}%)"
-"   " let statusline.="%3*"
-"   " let statusline.="\ "
-"   " let statusline.="%2*"
-"   let statusline.="\ "
-"   " let statusline.="%1*"
-"   let statusline.="\ %2v"
-"   let statusline.="\ %3p%%\ "
-"   return statusline
-" endfunction
-
-" function! InactiveStatus()
-"   let statusline=""
-"   let statusline.="%(%{'help'!=&filetype?'\ \ '.bufnr('%').'\ \ ':'\ '}%)"
-"   let statusline.="%{fugitive#head()!=''?'\ \ '.fugitive#head().'\ ':'\ '}"
-"   let statusline.="\ %<"
-"   let statusline.="%f"
-"   let statusline.="%{&modified?'\ \ +':''}"
-"   let statusline.="%{&readonly?'\ \ ':''}"
-"   let statusline.="%="
-"   let statusline.="\ %{''!=#&filetype?&filetype:'none'}"
-"   let statusline.="%(\ %{(&bomb\|\|'^$\|utf-8'!~#&fileencoding?'\ '.&fileencoding.(&bomb?'-bom':''):'').('unix'!=#&fileformat?'\ '.&fileformat:'')}%)"
-"   let statusline.="%(\ \ %{&modifiable?(&expandtab?'et\ ':'noet\ ').&shiftwidth:''}%)"
-"   let statusline.="\ \ "
-"   let statusline.="\ %2v"
-"   let statusline.="\ %3p%%\ "
-"   return statusline
-" endfunction
-
-" set laststatus=2
-" set statusline=%!ActiveStatus()
-" hi User1 guibg=#afd700 guifg=#005f00
-" hi User2 guibg=#005f00 guifg=#afd700
-" hi User3 guibg=#222222 guifg=#005f00
-" hi User4 guibg=#222222 guifg=#d0d0d0
-
-" augroup status
-"   autocmd!
-"   autocmd WinEnter * setlocal statusline=%!ActiveStatus()
-"   autocmd WinLeave * setlocal statusline=%!InactiveStatus()
-"   autocmd ColorScheme kalisi if(&background=="dark") | hi User1 guibg=#afd700 guifg=#005f00 | endif
-"   autocmd ColorScheme kalisi if(&background=="dark") | hi User2 guibg=#005f00 guifg=#afd700 | endif
-"   autocmd ColorScheme kalisi if(&background=="dark") | hi User3 guibg=#222222 guifg=#005f00 | endif
-"   autocmd ColorScheme kalisi if(&background=="dark") | hi User4 guibg=#222222 guifg=#d0d0d0 | endif
-"   autocmd ColorScheme kalisi if(&background=="light") | hi User1 guibg=#afd700 guifg=#005f00 | endif
-"   autocmd ColorScheme kalisi if(&background=="light") | hi User2 guibg=#005f00 guifg=#afd700 | endif
-"   autocmd ColorScheme kalisi if(&background=="light") | hi User3 guibg=#707070 guifg=#005f00 | endif
-"   autocmd ColorScheme kalisi if(&background=="light") | hi User4 guibg=#707070 guifg=#d0d0d0 | endif
-" augroup END
