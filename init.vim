@@ -243,6 +243,10 @@ map Y y$
 " Make p and P use the 0 register by default so same text can be pasted again.
 " xnoremap <silent> p p:let @"=@0<CR>
 " xnoremap <silent> p p:let @+=@0<CR>:let @"=@0<CR>
+" now it is possible to paste many times over selected text
+" xnoremap <expr> p 'pgv"'.v:register.'y`>'
+" xnoremap <expr> P 'Pgv"'.v:register.'y`>'
+vnoremap P "0p
 
 " Use + to cut text
 " vnoremap + d
