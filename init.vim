@@ -69,22 +69,6 @@ Plug 'hrsh7th/nvim-cmp'
 " Plug 'roxma/LanguageServer-php-neovim',  {
 " \   'do': 'composer install && composer run-script parse-stubs'}
 
-" Coc for autocompletion
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Plug 'neoclide/coc-tabnine', {'do': 'yarn install --frozen-lockfile'}
-" Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
-" Plug 'antonk52/coc-cssmodules', {'do': 'yarn install --frozen-lockfile'}
-" Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'}
-" Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
-" Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
-" Plug 'neoclide/coc-eslint', {'do': 'yarn install --frozen-lockfile'}
-" Plug 'neoclide/coc-prettier', {'do': 'yarn install --frozen-lockfile'}
-" Plug 'marlonfan/coc-phpls', {'do': 'yarn install'}
-" Plug 'neoclide/coc-yank', {'do': 'yarn install --frozen-lockfile'}          " Highlight yanks & provide persist yank list cross vim instance
-""" Plug 'neoclide/coc-highlight', {'do': 'yarn install --frozen-lockfile'} " Highlight symbol of current position
-""" Plug 'neoclide/coc-pairs', {'do': 'yarn install --frozen-lockfile'}     " Auto create pairs ({' etc
-""" Plug 'voldikss/coc-todolist', {'do': 'yarn install --frozen-lockfile'}  " Create todos
-
 " -- Visual improvements
 Plug 'pacha/vem-tabline'                " Tabline plugin to show buffers
 Plug 'chriskempson/base16-vim'          " Load base16 colorscheme into vim
@@ -762,40 +746,6 @@ EOF
 "         \ 'peekaboo' : 1,
 "         \ 'text': 1
 "         \}
-
-
-"   Coc settings & keys
-" ----------------------
-"" Everything is commented out
-" "   <leader>gd    - Jump to definition of current symbol
-" "   <leader>gr    - Jump to references of current symbol
-" "   <leader>gi    - Jump to implementation of current symbol
-" "   <leader>gs    - Fuzzy search current project symbols
-" "   <leader>p     - Show yanklist
-" "   <(S-)tab>     - Navigate autocompletion list
-" "   <leader>D     - Show documentation for current symbol
-" nmap <silent> <leader>gd <Plug>(coc-definition)
-" nmap <silent> <leader>gr <Plug>(coc-references)
-" nmap <silent> <leader>gi <Plug>(coc-implementation)
-" nnoremap <silent> <leader>gs :<C-u>CocList -I -N --top symbols<CR>
-" nnoremap <silent> <space>p   :<C-u>CocList -A --normal yank<cr>
-" vnoremap <silent> <space>p   :<C-u>CocList -A --normal yank<cr>
-" inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" inoremap <expr> <C-l> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" " use <tab> for trigger completion and navigate to the next complete item
-" inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-" " Use D to show documentation in preview window.
-" nnoremap <silent> <leader>D :call <SID>show_documentation()<CR>
-" function! s:show_documentation()
-"   if (index(['vim','help'], &filetype) >= 0)
-"     execute 'h '.expand('<cword>')
-"   else
-"     call CocAction('doHover')
-"   endif
-" endfunction
-" " Special jump to symbol under cursor
-" " nnoremap <silent> <leader>gs :exe 'CocList -I --normal --input='.expand('<cword>').' symbols'<CR>
 
 
 " ### Visual improvements
