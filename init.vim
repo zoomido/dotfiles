@@ -83,7 +83,6 @@ call plug#end()
 "   General settings
 " ------------------------------------------------------------------------------
 
-
 " set shell=/bin/bash     " Start with bash
 " set shell=/usr/local/bin/fish     " Start with fish
 set updatetime=500      " Set shorter updatetime for many commands
@@ -102,7 +101,6 @@ set undofile            " Set undofile to autosave all changes in an external fi
 set inccommand=nosplit  " Neovim only. inccommand shows you in realtime what changes your ex command should make. Right now it only supports s.
 set completeopt=menuone,noinsert,noselect " Set completeopt to have a better completion experience
 autocmd FileType * setlocal formatoptions-=cro   " Dont add a comment on newline
-" autocmd FileType javascript setlocal equalprg=js-beautify\ --stdin      " Use js beautifier on javascript files
 
 " Triger `autoread` when files changes on disk
 " https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim/383044#383044
@@ -125,17 +123,6 @@ endfunction
 
 " Source all files in this dir
 call SourceDirectory('~/dotfiles-private')
-
-" Source dadbod.vim
-" source ~/dotfiles-private/dadbod.vim
-" Source project.vim
-" source ~/dotfiles-private/project.vim
-
-" Autocmd to run gulp, WIP
-" autocmd BufWritePost */var/www/**/*.less :vsplit term://gulp css
-" autocmd BufWritePost * ++nested split term://gulp
-" trying this --
-" autocmd BufWritePost */var/www/**/*.less ++nested vsplit term://gulp css
 
 
 
@@ -191,7 +178,6 @@ autocmd BufEnter * highlight SignColumn ctermbg=0 guibg=0
 " ------------------------------------------------------------------------------
 "   General keybindings
 " ------------------------------------------------------------------------------
-
 
 " Change default backspace behaviour to remove more characters.
 " set backspace=indent,eol,start
@@ -367,7 +353,6 @@ require('neoclip').setup({
     },
 })
 require('telescope').load_extension('neoclip')
-
 EOF
 
 
