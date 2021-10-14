@@ -10,23 +10,18 @@ Plug 'nvim-lua/plenary.nvim'             " Dependency for telescope
 Plug 'nvim-telescope/telescope.nvim'     " Search everything
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'AckslD/nvim-neoclip.lua'           " Clipboard manager
-Plug 'kassio/neoterm'                    " Wrapper to reuse same terminal
 " Plug 'junegunn/fzf', {
     " \ 'do': './install --all' }        " Install fzf globally with vim-plug
-" Plug 'junegunn/fzf', {
-    " \ 'dir': '~/.fzf',
-    " \ 'do': './install --all' }        " Install fzf globally with vim-plug and specify a dir (don't remember why the dir though?)
 " Plug 'junegunn/fzf.vim'                  " Fzf <3 Vim
 " Plug 'yuki-ycino/fzf-preview.vim'        " Interface for fzf
 " Plug 'Yggdroot/LeaderF',               " LeaderF interactive fuzzy finder
                                          " \ { 'do': './install.sh' }
-Plug 'tpope/vim-surround'                " Vim surround command 's'
-" Plug 'simnalamburt/vim-mundo'            " Show vim's undotree in a graphical way
-" Plug 'easymotion/vim-easymotion'         " Move around easier
-" Plug 'junegunn/vim-easy-align'           " Align text
+Plug 'kassio/neoterm'                    " Wrapper to reuse same terminal
 Plug 'mhinz/vim-startify'                " Start screen for vim
-" Plug 'junegunn/vim-peekaboo'             " Peek in the registers before pasting
+Plug 'tpope/vim-surround'                " Vim surround command 's'
+Plug 'ggandor/lightspeed.nvim'           " Jump around based on labels
 Plug 'svermeulen/vim-cutlass'            " use the black hole register for: c, cc, C, s, S, d, dd, D, x, X
+" Plug 'junegunn/vim-easy-align'           " Align text
 
 " -- Tree explorers
 Plug 'cocopon/vaffle.vim'                " Easy tree explorer
@@ -37,7 +32,6 @@ Plug 'kevinhwang91/rnvimr'               " Open ranger in floating window
 Plug 'tpope/vim-commentary'         " Vim commentary for commenting
 Plug 'airblade/vim-rooter'          " Set the working dir to closest VCS root
 Plug 'airblade/vim-gitgutter'       " Show Git changes in gutter
-" Plug 'mhinz/vim-signify'          " Shows VCS changes in file
 Plug 'tpope/vim-fugitive'           " Git wrapper for vim
 " Plug 'idanarye/vim-merginal'        " Interface for Git branches :Merginal
 Plug 'samoshkin/vim-mergetool'      " Mergetool for vim
@@ -57,32 +51,17 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 Plug 'hrsh7th/nvim-cmp'
 
-" Plug 'zxqfl/tabnine-vim' "OLD
-" Plug 'nvim-lua/completion-nvim'
-" Plug 'aca/completion-tabnine', { 'do': 'version=3.1.9 ./install.sh' } " Fixed version for: https://github.com/aca/completion-tabnine/issues/3
-" Plug 'steelsojka/completion-buffers'
-
-" Plug 'autozimu/LanguageClient-neovim', {
-" \   'branch': 'next',
-" \   'do': 'bash install.sh',
-" \}
-" Plug 'roxma/LanguageServer-php-neovim',  {
-" \   'do': 'composer install && composer run-script parse-stubs'}
-
 " -- Visual improvements
 Plug 'pacha/vem-tabline'                " Tabline plugin to show buffers
 Plug 'chriskempson/base16-vim'          " Load base16 colorscheme into vim
 " Plug 'sheerun/vim-polyglot'             " Better syntax highlighting
 " Plug 'junegunn/rainbow_parentheses.vim' " Make matching parentheses same color
 Plug 'psliwka/vim-smoothie'             " Smooth scrolling with Ctrl+D,U,F,B
-" Plug 'RRethy/vim-illuminate'            " Highlight same words
 Plug 'machakann/vim-highlightedyank'    " Highlight yanks
-" Plug 'vim-airline/vim-airline'          " Airline statusline
-" Plug 'vim-airline/vim-airline-theme
 " Plug 'inside/vim-search-pulse'          " Highlight search
-" Plug 'ryanoasis/vim-devicons'           " Devicons
 
 " -- Theme
+Plug 'davidosomething/vim-colors-meh' "meh
 " Plug 'axvr/photon.vim'
 " Plug 'andreypopp/vim-colors-plain'
 " Plug 'arzg/vim-colors-xcode'
@@ -90,7 +69,6 @@ Plug 'machakann/vim-highlightedyank'    " Highlight yanks
 " Plug 'morhetz/gruvbox'
 " Plug 'cideM/yui'
 " Plug 'lurst/austere.vim' "austere
-Plug 'davidosomething/vim-colors-meh' "meh
 " Plug 'pgdouyon/vim-yin-yang' "yin
 " Plug 'pgdouyon/vim-alayas' "vimalayas
 " Plug 'nikolvs/vim-sunbather' "sunbather
@@ -232,10 +210,10 @@ map Y y$
 " xnoremap <expr> P 'Pgv"'.v:register.'y`>'
 vnoremap P "0p
 
-" Use + to cut text
-" vnoremap + d
-" nnoremap ++ dd
-" Binding for cutlass
+" Auto indent when pasting
+" nnoremap p p=`.`.
+
+" Use + to cut text - Binding for cutlass
 nnoremap + d
 xnoremap + d
 nnoremap ++ dd
@@ -282,16 +260,13 @@ nnoremap } ]}
 " vnoremap <silent> al :<C-u>norm!0v$h<CR>
 " vnoremap <silent> il :<C-u>norm!^vg_<CR>
 
-" Auto indent when pasting
-" nnoremap p p=`.`.
-
 " Replace word under cursor
 nnoremap <leader>r :%s/\<<C-r><C-w>\>//c<Left><Left>
 vnoremap <leader>r :s/\<<C-r><C-w>\>//c<Left><Left>
 
 " Search visual selection
-" vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR>
-" vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR>
+vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR>
+vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR>
 
 " Remove search highlighting
 nnoremap <leader><Esc> <Cmd>nohlsearch<CR>
@@ -402,13 +377,6 @@ let g:neoterm_autoinsert = 1                    " Autostart new terminal in inse
 let g:neoterm_default_mod = 'vertical botright' " Set default terminal location
 
 
-"   Vim Clap settings
-" ---------------------
-" let g:clap_theme = 'material_design_dark'
-" let g:clap_layout = {'width': '90%', 'height': '90%', 'row': '5%', 'col': '5%'}
-" let g:clap_disable_run_rooter = v:true
-
-
 "   FZF settings & keys
 " -----------------------
 " let $FZF_DEFAULT_OPTS=' --color=dark --color=fg:15,bg:-1,hl:1,fg+:#ffffff,bg+:0,hl+:1 --color=info:0,prompt:0,pointer:12,marker:4,spinner:11,header:-1 --layout=reverse  --margin=1,4'
@@ -488,15 +456,15 @@ autocmd  FileType fzf set laststatus=0 noruler
 
 "   FZFPreview settings & keys
 " ------------------------------
-" let g:fzf_preview_use_dev_icons = 1             " Use vim-devicons
-" let g:fzf_preview_use_floating_window = 0       " Use floating window
-let g:fzf_preview_floating_window_winblend = 5
-let g:fzf_preview_floating_window_rate = 0.95   " floating window size ratio
-let g:fzf_preview_if_binary_command = "test (file -b --mime-encoding {}) = 'binary'"  " g:fzf_binary_preview_command is executed if this command succeeds, and g:fzf_preview_command is executed if it fails
-let g:fzf_preview_lines_command = "bat --color=always --plain"
-let g:fzf_preview_fzf_preview_window_option = "down:20"
+"" let g:fzf_preview_use_dev_icons = 1             " Use vim-devicons
+"" let g:fzf_preview_use_floating_window = 0       " Use floating window
+" let g:fzf_preview_floating_window_winblend = 5
+" let g:fzf_preview_floating_window_rate = 0.95   " floating window size ratio
+" let g:fzf_preview_if_binary_command = "test (file -b --mime-encoding {}) = 'binary'"  " g:fzf_binary_preview_command is executed if this command succeeds, and g:fzf_preview_command is executed if it fails
+" let g:fzf_preview_lines_command = "bat --color=always --plain"
+" let g:fzf_preview_fzf_preview_window_option = "down:20"
 " let g:fzf_preview_fzf_color_option = "fg:#D8DEE9,bg:#2E3440,hl:#A3BE8C,fg+:#D8DEE9,bg+:#434C5E,hl+:#A3BE8C,pointer:#BF616A,info:#4C566A,spinner:#4C566A,header:#4C566A,prompt:#81A1C1,marker:#EBCB8B"
-let g:fzf_preview_preview_key_bindings = "ctrl-d:preview-down,ctrl-u:preview-up,ctrl-p:toggle-preview,ctrl-w:toggle-preview-wrap,ctrl-l:accept,ctrl-h:clear-query"
+" let g:fzf_preview_preview_key_bindings = "ctrl-d:preview-down,ctrl-u:preview-up,ctrl-p:toggle-preview,ctrl-w:toggle-preview-wrap,ctrl-l:accept,ctrl-h:clear-query"
 
 " -- Keys
 " nnoremap <leader>l  <Cmd>FzfPreviewLines -add-fzf-arg=--color='border:#ffff00,info:#ffff00'<CR>
@@ -519,29 +487,20 @@ let g:fzf_preview_preview_key_bindings = "ctrl-d:preview-down,ctrl-u:preview-up,
 "" nnoremap <silent> [fzf-p]*     :<C-u>FzfPreviewLines -add-fzf-arg=--no-sort -add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
 
 
-"   Mundo settings
-" ------------------
-let g:mundo_width = 120
-let g:mundo_preview_height = 25
-let g:mundo_right = 1
-let g:mundo_inline_undo = 1
-" let g:mundo_preview_bottom = 1
-
-
 "   Easymotion settings & keys
 " ------------------------------
 " Disable default mappings
-let g:EasyMotion_do_mapping = 0
+" let g:EasyMotion_do_mapping = 0
 " Turn on case-insensitive feature
-let g:EasyMotion_smartcase = 1
+" let g:EasyMotion_smartcase = 1
 
 " -- Keys
 " Search for two chars - s{char}{char} to move to {char}{char}
-nmap <leader>s <Plug>(easymotion-overwin-f2)
+" nmap <leader>s <Plug>(easymotion-overwin-f2)
 " Search for any number of chars
-nmap <leader>S <Plug>(easymotion-sn)
-" map  <leader>/ <Plug>(easymotion-sn)
-" omap <leader>/ <Plug>(easymotion-tn)
+" nmap <leader>S <Plug>(easymotion-sn)
+"" map  <leader>/ <Plug>(easymotion-sn)
+"" omap <leader>/ <Plug>(easymotion-tn)
 
 
 "   Startify settings
@@ -571,11 +530,6 @@ let g:startify_bookmarks = [
             \ ]
 " How many files to display in the files & dir lists
 let g:startify_files_number = 5
-
-
-"   Peekabo settings
-" -------------------
-let g:peekaboo_delay = 1000
 
 
 " ### Tree explorers
@@ -725,29 +679,6 @@ lua <<EOF
 EOF
 
 
-"   Completion (& Tabnine) settings
-" ----------------------------------
-" Use completion-nvim in every buffer
-" autocmd BufEnter * lua require'completion'.on_attach()
-" let g:completion_auto_change_source = 1
-" let g:completion_chain_complete_list = {
-"     \ 'default': [
-"     \    {'complete_items': ['tabnine', 'lsp', 'buffers', 'snippet']},
-"     \    {'mode': '<c-p>'},
-"     \    {'mode': '<c-n>'}
-"     \]
-" \}
-
-
-"   Tabnine (YCM) settings
-" --------------------------
-" let g:ycm_autoclose_preview_window_after_completion = 1
-" let g:ycm_filetype_blacklist = {
-"         \ 'peekaboo' : 1,
-"         \ 'text': 1
-"         \}
-
-
 " ### Visual improvements
 
 
@@ -757,19 +688,11 @@ let g:smoothie_update_interval = 5
 let g:smoothie_base_speed = 5
 
 
-"   Illuminate current word
-" --------------------------
-let g:Illuminate_delay = 1000
-" Change color of current symbol highlight
-highlight illuminatedWord cterm=underline ctermbg=60 gui=underline guibg=MediumPurple4
-
-
 
 
 " ------------------------------------------------------------------------------
 "   Abbreviations
 " ------------------------------------------------------------------------------
-
 
 iabbrev clog; console.log();<Left><Left><Space><Left>
 iabbrev dbg; debugger;
@@ -786,13 +709,13 @@ iabbrev vd; var_dump();<Left><Left><Space><Left>
 command! WipeReg for i in range(34,122) | silent! call setreg(nr2char(i), []) | endfor
 
 " Search for visual selection
-" function! s:VSetSearch()
-"   let temp = @@
-"   norm! gvy
-"   let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
-"   let @@ = temp
-"   norm! #
-" endfunction
+function! s:VSetSearch()
+  let temp = @@
+  norm! gvy
+  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+  let @@ = temp
+  norm! #
+endfunction
 
 
 
@@ -800,7 +723,6 @@ command! WipeReg for i in range(34,122) | silent! call setreg(nr2char(i), []) | 
 " ------------------------------------------------------------------------------
 "   Custom statusline
 " ------------------------------------------------------------------------------
-
 
 " function! GitBranch()
 "   return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
