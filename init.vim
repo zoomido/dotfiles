@@ -258,7 +258,7 @@ nnoremap } ]}
 
 " Select whole row except newline char
 " vnoremap <silent> al :<C-u>norm!0v$h<CR>
-" vnoremap <silent> il :<C-u>norm!^vg_<CR>
+vnoremap <silent> il :<C-u>norm!^vg_<CR>
 
 " Replace word under cursor
 nnoremap <leader>r :%s/\<<C-r><C-w>\>//c<Left><Left>
@@ -487,22 +487,6 @@ autocmd  FileType fzf set laststatus=0 noruler
 "" nnoremap <silent> [fzf-p]*     :<C-u>FzfPreviewLines -add-fzf-arg=--no-sort -add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
 
 
-"   Easymotion settings & keys
-" ------------------------------
-" Disable default mappings
-" let g:EasyMotion_do_mapping = 0
-" Turn on case-insensitive feature
-" let g:EasyMotion_smartcase = 1
-
-" -- Keys
-" Search for two chars - s{char}{char} to move to {char}{char}
-" nmap <leader>s <Plug>(easymotion-overwin-f2)
-" Search for any number of chars
-" nmap <leader>S <Plug>(easymotion-sn)
-"" map  <leader>/ <Plug>(easymotion-sn)
-"" omap <leader>/ <Plug>(easymotion-tn)
-
-
 "   Startify settings
 " --------------------
 let g:startify_session_persistence = 1 " Autosave sessions on exit when leaving vim and loading a new session
@@ -533,7 +517,6 @@ let g:startify_files_number = 5
 
 
 " ### Tree explorers
-
 
 "   Vim Vaffle settings & keys
 " -----------------------------
@@ -582,13 +565,13 @@ let g:rnvimr_enable_picker = 1 " Make Ranger to be hidden after picking a file
 "             \ }
 " Customize the initial layout
 let g:rnvimr_layout = {
-            \ 'relative': 'editor',
-            \ 'width': float2nr(round(0.9 * &columns)),
-            \ 'height': float2nr(round(0.9 * &lines)),
-            \ 'col': float2nr(round(0.05 * &columns)),
-            \ 'row': float2nr(round(0.05 * &lines)),
-            \ 'style': 'minimal'
-            \ }
+    \ 'relative': 'editor',
+    \ 'width': float2nr(round(0.9 * &columns)),
+    \ 'height': float2nr(round(0.9 * &lines)),
+    \ 'col': float2nr(round(0.05 * &columns)),
+    \ 'row': float2nr(round(0.05 * &lines)),
+    \ 'style': 'minimal'
+\ }
 
 
 " ### Coding tools
@@ -596,13 +579,13 @@ let g:rnvimr_layout = {
 
 "   Vdebug settings
 " ------------------
-let g:vdebug_keymap = {
-\    "run_to_cursor" : "<Leader><Left>",
-\    "step_over" : "<Leader><Down>",
-\    "step_into" : "<Leader><Right>",
-\    "step_out" : "<Leader><Up>",
-\    "get_context" : "<Leader>c"
-\}
+" let g:vdebug_keymap = {
+" \    "run_to_cursor" : "<Leader><Left>",
+" \    "step_over" : "<Leader><Down>",
+" \    "step_into" : "<Leader><Right>",
+" \    "step_out" : "<Leader><Up>",
+" \    "get_context" : "<Leader>c"
+" \}
 
 
 "   Gitgutter settings
