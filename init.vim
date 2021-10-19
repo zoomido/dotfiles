@@ -294,18 +294,6 @@ nnoremap <silent> <leader>T :belowright Tnew<CR>
 
 "   Telescope settings
 " ---------------------
-nnoremap <leader>F <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>f <cmd>lua require('telescope.builtin').git_files()<cr>
-nnoremap <leader>g <cmd>lua require('telescope.builtin').live_grep()<cr>
-" vnoremap <leader>g "zy:Telescope live_grep default_text=<C-r>z<cr>
-nnoremap <leader>gs <cmd>lua require('telescope.builtin').grep_string()<cr>
-nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>B <cmd>lua require('telescope.builtin').file_browser()<cr>
-nnoremap <leader>l <cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>
-nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
-" nnoremap <leader>P <cmd>lua require('telescope.builtin').registers()<cr>
-" nnoremap <leader>p <cmd>lua require('telescope').extensions.neoclip.default()<cr>
-
 lua <<EOF
 local actions = require('telescope.actions')
 require('telescope').setup{
@@ -353,7 +341,55 @@ require('neoclip').setup({
     },
 })
 require('telescope').load_extension('neoclip')
+
+-- Custom functions
+
+project_files = function()
+  local opts = {} -- define here if you want to define something
+  local ok = pcall(require'telescope.builtin'.git_files, opts)
+  if not ok then require'telescope.builtin'.find_files(opts) end
+end
+
+function notes_browse()
+  require("telescope.builtin").file_browser {
+    prompt_title = " Browse Notes",
+    prompt_prefix = " ﮷ ",
+    cwd = "~/notes/",
+    depth = 2,
+    layout_strategy = "horizontal",
+    layout_config = { preview_width = 0.65, width = 0.75 },
+  }
+end
+
+function notes_grep()
+  local opts = {}
+  opts.hidden = true
+  -- opts.file_ignore_patterns = { 'thesaurus/'}
+  opts.search_dirs = {
+    "~/notes/",
+  }
+  opts.prompt_prefix = "   "
+  opts.prompt_title = " Grep Notes"
+  opts.path_display = { "shorten" }
+  require("telescope.builtin").live_grep(opts)
+end
 EOF
+
+" -- Telescope keybindings
+nnoremap <leader>F <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>f <cmd>lua require('telescope.builtin').git_files()<cr>
+nnoremap <leader>g <cmd>lua require('telescope.builtin').live_grep()<cr>
+" vnoremap <leader>g "zy:Telescope live_grep default_text=<C-r>z<cr>
+nnoremap <leader>gs <cmd>lua require('telescope.builtin').grep_string()<cr>
+nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>B <cmd>lua require('telescope.builtin').file_browser()<cr>
+nnoremap <leader>l <cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+nnoremap <leader>P <cmd>lua require('telescope.builtin').registers()<cr>
+nnoremap <leader>p <cmd>lua require('telescope').extensions.neoclip.default()<cr>
+nnoremap <leader>nb <cmd>lua notes_browse()<cr>
+nnoremap <leader>ng <cmd>lua notes_grep()<cr>
+
 
 
 "   Neoterm settings
