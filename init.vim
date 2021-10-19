@@ -327,6 +327,9 @@ require('telescope').setup{
     extensions = {
     }
 }
+
+-- Plugins
+
 require('telescope').load_extension('fzf')
 require('neoclip').setup({
     -- default_register = '"',
@@ -379,6 +382,7 @@ EOF
 nnoremap <leader>F <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>f <cmd>lua require('telescope.builtin').git_files()<cr>
 nnoremap <leader>g <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>L <cmd>lua require('telescope.builtin').live_grep({grep_open_files=true})<cr>
 " vnoremap <leader>g "zy:Telescope live_grep default_text=<C-r>z<cr>
 nnoremap <leader>gs <cmd>lua require('telescope.builtin').grep_string()<cr>
 nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
