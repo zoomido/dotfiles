@@ -31,7 +31,8 @@ Plug 'kevinhwang91/rnvimr'               " Open ranger in floating window
 " Plug 'vim-vdebug/vdebug'            " Debugger for DBGP protocol (eg. xdebug for php)
 Plug 'tpope/vim-commentary'         " Vim commentary for commenting
 Plug 'airblade/vim-rooter'          " Set the working dir to closest VCS root
-Plug 'airblade/vim-gitgutter'       " Show Git changes in gutter
+" Plug 'airblade/vim-gitgutter'       " Show Git changes in gutter
+Plug 'lewis6991/gitsigns.nvim'      " Show git changes in the gutter
 Plug 'tpope/vim-fugitive'           " Git wrapper for vim
 " Plug 'idanarye/vim-merginal'        " Interface for Git branches :Merginal
 Plug 'samoshkin/vim-mergetool'      " Mergetool for vim
@@ -289,6 +290,11 @@ nnoremap <silent> <leader>T :belowright Tnew<CR>
 " ------------------------------------------------------------------------------
 "   Plugin settings
 " ------------------------------------------------------------------------------
+
+" ### Lua plugin setup
+lua <<EOF
+require('gitsigns').setup()
+EOF
 
 " ### Generic Tools
 
