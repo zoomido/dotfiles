@@ -387,10 +387,12 @@ EOF
 " -- Telescope keybindings
 nnoremap <leader>F <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>f <cmd>lua require('telescope.builtin').git_files()<cr>
-nnoremap <leader>g <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>L <cmd>lua require('telescope.builtin').live_grep({grep_open_files=true})<cr>
-" vnoremap <leader>g "zy:Telescope live_grep default_text=<C-r>z<cr>
+nnoremap <leader>g <cmd>lua require('telescope.builtin').live_grep()<cr>
+vnoremap <leader>g "zy:Telescope live_grep default_text=<C-r>z<cr>
 nnoremap <leader>gs <cmd>lua require('telescope.builtin').grep_string()<cr>
+nnoremap <leader>G <cmd>lua require 'telescope.builtin'.grep_string({ search = vim.fn.input("Grep For > ")})<cr>
+" command! -nargs=? Tgrep lua require 'telescope.builtin'.grep_string({ search = vim.fn.input("Grep For > ")})
 nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>B <cmd>lua require('telescope.builtin').file_browser()<cr>
 nnoremap <leader>l <cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>
