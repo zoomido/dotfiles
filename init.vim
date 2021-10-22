@@ -386,18 +386,25 @@ end
 EOF
 
 " -- Telescope keybindings
+" Use custom function to search git_files first then find_files
+nnoremap <leader>f <cmd>lua require('telescope.builtin').project_files()<cr>
 nnoremap <leader>F <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>f <cmd>lua require('telescope.builtin').git_files()<cr>
+nnoremap <leader>l <cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>
 nnoremap <leader>L <cmd>lua require('telescope.builtin').live_grep({grep_open_files=true})<cr>
-nnoremap <leader>g <cmd>lua require('telescope.builtin').live_grep()<cr>
+" Search for selected text in visual mode
 vnoremap <leader>g "zy:Telescope live_grep default_text=<C-r>z<cr>
-nnoremap <leader>gs <cmd>lua require('telescope.builtin').grep_string()<cr>
-nnoremap <leader>G <cmd>lua require 'telescope.builtin'.grep_string({ search = vim.fn.input("Grep For > ")})<cr>
-" command! -nargs=? Tgrep lua require 'telescope.builtin'.grep_string({ search = vim.fn.input("Grep For > ")})
+" Search with fuzzy find in cwd - optionally filtered first by a string
+nnoremap <leader>g <cmd>lua require 'telescope.builtin'.grep_string({ path_display = "shorten", disable_coordinates = true, only_sort_text = true, search = vim.fn.input("Grep For > ") })<cr>
+" nnoremap <leader>g <cmd>lua require 'telescope.builtin'.grep_string({ path_display = "shorten", disable_coordinates = true, only_sort_text = true, search = '' })<cr>
+" 2 stage search, first filter with ripgrep and then fuzzy find in matches
+" nnoremap <leader>G <cmd>lua require 'telescope.builtin'.grep_string({ search = vim.fn.input("Grep For > ")})<cr>
+" Regular grep - no fuzzy find (but fast?)
+nnoremap <leader>G <cmd>lua require('telescope.builtin').live_grep()<cr>
+" Grep token under cursor and search for it
+" nnoremap <leader>gs <cmd>lua require('telescope.builtin').grep_string()<cr>
 nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>B <cmd>lua require('telescope.builtin').file_browser()<cr>
-nnoremap <leader>l <cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>
-nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+" nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 nnoremap <leader>P <cmd>lua require('telescope.builtin').registers()<cr>
 nnoremap <leader>p <cmd>lua require('telescope').extensions.neoclip.default()<cr>
 nnoremap <leader>nb <cmd>lua notes_browse()<cr>
