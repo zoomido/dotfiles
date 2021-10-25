@@ -9,6 +9,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend upda
 Plug 'nvim-lua/plenary.nvim'             " Dependency for telescope
 Plug 'nvim-telescope/telescope.nvim'     " Search everything
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'weeman1337/telescope-live-grep-raw.nvim'
 Plug 'AckslD/nvim-neoclip.lua'           " Clipboard manager
 " Plug 'junegunn/fzf', {
     " \ 'do': './install --all' }        " Install fzf globally with vim-plug
@@ -399,7 +400,9 @@ nnoremap <leader>g <cmd>lua require 'telescope.builtin'.grep_string({ path_displ
 " 2 stage search, first filter with ripgrep and then fuzzy find in matches
 " nnoremap <leader>G <cmd>lua require 'telescope.builtin'.grep_string({ search = vim.fn.input("Grep For > ")})<cr>
 " Regular grep - no fuzzy find (but fast?)
-nnoremap <leader>G <cmd>lua require('telescope.builtin').live_grep()<cr>
+" nnoremap <leader>G <cmd>lua require('telescope.builtin').live_grep()<cr>
+" Regular grep passing whole prompt to search engine (allows for rg filters like: -tphp)
+nnoremap <leader>G <cmd>lua require('telescope').extensions.live_grep_raw.live_grep_raw()<cr>
 " Grep token under cursor and search for it
 " nnoremap <leader>gs <cmd>lua require('telescope.builtin').grep_string()<cr>
 nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
