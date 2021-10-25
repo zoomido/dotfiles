@@ -101,7 +101,7 @@ set splitright          " Open splits to right
 set splitbelow          " Open splits below
 set undofile            " Set undofile to autosave all changes in an external file
 set inccommand=nosplit  " Neovim only. inccommand shows you in realtime what changes your ex command should make. Right now it only supports s.
-set completeopt=menuone,noinsert,noselect " Set completeopt to have a better completion experience
+set completeopt=menu,menuone,noselect " Set completeopt to have a better completion experience
 autocmd FileType * setlocal formatoptions-=cro   " Dont add a comment on newline
 
 " Triger `autoread` when files changes on disk
