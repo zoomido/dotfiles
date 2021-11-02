@@ -407,10 +407,11 @@ nnoremap <leader>G <cmd>lua require('telescope').extensions.live_grep_raw.live_g
 " nnoremap <leader>gs <cmd>lua require('telescope.builtin').grep_string()<cr>
 nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>B <cmd>lua require('telescope.builtin').file_browser()<cr>
-" nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 nnoremap <leader>P <cmd>lua require('telescope.builtin').registers()<cr>
 nnoremap <leader>p <cmd>lua require('telescope').extensions.neoclip.default()<cr>
-nnoremap <leader>nb <cmd>lua notes_browse()<cr>
+" nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+nnoremap <leader>j <cmd>lua require('telescope.builtin').jumplist()<cr>
+nnoremap <leader>n <cmd>lua notes_browse()<cr>
 nnoremap <leader>ng <cmd>lua notes_grep()<cr>
 
 
