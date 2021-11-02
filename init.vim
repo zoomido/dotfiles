@@ -388,7 +388,7 @@ EOF
 
 " -- Telescope keybindings
 " Use custom function to search git_files first then find_files
-nnoremap <leader>f <cmd>lua require('telescope.builtin').project_files()<cr>
+nnoremap <leader>f <cmd>lua project_files()<cr>
 nnoremap <leader>F <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>l <cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>
 nnoremap <leader>L <cmd>lua require('telescope.builtin').live_grep({grep_open_files=true})<cr>
