@@ -34,9 +34,7 @@ if status --is-interactive
     abbr --add --global la   exa -a
     abbr --add --global ll   exa -l
     abbr --add --global lla  exa -la
-    # Fzf
-#    abbr --add --global dot  'nvim (find ~/.dotfiles -path ~/.dotfiles/.git -prune -o -print -type f | fzf)' # Search in .dotfiles folder
-    abbr --add --global ff   'nvim (fzf)' # Search with fzf and open in nvim
+    abbr --add --global lg   find . -name .git -type d -prune
     # Git
     abbr --add --global gs   git status
     abbr --add --global gss  git switch
@@ -44,6 +42,9 @@ if status --is-interactive
     abbr --add --global gpr  git pull --rebase
     abbr --add --global gp   git push
     abbr --add --global gtb  "git switch master && git pull --rebase && git switch -c"
+    # Fzf
+#    abbr --add --global dot  'nvim (find ~/.dotfiles -path ~/.dotfiles/.git -prune -o -print -type f | fzf)' # Search in .dotfiles folder
+    abbr --add --global ff   'nvim (fzf)' # Search with fzf and open in nvim
 end
 
 function hej
@@ -52,6 +53,7 @@ function hej
     la: exa -a (filelist + hidden)
     ll: exa -l (detailed filelist)
     lla: exa -la (detailed filelist + hidden)
+    lg: list git repos
     gs: git status
     gss: git switch
     gfa: git fetch --all
