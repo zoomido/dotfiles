@@ -2,21 +2,27 @@
 # Fish settings
 # --------------
 
-# Add homebrew to path
-set PATH /home/linuxbrew/.linuxbrew/bin/ $PATH
+# Add homebrew to path on Linux
+switch (uname)
+    case Linux
+        set HOMEBREW_PATH /home/linuxbrew/.linuxbrew/bin/
+        contains $HOMEBREW_PATH $PATH; or set -x PATH $PATH $HOMEBREW_PATH
+#    case Darwin
+#        echo using macos!
+end
 
 # Turn off fish greeting
 set fish_greeting
 
 # Set nvim as default editor
-set -x EDITOR nvim
+set -gx EDITOR nvim
 
 # Active VI keybindings
 # fish_vi_key_bindings
 
 # Fish extensions settings
 # https://github.com/b4b4r07/enhancd
-set -x ENHANCD_DOT_ARG '...'
+set -gx ENHANCD_DOT_ARG '...'
 
 
 
