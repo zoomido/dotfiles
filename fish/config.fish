@@ -98,9 +98,9 @@ set -x FZF_DEFAULT_OPTS "--info 'inline' --reverse --color 'border:#ffff00,info:
 #
 # Source private configs if exists
 # --------------------------------
-if test -e ~/dotfiles-private/private.fish
-    source ~/dotfiles-private/private.fish
-end
+#if test -e ~/dotfiles-private/private.fish
+#    source ~/dotfiles-private/private.fish
+#end
 
 
 
