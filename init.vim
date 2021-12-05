@@ -192,7 +192,7 @@ let mapleader = "\<Space>"
 " Make Y yank to end of line (as C & D)
 map Y y$
 
-" V selects to end of line without ending line character
+" V selects to end of line without ending line character. vv selects like old V
 nnoremap V v$h
 xnoremap v V
 
