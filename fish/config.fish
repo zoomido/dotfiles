@@ -86,7 +86,7 @@ if status --is-interactive
 end
 
 # Bat global settings
-set -x BAT_THEME 'base16'
+#set -x BAT_THEME 'base16'
 
 # Fzf global settings
 set -x FZF_DEFAULT_OPTS "--info 'inline' --reverse --color 'border:#ffff00,info:#ffff00' --bind 'ctrl-d:preview-down,ctrl-u:preview-up,ctrl-o:toggle-preview,ctrl-w:toggle-preview-wrap,ctrl-l:accept,ctrl-h:clear-query'"
