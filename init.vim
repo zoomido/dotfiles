@@ -192,12 +192,11 @@ let mapleader = "\<Space>"
 " Make Y yank to end of line (as C & D)
 map Y y$
 
+" V selects to end of line without ending line character
+nnoremap V v$h
+xnoremap v V
+
 " Make p and P use the 0 register by default so same text can be pasted again.
-" xnoremap <silent> p p:let @"=@0<CR>
-" xnoremap <silent> p p:let @+=@0<CR>:let @"=@0<CR>
-" now it is possible to paste many times over selected text
-" xnoremap <expr> p 'pgv"'.v:register.'y`>'
-" xnoremap <expr> P 'Pgv"'.v:register.'y`>'
 vnoremap P "0p
 
 " Auto indent when pasting
