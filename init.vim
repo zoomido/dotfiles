@@ -9,7 +9,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend upda
 Plug 'nvim-lua/plenary.nvim'             " Dependency for telescope
 Plug 'nvim-telescope/telescope.nvim'     " Search everything
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-Plug 'weeman1337/telescope-live-grep-raw.nvim'
+Plug 'nvim-telescope/telescope-live-grep-raw.nvim' " Raw search with rg
 Plug 'AckslD/nvim-neoclip.lua'           " Clipboard manager
 " Plug 'junegunn/fzf', {
     " \ 'do': './install --all' }        " Install fzf globally with vim-plug
@@ -52,6 +52,8 @@ Plug 'hrsh7th/cmp-buffer'
 " Plug 'hrsh7th/cmp-path'
 Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 Plug 'hrsh7th/nvim-cmp'
+Plug 'dcampos/nvim-snippy'              " Snippet engine in Lua for neovim
+Plug 'dcampos/cmp-snippy'               " Plugin to use snippy with cmp
 
 " -- Visual improvements
 Plug 'pacha/vem-tabline'                " Tabline plugin to show buffers
@@ -305,11 +307,27 @@ lua <<EOF
 local actions = require('telescope.actions')
 require('telescope').setup{
     defaults = {
+        layout_strategy = "vertical",
         layout_config = {
-            horizontal = { width = 0.95, height = 0.95 }
+            vertical = { width = 0.95, height = 0.95, preview_height = 0.3, preview_cutoff = 20 }
+        },
+        --layout_config = {
+            --horizontal = { width = 0.95, height = 0.95 }
+        --},
+        path_display = {"absolute"},
+        vimgrep_arguments = {
+            "rg",
+            "--color=never",
+            "--no-heading",
+            "--with-filename",
+            "--line-number",
+            "--column",
+            "--smart-case",
+            "--trim"
         },
         mappings = {
             i = {
+                ["<C-h>"] = "which_key",
                 ["<esc>"] = actions.close,
                 ["<C-l>"] = actions.select_default,
                 ["<C-j>"] = actions.move_selection_next,
@@ -330,7 +348,7 @@ require('telescope').setup{
                 i = {
                 }
             }
-        }
+        },
     },
     extensions = {
     }
@@ -395,8 +413,9 @@ nnoremap <leader>L <cmd>lua require('telescope.builtin').live_grep({grep_open_fi
 " Search for selected text in visual mode
 vnoremap <leader>g "zy:Telescope live_grep default_text=<C-r>z<cr>
 " Search with fuzzy find in cwd - optionally filtered first by a string
-nnoremap <leader>g <cmd>lua require 'telescope.builtin'.grep_string({ path_display = "shorten", disable_coordinates = true, only_sort_text = true, search = vim.fn.input("Grep For > ") })<cr>
-" nnoremap <leader>g <cmd>lua require 'telescope.builtin'.grep_string({ path_display = "shorten", disable_coordinates = true, only_sort_text = true, search = '' })<cr>
+nnoremap <leader>g <cmd>lua require 'telescope.builtin'.grep_string({disable_coordinates = true, only_sort_text = true, search = vim.fn.input("Grep For > ") })<cr>
+" nnoremap <C-g> <cmd>lua require 'telescope.builtin'.grep_string({disable_coordinates = true, only_sort_text = true, search = vim.fn.input("Grep For > "), cwd = vim.fn.expand('%:p:h') })<cr>
+" nnoremap <leader>g <cmd>lua require 'telescope.builtin'.grep_string({ path_display = {"shorten"}, disable_coordinates = true, only_sort_text = true, search = '' })<cr>
 " 2 stage search, first filter with ripgrep and then fuzzy find in matches
 " nnoremap <leader>G <cmd>lua require 'telescope.builtin'.grep_string({ search = vim.fn.input("Grep For > ")})<cr>
 " Regular grep - no fuzzy find (but fast?)
@@ -538,7 +557,7 @@ let g:startify_session_persistence = 1 " Autosave sessions on exit when leaving 
 let g:startify_update_oldfiles = 0     " Update v:oldfiles on-the-fly
 " let g:startify_relative_path = 1     " Show files with or without relativ path
 let g:startify_change_to_dir = 0       " Don't change to files dir when opening
-" let g:startify_change_to_vcs_root = 1  " Change to VCS dir if there is one (git & hg)
+let g:startify_change_to_vcs_root = 1  " Change to VCS dir if there is one (git & hg)
 let g:startify_restore_position = 1    " Jump to last position when opening a file
 " Set what to show on startpage
 let g:startify_lists = [
@@ -550,9 +569,8 @@ let g:startify_lists = [
             \ ]
 " Add custom bookmarks
 let g:startify_bookmarks = [
-            \ {'cf': '~/.dotfiles/config.fish'},
+            \ {'cf': '~/.dotfiles/fish/config.fish'},
             \ {'ci': '~/.dotfiles/init.vim'},
-            \ {'cz': '~/.dotfiles/zshrc'},
             \ {'ch': '~/.dotfiles/hammerspoon/init.lua'},
             \ {'cs': '~/.dotfiles/surfingkeys.js'},
             \ {'ck': '~/.dotfiles/kitty.conf'}
@@ -565,26 +583,26 @@ let g:startify_files_number = 5
 
 "   Vim Vaffle settings & keys
 " -----------------------------
-let g:vaffle_auto_cd = 1
+" let g:vaffle_auto_cd = 1
 let g:vaffle_show_hidden_files = 1
 
 " -- Keys
 map <leader>E <Cmd>Vaffle<CR>
 map <leader>e <Cmd>Vaffle %<CR>
-" function! s:customize_vaffle_mappings() abort
-"     " Customize key mappings here
-"     nmap  <buffer> <Bslash> <Plug>(vaffle-open-root)
-"     nmap  <buffer> cd       <Plug>(vaffle-chdir-here)
-"     nmap  <buffer> J        <Plug>(vaffle-toggle-current)
-"     nmap  <buffer> <Tab>    <Plug>(vaffle-toggle-current)
-"     nmap  <buffer> <S-Tab>  <Plug>(vaffle-toggle-current)kk
-"     nmap  <buffer> <Esc>    <Plug>(vaffle-quit)
-"     unmap <buffer> <space>
-" endfunction
-" augroup vimrc_vaffle
-"     autocmd!
-"     autocmd FileType vaffle call s:customize_vaffle_mappings()
-" augroup END
+function! s:customize_vaffle_mappings() abort
+    " Customize key mappings here
+    " nmap  <buffer> <Bslash> <Plug>(vaffle-open-root)
+    nmap  <buffer> cd       <Plug>(vaffle-chdir-here)
+    " nmap  <buffer> J        <Plug>(vaffle-toggle-current)
+    nmap  <buffer> <Tab>    <Plug>(vaffle-toggle-current)
+    nmap  <buffer> <S-Tab>  <Plug>(vaffle-toggle-current)kk
+    " nmap  <buffer> <Esc>    <Plug>(vaffle-quit)
+    unmap <buffer> <Space>
+endfunction
+augroup vimrc_vaffle
+    autocmd!
+    autocmd FileType vaffle call s:customize_vaffle_mappings()
+augroup END
 
 
 "   Rnvimr settings
@@ -631,6 +649,11 @@ let g:rnvimr_layout = {
 " \    "step_out" : "<Leader><Up>",
 " \    "get_context" : "<Leader>c"
 " \}
+
+
+"   Vim Rooter settings
+" ----------------------
+let g:rooter_manual_only = 1
 
 
 "   Gitgutter settings
@@ -691,12 +714,26 @@ lua <<EOF
       ['<C-l>'] = cmp.mapping.confirm({ select = true }),
       ['<C-e>'] = cmp.mapping.close(),
     },
-    sources = {
-      { name = 'cmp_tabnine' },
-      { name = 'nvim_lsp' },
-      { name = 'buffer' },
-      { name = 'path' },
-    }
+    snippet = {
+        -- REQUIRED - you must specify a snippet engine
+        expand = function(args)
+        -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+        require'snippy'.expand_snippet(args.body) -- For `snippy` users.
+    end,
+    },
+    sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
+        -- { name = 'vsnip' }, -- For vsnip users.
+        -- { name = 'luasnip' }, -- For luasnip users.
+        -- { name = 'ultisnips' }, -- For ultisnips users.
+        { name = 'snippy' }, -- For snippy users.
+    }, {
+        { name = 'cmp_tabnine' },
+        { name = 'buffer' },
+        { name = 'path' },
+    })
   })
 
   local tabnine = require('cmp_tabnine.config')
