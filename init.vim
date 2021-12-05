@@ -65,7 +65,7 @@ Plug 'machakann/vim-highlightedyank'    " Highlight yanks
 " Plug 'inside/vim-search-pulse'          " Highlight search
 
 " -- Theme
-Plug 'davidosomething/vim-colors-meh' "meh
+" Plug 'davidosomething/vim-colors-meh' "meh THIS IS FAVORITE THEME set theme
 " Plug 'axvr/photon.vim'
 " Plug 'andreypopp/vim-colors-plain'
 " Plug 'arzg/vim-colors-xcode'
@@ -151,7 +151,7 @@ set scrolloff=5         " Turn on scroll margin up/down
 set sidescrolloff=5     " Turn on scroll margin left/right
 set list                " Show tabs, nbsp and trailing spaces
 set winblend=5          " Set transparency for floating windows
-colorscheme meh
+" colorscheme meh "Set theme
 
 " Highlight the current line
 set cursorline
