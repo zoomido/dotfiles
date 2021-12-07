@@ -3,6 +3,8 @@
 " ------------------------------------------------------------------------------
 
 call plug#begin('~/.vim/neoplugged')
+" -- Bugfixes (fixes bug with fern)
+Plug 'antoinemadec/FixCursorHold.nvim'
 
 " -- Generic Tools
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update. Dep for telescope
@@ -197,7 +199,6 @@ let mapleader = "\<Space>"
 
 " Make Y yank to end of line (as C & D)
 map Y y$
-
 
 " Make p and P use the 0 register by default so same text can be pasted again.
 vnoremap P "0p
@@ -585,28 +586,70 @@ let g:startify_files_number = 5
 
 " ### Tree explorers
 
+"   Fern settings & keys
+" -----------------------------
+map <leader>E <Cmd>Fern .<CR>
+map <leader>e <Cmd>Fern . -reveal=%<CR>
+" let g:fern#disable_default_mappings = 1
+
+function! FernInit() abort
+  nmap <buffer><expr>
+        \ <Plug>(fern-my-open-expand-collapse)
+        \ fern#smart#leaf(
+        \   "\<Plug>(fern-action-open:select)",
+        \   "\<Plug>(fern-action-expand)",
+        \   "\<Plug>(fern-action-collapse)",
+        \ )
+  " nmap <buffer> <CR> <Plug>(fern-my-open-expand-collapse)
+  nmap <buffer> <Tab> <Plug>(fern-action-mark:toggle)j
+  nmap <buffer> i <Plug>(fern-action-new-path)
+  nmap <buffer> d <Plug>(fern-action-remove)
+  nmap <buffer> y <Plug>(fern-action-copy)
+  nmap <buffer> Y <Plug>(fern-action-clipboard-copy)
+  nmap <buffer> m <Plug>(fern-action-move)
+  nmap <buffer> r <Plug>(fern-action-rename)
+  nmap <buffer> s <Plug>(fern-action-open:split)
+  nmap <buffer> v <Plug>(fern-action-open:vsplit)
+  nmap <buffer> R <Plug>(fern-action-reload)
+  " nmap <buffer> <nowait> d <Plug>(fern-action-hidden:toggle)
+  " nmap <buffer> <nowait> < <Plug>(fern-action-leave)
+  nmap <buffer> <nowait> <C-l> <Plug>(fern-action-enter)
+  nmap <silent> <buffer> p     <Plug>(fern-action-preview:toggle)
+  " nmap <silent> <buffer> <C-p> <Plug>(fern-action-preview:auto:toggle)
+  nmap <silent> <buffer> <C-n> <Plug>(fern-action-preview:scroll:down:half)
+  nmap <silent> <buffer> <C-p> <Plug>(fern-action-preview:scroll:up:half)
+  " nmap <silent> <buffer> <expr> <Plug>(fern-quit-or-close-preview) fern_preview#smart_preview("\<Plug>(fern-action-preview:close)", ":q\<CR>")
+  " nmap <silent> <buffer> q <Plug>(fern-quit-or-close-preview)
+endfunction
+
+augroup FernEvents
+  autocmd!
+  autocmd FileType fern call FernInit()
+augroup END
+
+
 "   Vim Vaffle settings & keys
 " -----------------------------
-" let g:vaffle_auto_cd = 1
-let g:vaffle_show_hidden_files = 1
+" " let g:vaffle_auto_cd = 1
+" let g:vaffle_show_hidden_files = 1
 
-" -- Keys
-map <leader>E <Cmd>Vaffle<CR>
-map <leader>e <Cmd>Vaffle %<CR>
-function! s:customize_vaffle_mappings() abort
-    " Customize key mappings here
-    " nmap  <buffer> <Bslash> <Plug>(vaffle-open-root)
-    nmap  <buffer> cd       <Plug>(vaffle-chdir-here)
-    " nmap  <buffer> J        <Plug>(vaffle-toggle-current)
-    nmap  <buffer> <Tab>    <Plug>(vaffle-toggle-current)
-    nmap  <buffer> <S-Tab>  <Plug>(vaffle-toggle-current)kk
-    " nmap  <buffer> <Esc>    <Plug>(vaffle-quit)
-    unmap <buffer> <Space>
-endfunction
-augroup vimrc_vaffle
-    autocmd!
-    autocmd FileType vaffle call s:customize_vaffle_mappings()
-augroup END
+" " -- Keys
+" map <leader>E <Cmd>Vaffle<CR>
+" map <leader>e <Cmd>Vaffle %<CR>
+" function! s:customize_vaffle_mappings() abort
+"     " Customize key mappings here
+"     " nmap  <buffer> <Bslash> <Plug>(vaffle-open-root)
+"     nmap  <buffer> cd       <Plug>(vaffle-chdir-here)
+"     " nmap  <buffer> J        <Plug>(vaffle-toggle-current)
+"     nmap  <buffer> <Tab>    <Plug>(vaffle-toggle-current)
+"     nmap  <buffer> <S-Tab>  <Plug>(vaffle-toggle-current)kk
+"     " nmap  <buffer> <Esc>    <Plug>(vaffle-quit)
+"     unmap <buffer> <Space>
+" endfunction
+" augroup vimrc_vaffle
+"     autocmd!
+"     autocmd FileType vaffle call s:customize_vaffle_mappings()
+" augroup END
 
 
 "   Rnvimr settings
