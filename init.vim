@@ -232,13 +232,17 @@ nnoremap ++ dd
 nnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
 nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
 
+" Move text around
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
 " w - save a file | W - save and quit
 nnoremap <leader>w <Cmd>w<CR>
 " nnoremap <leader>W <Cmd>wq<CR>
 
 " q - delete/close buffer | Q - quit
 nnoremap <leader>q <Cmd>bwipeout<CR>
-" nnoremap <leader>Q <Cmd>quit<CR>
+nnoremap <leader>Q <Cmd>quit<CR>
 
 " Navigate splits easier
 nnoremap <C-h> <C-w>h
