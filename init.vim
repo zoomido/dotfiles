@@ -23,10 +23,15 @@ Plug 'tpope/vim-surround'                " Vim surround command 's'
 Plug 'ggandor/lightspeed.nvim'           " Jump around based on labels
 Plug 'svermeulen/vim-cutlass'            " use the black hole register for: c, cc, C, s, S, d, dd, D, x, X
 " Plug 'junegunn/vim-easy-align'           " Align text
+Plug 'vim-utils/vim-line'                " Add 'inner line' text object: _  v_  y_  d_
 
 " -- Tree explorers
-Plug 'cocopon/vaffle.vim'                " Easy tree explorer
-Plug 'kevinhwang91/rnvimr'               " Open ranger in floating window
+Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern-git-status.vim'
+Plug 'lambdalisue/fern-hijack.vim'       " Use as default tree viewer
+Plug 'yuki-yano/fern-preview.vim'        " Preview files
+" Plug 'cocopon/vaffle.vim'                " Easy tree explorer
+" Plug 'kevinhwang91/rnvimr'               " Open ranger in floating window
 
 " -- Coding tools
 " Plug 'vim-vdebug/vdebug'            " Debugger for DBGP protocol (eg. xdebug for php)
