@@ -49,6 +49,7 @@ Plug 'AndrewRadev/tagalong.vim'     " Edit HTML tags together automatically
 " Plug 'pangloss/vim-javascript'      " Better javascript indent and syntax highlighting
 " Plug 'tpope/vim-dadbod'             " SQL for Vim
 " Plug 'kristijanhusak/vim-dadbod-ui' " DadbodUI for visual navigation
+Plug 'Yggdroot/indentLine'        " Show indent markers
 
 " Tabnine AI autocompletion
 Plug 'neovim/nvim-lspconfig'
