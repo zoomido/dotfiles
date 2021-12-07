@@ -198,9 +198,6 @@ let mapleader = "\<Space>"
 " Make Y yank to end of line (as C & D)
 map Y y$
 
-" V selects to end of line without ending line character. vv selects like old V
-nnoremap V v$h
-xnoremap v V
 
 " Make p and P use the 0 register by default so same text can be pasted again.
 vnoremap P "0p
@@ -222,6 +219,13 @@ nnoremap ++ dd
 " nnoremap d "_d
 " nnoremap D "_D
 " nnoremap dd "_dd
+
+" vv selects whole line without end line marker
+" xnoremap v v^vg_
+" xnoremap v V
+" Select whole row except newline char
+" vnoremap <silent> al :<C-u>norm!0v$h<CR>
+" vnoremap <silent> il :<C-u>norm!^vg_<CR>
 
 " Move j & k in wrapped lines too, unless a count is provided before
 nnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
@@ -251,13 +255,13 @@ vmap z<TAB> z%
 nnoremap { [{
 nnoremap } ]}
 
-" Select whole row except newline char
-" vnoremap <silent> al :<C-u>norm!0v$h<CR>
-vnoremap <silent> il :<C-u>norm!^vg_<CR>
-
 " Replace word under cursor
 nnoremap <leader>r :%s/\<<C-r><C-w>\>//c<Left><Left>
 vnoremap <leader>r :s/\<<C-r><C-w>\>//c<Left><Left>
+
+" Keep cursor centered when searching
+nnoremap n nzzzv
+nnoremap N Nzzzv
 
 " Search visual selection
 vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR>
@@ -276,22 +280,17 @@ nnoremap <leader><Esc> <Cmd>nohlsearch<CR>
 "   Above mappings don't apply to fzf buffer
 "   Fzf buffer
 "   <C-l>   - Accept current selection
-tnoremap <expr> <C-h> (&filetype == "fzf") ? "<C-h>" : "<C-\><C-n><C-w>h"
-tnoremap <expr> <C-j> (&filetype == "fzf") ? "<C-j>" : "<C-\><C-n><C-w>j"
-tnoremap <expr> <C-k> (&filetype == "fzf") ? "<C-k>" : "<C-\><C-n><C-w>k"
-tnoremap <expr> <C-l> (&filetype == "fzf") ? "<C-l>" : "<C-\><C-n><C-w>l"
-tnoremap <expr> <Esc> (&filetype == "fzf") ? "<Esc>" : "<C-\><C-n>"
-autocmd FileType fzf tnoremap <buffer> <C-l> <CR>
-" autocmd TermOpen * tnoremap <buffer> <Esc> <c-\><c-n>     " Use escape to exit insert mode in terminal
-" autocmd FileType fzf tunmap <buffer> <Esc>                " Unmap escape in fzf buffers
-" tnoremap <silent> <leader>t <C-\><C-n>:Ttoggle<CR>        " Will mess with <Space> in fzf because it opens in a terminal buffer
+" tnoremap <expr> <C-h> (&filetype == "fzf") ? "<C-h>" : "<C-\><C-n><C-w>h"
+" tnoremap <expr> <C-j> (&filetype == "fzf") ? "<C-j>" : "<C-\><C-n><C-w>j"
+" tnoremap <expr> <C-k> (&filetype == "fzf") ? "<C-k>" : "<C-\><C-n><C-w>k"
+" tnoremap <expr> <C-l> (&filetype == "fzf") ? "<C-l>" : "<C-\><C-n><C-w>l"
+" tnoremap <expr> <Esc> (&filetype == "fzf") ? "<Esc>" : "<C-\><C-n>"
+" autocmd FileType fzf tnoremap <buffer> <C-l> <CR>
+" " autocmd TermOpen * tnoremap <buffer> <Esc> <c-\><c-n>     " Use escape to exit insert mode in terminal
+" " autocmd FileType fzf tunmap <buffer> <Esc>                " Unmap escape in fzf buffers
+" " tnoremap <silent> <leader>t <C-\><C-n>:Ttoggle<CR>        " Will mess with <Space> in fzf because it opens in a terminal buffer
 nnoremap <silent> <leader>t :vertical botright Ttoggle<CR>
 nnoremap <silent> <leader>T :belowright Tnew<CR>
-
-"   Run commands
-" ----------------
-" nnoremap <leader>c :w<CR>:T gulp css && exit<CR>
-" nnoremap <leader>C :w<CR>:T m2c && gulp css && exit<CR>
 
 
 
