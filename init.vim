@@ -264,9 +264,12 @@ nnoremap } ]}
 nnoremap <leader>r :%s/\<<C-r><C-w>\>//c<Left><Left>
 vnoremap <leader>r :s/\<<C-r><C-w>\>//c<Left><Left>
 
-" Keep cursor centered when searching
-nnoremap n nzzzv
-nnoremap N Nzzzv
+" Replace visual selection
+vnoremap <leader>r "hy:%s/<C-r>h//gc<left><left><left>
+
+" Search & replace word under cursor with dot repeat
+nnoremap cn *``cgn
+nnoremap cN *``cgN
 
 " Search visual selection
 vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR>
@@ -274,6 +277,10 @@ vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR>
 
 " Remove search highlighting
 nnoremap <leader><Esc> <Cmd>nohlsearch<CR>
+
+" Keep cursor centered when searching
+nnoremap n nzzzv
+nnoremap N Nzzzv
 
 "   Terminal keymaps
 " --------------------
