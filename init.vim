@@ -98,6 +98,7 @@ call plug#end()
 " set shell=/bin/bash     " Start with bash
 " set shell=/usr/local/bin/fish     " Start with fish
 set updatetime=500      " Set shorter updatetime for many commands
+set synmaxcol=150       " Stop syntax highlighting after this column, for performance
 set hidden              " Set buffers to hide when changing between them (will silence save error)
 set ignorecase          " Ignore case when searching
 set smartcase           " Use case-sensitive only search when Captial Letters are used.
