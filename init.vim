@@ -26,12 +26,15 @@ Plug 'ggandor/lightspeed.nvim'           " Jump around based on labels
 Plug 'svermeulen/vim-cutlass'            " use the black hole register for: c, cc, C, s, S, d, dd, D, x, X
 " Plug 'junegunn/vim-easy-align'           " Align text
 Plug 'vim-utils/vim-line'                " Add 'inner line' text object: _  v_  y_  d_
+Plug 'ixru/nvim-markdown'                " Improvements for markdown files
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
 " -- Tree explorers
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-git-status.vim'
 Plug 'lambdalisue/fern-hijack.vim'       " Use as default tree viewer
 Plug 'yuki-yano/fern-preview.vim'        " Preview files
+Plug 'hrsh7th/fern-mapping-collapse-or-leave.vim' " Adds default mapping: nmap <buffer><silent> h <Plug>(fern-action-collapse-or-leave)
 " Plug 'cocopon/vaffle.vim'                " Easy tree explorer
 " Plug 'kevinhwang91/rnvimr'               " Open ranger in floating window
 
@@ -601,7 +604,7 @@ let g:startify_files_number = 5
 "   Fern settings & keys
 " -----------------------------
 map <leader>E <Cmd>Fern .<CR>
-map <leader>e <Cmd>Fern . -reveal=%<CR>
+map <leader>e <Cmd>Fern %:h<CR>
 " let g:fern#disable_default_mappings = 1
 
 function! FernInit() abort
