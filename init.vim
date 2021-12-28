@@ -383,9 +383,11 @@ require('neoclip').setup({
     --    set_reg = false,
     -- },
     keys = {
-        i = {
-            paste = '<c-l>',
-            paste_behind = '<c-h>',
+        telescope = {
+            i = {
+                paste = '<c-l>',
+                paste_behind = '<c-h>',
+            },
         },
     },
 })
