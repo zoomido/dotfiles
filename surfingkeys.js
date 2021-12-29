@@ -5,71 +5,67 @@ settings.tabsThreshold = 2;
 settings.focusFirstCandidate = true
 settings.modeAfterYank = "Normal"
 //Hints.numericHints=true;
-Hints.characters = 'asdqwehl';
+api.Hints.characters = 'asdqwehl';
 
 // Turn off emoji autocompletion when typing colon
-iunmap(":");
+api.iunmap(":");
 
 
 // Custom mappings
 // ---------------
 
 // Space to jump down
-map('<Space>', 'd');
+api.map('<Space>', 'd');
 
 // Make $ work for visual selection
-vmap('<Alt-$>', '$');
+api.vmapkey('<Alt-$>', '$');
 // Make 0 and $ scroll left and right
-unmap('0');
-map('0', 'h');
-map('<Alt-$>', 'l');
-map('<Ctrl-h>', 'h');
-map('<Ctrl-l>', 'l');
+api.unmap('0');
+api.map('0', 'h');
+api.map('<Alt-$>', 'l');
+api.map('<Ctrl-h>', 'h');
+api.map('<Ctrl-l>', 'l');
 
 // Open bookmark search
-map('ob', 'b');
+api.map('ob', 'b');
 
 // Open link in background tab
 unmap('b');
-map('bf', 'gf');
+api.map('bf', 'gf');
 // Capital F for opening in a background tab
-map('F', 'gf');
+api.map('F', 'gf');
 
 // Go to previous tab
-map('p', '<Ctrl-6>');
+api.map('p', '<Ctrl-6>');
 
 // Change tab next and previous
-map('h', 'E');
-map('l', 'R');
+api.map('h', 'E');
+api.map('l', 'R');
 
 // Change history forward and back
-map('H', 'S');
-map('L', 'D');
+api.map('H', 'S');
+api.map('L', 'D');
 
 
 // Omnibar mappings
-cmap('<Ctrl-j>', '<Tab>');
-cmap('<Ctrl-k>', '<Shift-Tab>');
+api.cmap('<Ctrl-j>', '<Tab>');
+api.cmap('<Ctrl-k>', '<Shift-Tab>');
 
 
 // Examples
 // an example to replace `T` with `gt`, click `Default mappings` to see how `T` works.
-//map('gt', 'T');
+//api.map('gt', 'T');
 // an example to remove mapkey `Ctrl-i`
-//unmap('<Ctrl-i>');
-// an example to create a new mapping `ctrl-y`
-//mapkey('<Ctrl-y>', 'Show me the money', function() {
-//    Front.showPopup('a well-known phrase uttered by characters in the 1996 film Jerry Maguire (Escape to close).');
-//});
+//api.unmap('<Ctrl-i>');
 
 
 // Appearance
 // -------------
 
 // Change link hints
-Hints.style('font-size: 12px; font-family: Input Sans Condensed, Charcoal, sans-serif;');
+api.Hints.style('font-size: 12px; font-family: Input Sans Condensed, Charcoal, sans-serif;');
 // Change text hints
-Hints.style('font-size: 10px; font-family: Input Sans Condensed, Charcoal, sans-serif;', 'text');
+api.Hints.style('font-size: 10px; font-family: Input Sans Condensed, Charcoal, sans-serif;', 'text');
 
 // set theme
 settings.theme = `
@@ -112,4 +108,3 @@ settings.theme = `
     font-size: 26px;
 }
 `;
-// click `Save` button to make above settings to take effect.
