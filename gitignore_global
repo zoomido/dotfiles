@@ -3,4 +3,5 @@ dadbods.vim
 jira.vim
 project.vim
 devbox.zsh
+deploy.sh
 .env
