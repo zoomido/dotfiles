@@ -30,7 +30,7 @@ api.map('<Ctrl-l>', 'l');
 api.map('ob', 'b');
 
 // Open link in background tab
-unmap('b');
+api.unmap('b');
 api.map('bf', 'gf');
 // Capital F for opening in a background tab
 api.map('F', 'gf');
