@@ -49,8 +49,9 @@ if status --is-interactive
     abbr --add --global gtb  "git switch master && git pull --rebase && git switch -c"
     abbr --add --global lg   find . -name .git -type d -prune -exec echo {} \\\; -exec git branch --show-current \\\;
     # Fzf
-#    abbr --add --global dot  'nvim (find ~/.dotfiles -path ~/.dotfiles/.git -prune -o -print -type f | fzf)' # Search in .dotfiles folder
-    abbr --add --global ff   'nvim (fzf)' # Search with fzf and open in nvim
+    #abbr --add --global dot  'nvim (find ~/.dotfiles -path ~/.dotfiles/.git -prune -o -print -type f | fzf)' # Search in .dotfiles folder
+    #abbr --add --global ff   'nvim (fzf)' # Search with fzf and open in nvim
+    abbr --add --global cdf   'cd (fd --type directory | fzf)'
 end
 
 function hej
