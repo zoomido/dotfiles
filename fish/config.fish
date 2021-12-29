@@ -40,7 +40,6 @@ if status --is-interactive
     abbr --add --global la   exa -a
     abbr --add --global ll   exa -l
     abbr --add --global lla  exa -la
-    abbr --add --global lg   find . -name .git -type d -prune
     # Git
     abbr --add --global gs   git status
     abbr --add --global gss  git switch
@@ -48,6 +47,7 @@ if status --is-interactive
     abbr --add --global gpr  git pull --rebase
     abbr --add --global gp   git push
     abbr --add --global gtb  "git switch master && git pull --rebase && git switch -c"
+    abbr --add --global lg   find . -name .git -type d -prune -exec echo {} \\\; -exec git branch --show-current \\\;
     # Fzf
 #    abbr --add --global dot  'nvim (find ~/.dotfiles -path ~/.dotfiles/.git -prune -o -print -type f | fzf)' # Search in .dotfiles folder
     abbr --add --global ff   'nvim (fzf)' # Search with fzf and open in nvim
