@@ -43,18 +43,18 @@ end)
 
 -- Start/switch/hide browser
 hs.hotkey.bind({"cmd"}, "§", function()
-    local app = hs.application.find('vivaldi')
+    local app = hs.application.find('brave')
     if ( app and app:isFrontmost() ) then
         app:hide()
     else
-        hs.application.open("Vivaldi.app")
+        hs.application.open("Brave Browser.app")
     end
 end)
 -- Start/switch to browser and reload
 hs.hotkey.bind({"cmd", "shift"}, "return", function()
     -- hs.eventtap.keyStrokes(":w")
     -- hs.eventtap.keyStroke({}, "return")
-    hs.application.open("Vivaldi.app")
+    hs.application.open("Brave Browser.app")
     hs.eventtap.keyStroke({"cmd"}, "3")
     hs.timer.doAfter(0.1, function()
         hs.eventtap.keyStroke({"cmd"}, "r")
