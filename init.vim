@@ -10,6 +10,7 @@ Plug 'antoinemadec/FixCursorHold.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update. Dep for telescope
 Plug 'nvim-lua/plenary.nvim'             " Dependency for telescope
 Plug 'nvim-telescope/telescope.nvim'     " Search everything
+Plug 'nvim-telescope/telescope-file-browser.nvim' "File browser plugin
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-telescope/telescope-live-grep-raw.nvim' " Raw search with rg
 Plug 'AckslD/nvim-neoclip.lua'           " Clipboard manager
@@ -391,6 +392,7 @@ require('neoclip').setup({
         },
     },
 })
+require("telescope").load_extension "file_browser"
 require('telescope').load_extension('neoclip')
 
 -- Custom functions
@@ -402,7 +404,7 @@ project_files = function()
 end
 
 function notes_browse()
-  require("telescope.builtin").file_browser {
+  require("telescope").extensions.file_browser.file_browser {
     prompt_title = " Browse Notes",
     prompt_prefix = " ﮷ ",
     cwd = "~/notes/",
@@ -447,7 +449,7 @@ nnoremap <leader>G <cmd>lua require('telescope').extensions.live_grep_raw.live_g
 " Grep token under cursor and search for it
 " nnoremap <leader>gs <cmd>lua require('telescope.builtin').grep_string()<cr>
 nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>B <cmd>lua require('telescope.builtin').file_browser()<cr>
+nnoremap <leader>B <cmd>lua require("telescope").extensions.file_browser.file_browser()<cr>
 nnoremap <leader>P <cmd>lua require('telescope.builtin').registers()<cr>
 nnoremap <leader>p <cmd>lua require('telescope').extensions.neoclip.default()<cr>
 " nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
