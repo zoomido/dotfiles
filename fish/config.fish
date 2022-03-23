@@ -46,8 +46,8 @@ if status --is-interactive
     abbr --add --global gfa  git fetch --all
     abbr --add --global gpr  git pull --rebase
     abbr --add --global gp   git push
-    abbr --add --global gtb  "git switch master && git pull --rebase && git switch -c"
-    abbr --add --global lg   find . -name .git -type d -prune -exec echo {} \\\; -exec git branch --show-current \\\;
+    #abbr --add --global gtb  "git switch master && git pull --rebase && git switch -c"
+    abbr --add --global lg   find . -type d -name \'.git\' -exec echo {} \\\; -exec git -C {} branch --show-current \\\;
     # Fzf
     #abbr --add --global dot  'nvim (find ~/.dotfiles -path ~/.dotfiles/.git -prune -o -print -type f | fzf)' # Search in .dotfiles folder
     #abbr --add --global ff   'nvim (fzf)' # Search with fzf and open in nvim
@@ -56,19 +56,20 @@ end
 
 function hej
     echo '
+    --: cd -
     l: exa (filelist)
     la: exa -a (filelist + hidden)
     ll: exa -l (detailed filelist)
     lla: exa -la (detailed filelist + hidden)
     lg: list git repos
+    cdf: find directory with fzf
+
     gs: git status
     gss: git switch
     gfa: git fetch --all
     gpr: git pull --rebase
     gp: git push
-    gtb: Git new Theme elon Branch
-    dot: search in dot folder and open in nvim
-    ff: search with fzf and open in nvim
+
     Ctrl+r: Fzf history search
     '
 end

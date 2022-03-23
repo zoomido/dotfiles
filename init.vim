@@ -12,7 +12,7 @@ Plug 'nvim-lua/plenary.nvim'             " Dependency for telescope
 Plug 'nvim-telescope/telescope.nvim'     " Search everything
 Plug 'nvim-telescope/telescope-file-browser.nvim' "File browser plugin
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-Plug 'nvim-telescope/telescope-live-grep-raw.nvim' " Raw search with rg
+Plug 'nvim-telescope/telescope.nvim'     " Raw search with rg
 Plug 'AckslD/nvim-neoclip.lua'           " Clipboard manager
 " Plug 'junegunn/fzf', {
     " \ 'do': './install --all' }        " Install fzf globally with vim-plug
@@ -118,6 +118,12 @@ set undofile            " Set undofile to autosave all changes in an external fi
 set inccommand=nosplit  " Neovim only. inccommand shows you in realtime what changes your ex command should make. Right now it only supports s.
 set completeopt=menu,menuone,noselect " Set completeopt to have a better completion experience
 autocmd FileType * setlocal formatoptions-=cro   " Dont add a comment on newline
+
+" Make - (dash) part of word in insert mode for better auto completion
+augroup css_dash_autocompletion
+    autocmd FileType scss,css autocmd! css_dash_autocompletion InsertEnter <buffer> set isk+=-
+    autocmd FileType scss,css autocmd css_dash_autocompletion InsertLeave <buffer> set isk-=-
+augroup END
 
 " Triger `autoread` when files changes on disk
 " https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim/383044#383044
