@@ -276,7 +276,7 @@ nnoremap <leader>r :%s/\<<C-r><C-w>\>//c<Left><Left>
 vnoremap <leader>r :s/\<<C-r><C-w>\>//c<Left><Left>
 
 " Replace visual selection
-vnoremap <leader>r "hy:%s/<C-r>h//gc<left><left><left>
+vnoremap <leader>r "hy:%s/<C-r>h//c<left><left><left>
 
 " Search & replace word under cursor with dot repeat
 nnoremap cn *``cgn
