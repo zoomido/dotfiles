@@ -12,7 +12,7 @@ Plug 'nvim-lua/plenary.nvim'             " Dependency for telescope
 Plug 'nvim-telescope/telescope.nvim'     " Search everything
 Plug 'nvim-telescope/telescope-file-browser.nvim' "File browser plugin
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-Plug 'nvim-telescope/telescope.nvim'     " Raw search with rg
+Plug 'nvim-telescope/telescope-live-grep-args.nvim' " Raw search with rg
 Plug 'AckslD/nvim-neoclip.lua'           " Clipboard manager
 " Plug 'junegunn/fzf', {
     " \ 'do': './install --all' }        " Install fzf globally with vim-plug
