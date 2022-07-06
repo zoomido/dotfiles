@@ -923,9 +923,9 @@ function! ReadOnly()
 endfunction
 
 function! GitInfo()
-  let git = fugitive#head()
+  let git = FugitiveHead()
   if git != ''
-    return ' '.fugitive#head()
+    return ' '.FugitiveHead()
   else
     return ''
 endfunction
