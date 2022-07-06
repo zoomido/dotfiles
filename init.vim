@@ -20,7 +20,7 @@ Plug 'AckslD/nvim-neoclip.lua'           " Clipboard manager
 " Plug 'yuki-ycino/fzf-preview.vim'        " Interface for fzf
 " Plug 'Yggdroot/LeaderF',               " LeaderF interactive fuzzy finder
                                          " \ { 'do': './install.sh' }
-Plug 'kassio/neoterm'                    " Wrapper to reuse same terminal
+Plug 'akinsho/toggleterm.nvim'           " Wrapper for neovim terminal
 Plug 'mhinz/vim-startify'                " Start screen for vim
 Plug 'tpope/vim-surround'                " Vim surround command 's'
 Plug 'ggandor/lightspeed.nvim'           " Jump around based on labels
@@ -295,25 +295,9 @@ nnoremap N Nzzzv
 
 "   Terminal keymaps
 " --------------------
-"   <C-h>   - Change to left window
-"   <C-j>   - Change to bottom window
-"   <C-k>   - Change to top window
-"   <C-l>   - Change to right window
-"   <Esc>   - Escape to exit insert mode in terminal
-"   Above mappings don't apply to fzf buffer
 "   Fzf buffer
 "   <C-l>   - Accept current selection
-" tnoremap <expr> <C-h> (&filetype == "fzf") ? "<C-h>" : "<C-\><C-n><C-w>h"
-" tnoremap <expr> <C-j> (&filetype == "fzf") ? "<C-j>" : "<C-\><C-n><C-w>j"
-" tnoremap <expr> <C-k> (&filetype == "fzf") ? "<C-k>" : "<C-\><C-n><C-w>k"
-" tnoremap <expr> <C-l> (&filetype == "fzf") ? "<C-l>" : "<C-\><C-n><C-w>l"
-" tnoremap <expr> <Esc> (&filetype == "fzf") ? "<Esc>" : "<C-\><C-n>"
-" autocmd FileType fzf tnoremap <buffer> <C-l> <CR>
-" " autocmd TermOpen * tnoremap <buffer> <Esc> <c-\><c-n>     " Use escape to exit insert mode in terminal
-" " autocmd FileType fzf tunmap <buffer> <Esc>                " Unmap escape in fzf buffers
-" " tnoremap <silent> <leader>t <C-\><C-n>:Ttoggle<CR>        " Will mess with <Space> in fzf because it opens in a terminal buffer
-nnoremap <silent> <leader>t :vertical botright Ttoggle<CR>
-nnoremap <silent> <leader>T :belowright Tnew<CR>
+autocmd TermOpen * tnoremap <buffer> <Esc> <c-\><c-n>     " Use escape to exit insert mode in terminal
 
 
 
@@ -400,6 +384,17 @@ require('neoclip').setup({
 })
 require("telescope").load_extension "file_browser"
 require('telescope').load_extension('neoclip')
+require("toggleterm").setup{
+    open_mapping = [[<leader>t]],
+    direction = 'vertical',
+    size = function(term)
+        if term.direction == "horizontal" then
+            return 15
+        elseif term.direction == "vertical" then
+            return vim.o.columns * 0.4
+        end
+    end
+}
 
 -- Custom functions
 
@@ -463,12 +458,6 @@ nnoremap <leader>j <cmd>lua require('telescope.builtin').jumplist()<cr>
 nnoremap <leader>n <cmd>lua notes_browse()<cr>
 nnoremap <leader>ng <cmd>lua notes_grep()<cr>
 
-
-
-"   Neoterm settings
-" --------------------
-let g:neoterm_autoinsert = 1                    " Autostart new terminal in insert mode
-let g:neoterm_default_mod = 'vertical botright' " Set default terminal location
 
 
 "   FZF settings & keys
