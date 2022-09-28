@@ -26,7 +26,6 @@ Plug 'svermeulen/vim-cutlass'            " use the black hole register for: c, c
 Plug 'vim-utils/vim-line'                " Add 'inner line' text object: _  v_  y_  d_
 Plug 'ixru/nvim-markdown'                " Improvements for markdown files
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
-Plug 'kqito/vim-easy-replace'            " Easier replace (also visual selection) <leader>ra & <leader>rc
 
 " -- Tree explorers
 Plug 'luukvbaal/nnn.nvim'
