@@ -62,13 +62,13 @@ hs.hotkey.bind({"cmd", "shift"}, "return", function()
 end)
 
 
--- Start/switch/hide Notion
+-- Start/switch/hide Obsidian
 hs.hotkey.bind({"shift"}, "§", function()
-    local app = hs.application.find('notion')
+    local app = hs.application.find('Obsidian')
     if ( app and app:isFrontmost() ) then
         app:hide()
     else
-        hs.application.open("Notion.app")
+        hs.application.open("Obsidian.app")
     end
 end)
 
