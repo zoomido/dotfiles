@@ -3,9 +3,6 @@
 " ------------------------------------------------------------------------------
 
 call plug#begin('~/.vim/neoplugged')
-" -- Bugfixes (fixes bug with fern)
-Plug 'antoinemadec/FixCursorHold.nvim'
-
 " -- Generic Tools
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update. Dep for telescope
 Plug 'nvim-lua/plenary.nvim'             " Dependency for telescope
@@ -20,7 +17,7 @@ Plug 'AckslD/nvim-neoclip.lua'           " Clipboard manager
 " Plug 'yuki-ycino/fzf-preview.vim'        " Interface for fzf
 " Plug 'Yggdroot/LeaderF',               " LeaderF interactive fuzzy finder
                                          " \ { 'do': './install.sh' }
-Plug 'akinsho/toggleterm.nvim'           " Wrapper for neovim terminal
+" Plug 'akinsho/toggleterm.nvim'           " Wrapper for neovim terminal
 Plug 'mhinz/vim-startify'                " Start screen for vim
 Plug 'tpope/vim-surround'                " Vim surround command 's'
 Plug 'ggandor/lightspeed.nvim'           " Jump around based on labels
@@ -29,13 +26,15 @@ Plug 'svermeulen/vim-cutlass'            " use the black hole register for: c, c
 Plug 'vim-utils/vim-line'                " Add 'inner line' text object: _  v_  y_  d_
 Plug 'ixru/nvim-markdown'                " Improvements for markdown files
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plug 'kqito/vim-easy-replace'            " Easier replace (also visual selection) <leader>ra & <leader>rc
 
 " -- Tree explorers
-Plug 'lambdalisue/fern.vim'
-Plug 'lambdalisue/fern-git-status.vim'
-Plug 'lambdalisue/fern-hijack.vim'       " Use as default tree viewer
-Plug 'yuki-yano/fern-preview.vim'        " Preview files
-Plug 'hrsh7th/fern-mapping-collapse-or-leave.vim' " Adds default mapping: nmap <buffer><silent> h <Plug>(fern-action-collapse-or-leave)
+Plug 'luukvbaal/nnn.nvim'
+" Plug 'lambdalisue/fern.vim'
+" Plug 'lambdalisue/fern-git-status.vim'
+" Plug 'lambdalisue/fern-hijack.vim'       " Use as default tree viewer
+" Plug 'yuki-yano/fern-preview.vim'        " Preview files
+" Plug 'hrsh7th/fern-mapping-collapse-or-leave.vim' " Adds default mapping: nmap <buffer><silent> h <Plug>(fern-action-collapse-or-leave)
 " Plug 'cocopon/vaffle.vim'                " Easy tree explorer
 " Plug 'kevinhwang91/rnvimr'               " Open ranger in floating window
 
@@ -58,14 +57,14 @@ Plug 'AndrewRadev/tagalong.vim'     " Edit HTML tags together automatically
 Plug 'Yggdroot/indentLine'        " Show indent markers
 
 " Tabnine AI autocompletion
-Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
+" Plug 'neovim/nvim-lspconfig'
+" Plug 'hrsh7th/cmp-nvim-lsp'
+" Plug 'hrsh7th/cmp-buffer'
 " Plug 'hrsh7th/cmp-path'
 Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 Plug 'hrsh7th/nvim-cmp'
-Plug 'dcampos/nvim-snippy'              " Snippet engine in Lua for neovim
-Plug 'dcampos/cmp-snippy'               " Plugin to use snippy with cmp
+" Plug 'dcampos/nvim-snippy'              " Snippet engine in Lua for neovim
+" Plug 'dcampos/cmp-snippy'               " Plugin to use snippy with cmp
 
 " -- Visual improvements
 Plug 'pacha/vem-tabline'                " Tabline plugin to show buffers
@@ -275,8 +274,10 @@ nnoremap } ]}
 nnoremap <leader>r :%s/\<<C-r><C-w>\>//c<Left><Left>
 vnoremap <leader>r :s/\<<C-r><C-w>\>//c<Left><Left>
 
-" Replace visual selection
+" Replace the whole visual selection
 vnoremap <leader>r "hy:%s/<C-r>h//c<left><left><left>
+" Replace inside visual selection
+vnoremap :s :s/\%V\%V/<Left><Left><Left><Left>
 
 " Search & replace word under cursor with dot repeat
 nnoremap cn *``cgn
@@ -305,12 +306,16 @@ autocmd TermOpen * tnoremap <buffer> <Esc> <c-\><c-n>     " Use escape to exit i
 "   Plugin settings
 " ------------------------------------------------------------------------------
 
-" ### Lua plugin setup
+"   Generic Lua plugin setup
+" ---------------------------
 lua <<EOF
 require('gitsigns').setup()
+require("nnn").setup()
 EOF
 
-" ### Generic Tools
+" NNN keymaps
+nnoremap <leader>e <cmd>NnnPicker %:p:h<CR>
+nnoremap <leader>E <cmd>NnnPicker<CR>
 
 "   Telescope settings
 " ---------------------
@@ -362,10 +367,26 @@ require('telescope').setup{
         },
     },
     extensions = {
+        file_browser = {
+            theme = "ivy",
+            -- disables netrw and use telescope-file-browser in its place
+            hijack_netrw = true,
+            hidden = true,
+            grouped = true,
+            respect_gitignore = false,
+            mappings = {
+                ["i"] = {
+                -- your custom insert mode mappings
+                },
+                ["n"] = {
+                -- your custom normal mode mappings
+                }
+            }
+        }
     }
 }
 
--- Plugins
+-- Telescope Plugins
 
 require('telescope').load_extension('fzf')
 require('neoclip').setup({
@@ -382,19 +403,19 @@ require('neoclip').setup({
         },
     },
 })
-require("telescope").load_extension "file_browser"
+require("telescope").load_extension('file_browser')
 require('telescope').load_extension('neoclip')
-require("toggleterm").setup{
-    open_mapping = [[<leader>t]],
-    direction = 'vertical',
-    size = function(term)
-        if term.direction == "horizontal" then
-            return 15
-        elseif term.direction == "vertical" then
-            return vim.o.columns * 0.4
-        end
-    end
-}
+-- require("toggleterm").setup{
+--     open_mapping = [[<leader>t]],
+--     direction = 'vertical',
+--     size = function(term)
+--         if term.direction == "horizontal" then
+--             return 15
+--         elseif term.direction == "vertical" then
+--             return vim.o.columns * 0.4
+--         end
+--     end
+-- }
 
 -- Custom functions
 
@@ -446,7 +467,7 @@ nnoremap <leader>g <cmd>lua require 'telescope.builtin'.grep_string({disable_coo
 " Regular grep - no fuzzy find (but fast?)
 " nnoremap <leader>G <cmd>lua require('telescope.builtin').live_grep()<cr>
 " Regular grep passing whole prompt to search engine (allows for rg filters like: -tphp)
-nnoremap <leader>G <cmd>lua require('telescope').extensions.live_grep_raw.live_grep_raw()<cr>
+nnoremap <leader>G <cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<cr>
 " Grep token under cursor and search for it
 " nnoremap <leader>gs <cmd>lua require('telescope.builtin').grep_string()<cr>
 nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
@@ -602,44 +623,44 @@ let g:startify_files_number = 5
 
 "   Fern settings & keys
 " -----------------------------
-map <leader>E <Cmd>Fern .<CR>
-map <leader>e <Cmd>Fern %:h<CR>
+" map <leader>E <Cmd>Fern .<CR>
+" map <leader>e <Cmd>Fern %:h<CR>
 " let g:fern#disable_default_mappings = 1
 
-function! FernInit() abort
-  nmap <buffer><expr>
-        \ <Plug>(fern-my-open-expand-collapse)
-        \ fern#smart#leaf(
-        \   "\<Plug>(fern-action-open:select)",
-        \   "\<Plug>(fern-action-expand)",
-        \   "\<Plug>(fern-action-collapse)",
-        \ )
-  " nmap <buffer> <CR> <Plug>(fern-my-open-expand-collapse)
-  nmap <buffer> <Tab> <Plug>(fern-action-mark:toggle)j
-  nmap <buffer> i <Plug>(fern-action-new-path)
-  nmap <buffer> d <Plug>(fern-action-remove)
-  nmap <buffer> y <Plug>(fern-action-copy)
-  nmap <buffer> Y <Plug>(fern-action-clipboard-copy)
-  nmap <buffer> m <Plug>(fern-action-move)
-  nmap <buffer> r <Plug>(fern-action-rename)
-  nmap <buffer> s <Plug>(fern-action-open:split)
-  nmap <buffer> v <Plug>(fern-action-open:vsplit)
-  nmap <buffer> R <Plug>(fern-action-reload)
-  " nmap <buffer> <nowait> d <Plug>(fern-action-hidden:toggle)
-  " nmap <buffer> <nowait> < <Plug>(fern-action-leave)
-  nmap <buffer> <nowait> <C-l> <Plug>(fern-action-enter)
-  nmap <silent> <buffer> p     <Plug>(fern-action-preview:toggle)
-  " nmap <silent> <buffer> <C-p> <Plug>(fern-action-preview:auto:toggle)
-  nmap <silent> <buffer> <C-n> <Plug>(fern-action-preview:scroll:down:half)
-  nmap <silent> <buffer> <C-p> <Plug>(fern-action-preview:scroll:up:half)
-  " nmap <silent> <buffer> <expr> <Plug>(fern-quit-or-close-preview) fern_preview#smart_preview("\<Plug>(fern-action-preview:close)", ":q\<CR>")
-  " nmap <silent> <buffer> q <Plug>(fern-quit-or-close-preview)
-endfunction
+" function! FernInit() abort
+"   nmap <buffer><expr>
+"         \ <Plug>(fern-my-open-expand-collapse)
+"         \ fern#smart#leaf(
+"         \   "\<Plug>(fern-action-open:select)",
+"         \   "\<Plug>(fern-action-expand)",
+"         \   "\<Plug>(fern-action-collapse)",
+"         \ )
+"   " nmap <buffer> <CR> <Plug>(fern-my-open-expand-collapse)
+"   nmap <buffer> <Tab> <Plug>(fern-action-mark:toggle)j
+"   nmap <buffer> i <Plug>(fern-action-new-path)
+"   nmap <buffer> d <Plug>(fern-action-remove)
+"   nmap <buffer> y <Plug>(fern-action-copy)
+"   nmap <buffer> Y <Plug>(fern-action-clipboard-copy)
+"   nmap <buffer> m <Plug>(fern-action-move)
+"   nmap <buffer> r <Plug>(fern-action-rename)
+"   nmap <buffer> s <Plug>(fern-action-open:split)
+"   nmap <buffer> v <Plug>(fern-action-open:vsplit)
+"   nmap <buffer> R <Plug>(fern-action-reload)
+"   " nmap <buffer> <nowait> d <Plug>(fern-action-hidden:toggle)
+"   " nmap <buffer> <nowait> < <Plug>(fern-action-leave)
+"   nmap <buffer> <nowait> <C-l> <Plug>(fern-action-enter)
+"   nmap <silent> <buffer> p     <Plug>(fern-action-preview:toggle)
+"   " nmap <silent> <buffer> <C-p> <Plug>(fern-action-preview:auto:toggle)
+"   nmap <silent> <buffer> <C-n> <Plug>(fern-action-preview:scroll:down:half)
+"   nmap <silent> <buffer> <C-p> <Plug>(fern-action-preview:scroll:up:half)
+"   " nmap <silent> <buffer> <expr> <Plug>(fern-quit-or-close-preview) fern_preview#smart_preview("\<Plug>(fern-action-preview:close)", ":q\<CR>")
+"   " nmap <silent> <buffer> q <Plug>(fern-quit-or-close-preview)
+" endfunction
 
-augroup FernEvents
-  autocmd!
-  autocmd FileType fern call FernInit()
-augroup END
+" augroup FernEvents
+"   autocmd!
+"   autocmd FileType fern call FernInit()
+" augroup END
 
 
 "   Vim Vaffle settings & keys
