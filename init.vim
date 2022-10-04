@@ -17,11 +17,11 @@ Plug 'AckslD/nvim-neoclip.lua'           " Clipboard manager
 " Plug 'yuki-ycino/fzf-preview.vim'        " Interface for fzf
 " Plug 'Yggdroot/LeaderF',               " LeaderF interactive fuzzy finder
                                          " \ { 'do': './install.sh' }
-" Plug 'akinsho/toggleterm.nvim'           " Wrapper for neovim terminal
+Plug 'akinsho/toggleterm.nvim'           " Wrapper for neovim terminal
 Plug 'mhinz/vim-startify'                " Start screen for vim
 Plug 'tpope/vim-surround'                " Vim surround command 's'
+Plug 'svermeulen/vim-cutlass'            " use the black hole register for: c, cc, C, s, S, d, dd, D, x, X (manually removed s & S from source to not conflict with lightspeed)
 Plug 'ggandor/lightspeed.nvim'           " Jump around based on labels
-Plug 'svermeulen/vim-cutlass'            " use the black hole register for: c, cc, C, s, S, d, dd, D, x, X
 " Plug 'junegunn/vim-easy-align'           " Align text
 Plug 'vim-utils/vim-line'                " Add 'inner line' text object: _  v_  y_  d_
 Plug 'ixru/nvim-markdown'                " Improvements for markdown files
@@ -404,17 +404,19 @@ require('neoclip').setup({
 })
 require("telescope").load_extension('file_browser')
 require('telescope').load_extension('neoclip')
--- require("toggleterm").setup{
---     open_mapping = [[<leader>t]],
---     direction = 'vertical',
---     size = function(term)
---         if term.direction == "horizontal" then
---             return 15
---         elseif term.direction == "vertical" then
---             return vim.o.columns * 0.4
---         end
---     end
--- }
+require("toggleterm").setup{
+    open_mapping = [[<leader>t]],
+    insert_mappings = false, -- whether or not the open mapping applies in insert mode
+    terminal_mappings = false, -- whether or not the open mapping applies in the opened terminals
+    direction = 'vertical',
+    size = function(term)
+        if term.direction == "horizontal" then
+            return 15
+        elseif term.direction == "vertical" then
+            return vim.o.columns * 0.4
+        end
+    end
+}
 
 -- Custom functions
 
