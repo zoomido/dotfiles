@@ -98,11 +98,19 @@ set -x FZF_DEFAULT_OPTS "--info 'inline' --reverse --color 'border:#ffff00,info:
 
 
 #
+# Configs
+# -------
+
 # Source private configs if exists
-# --------------------------------
 #if test -e ~/dotfiles-private/private.fish
 #    source ~/dotfiles-private/private.fish
 #end
+
+# Source NNN config if nnn exists
+if command -v nnn &> /dev/null
+    source $HOME/.config/fish/nnn.fish
+    echo "Hello"
+end
 
 
 
