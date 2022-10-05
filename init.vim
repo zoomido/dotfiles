@@ -309,12 +309,12 @@ autocmd TermOpen * tnoremap <buffer> <Esc> <c-\><c-n>     " Use escape to exit i
 " ---------------------------
 lua <<EOF
 require('gitsigns').setup()
-require("nnn").setup()
+-- require("nnn").setup()
 EOF
 
 " NNN keymaps
-nnoremap <leader>e <cmd>NnnPicker %:p:h<CR>
-nnoremap <leader>E <cmd>NnnPicker<CR>
+" nnoremap <leader>e <cmd>NnnPicker %:p:h<CR>
+" nnoremap <leader>E <cmd>NnnPicker<CR>
 
 "   Telescope settings
 " ---------------------
@@ -367,7 +367,7 @@ require('telescope').setup{
     },
     extensions = {
         file_browser = {
-            theme = "ivy",
+            -- theme = "ivy",
             -- disables netrw and use telescope-file-browser in its place
             hijack_netrw = true,
             hidden = true,
@@ -388,6 +388,7 @@ require('telescope').setup{
 -- Telescope Plugins
 
 require('telescope').load_extension('fzf')
+require("telescope").load_extension('file_browser')
 require('neoclip').setup({
     -- default_register = '"',
     -- on_paste = {
@@ -402,7 +403,6 @@ require('neoclip').setup({
         },
     },
 })
-require("telescope").load_extension('file_browser')
 require('telescope').load_extension('neoclip')
 require("toggleterm").setup{
     open_mapping = [[<leader>t]],
@@ -469,10 +469,10 @@ nnoremap <leader>g <cmd>lua require 'telescope.builtin'.grep_string({disable_coo
 " nnoremap <leader>G <cmd>lua require('telescope.builtin').live_grep()<cr>
 " Regular grep passing whole prompt to search engine (allows for rg filters like: -tphp)
 nnoremap <leader>G <cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<cr>
-" Grep token under cursor and search for it
-" nnoremap <leader>gs <cmd>lua require('telescope.builtin').grep_string()<cr>
+nnoremap <leader>e <cmd>lua require("telescope").extensions.file_browser.file_browser({path = "%:p:h"})<cr>
+nnoremap <leader>E <cmd>lua require("telescope").extensions.file_browser.file_browser()<cr>
 nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>B <cmd>lua require("telescope").extensions.file_browser.file_browser()<cr>
+nnoremap <leader>B <cmd>lua require('telescope.builtin').oldfiles()<cr>
 nnoremap <leader>P <cmd>lua require('telescope.builtin').registers()<cr>
 nnoremap <leader>p <cmd>lua require('telescope').extensions.neoclip.default()<cr>
 " nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>

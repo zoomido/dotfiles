@@ -109,7 +109,6 @@ set -x FZF_DEFAULT_OPTS "--info 'inline' --reverse --color 'border:#ffff00,info:
 # Source NNN config if nnn exists
 if command -v nnn &> /dev/null
     source $HOME/.config/fish/nnn.fish
-    echo "Hello"
 end
 
 
