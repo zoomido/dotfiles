@@ -39,6 +39,15 @@ hs.hotkey.bind({}, "§", function()
         hs.application.open("kitty.app")
     end
 end)
+-- Start/switch/hide Kitty
+-- hs.hotkey.bind({}, "§", function()
+--     local app = hs.application.find('Warp')
+--     if ( app and app:isFrontmost() ) then
+--         app:hide()
+--     else
+--         hs.application.open("warp.app")
+--     end
+-- end)
 
 
 -- Start/switch/hide browser

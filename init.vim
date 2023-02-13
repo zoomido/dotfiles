@@ -4,88 +4,89 @@
 
 call plug#begin('~/.vim/neoplugged')
 " -- Generic Tools
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update. Dep for telescope
+" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update. Dep for telescope
 Plug 'nvim-lua/plenary.nvim'             " Dependency for telescope
 Plug 'nvim-telescope/telescope.nvim'     " Search everything
 Plug 'nvim-telescope/telescope-file-browser.nvim' "File browser plugin
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-telescope/telescope-live-grep-args.nvim' " Raw search with rg
 Plug 'AckslD/nvim-neoclip.lua'           " Clipboard manager
-" Plug 'junegunn/fzf', {
+
+"" Plug 'junegunn/fzf', {
     " \ 'do': './install --all' }        " Install fzf globally with vim-plug
-" Plug 'junegunn/fzf.vim'                  " Fzf <3 Vim
-" Plug 'yuki-ycino/fzf-preview.vim'        " Interface for fzf
-" Plug 'Yggdroot/LeaderF',               " LeaderF interactive fuzzy finder
+"" Plug 'junegunn/fzf.vim'                  " Fzf <3 Vim
+"" Plug 'yuki-ycino/fzf-preview.vim'        " Interface for fzf
+"" Plug 'Yggdroot/LeaderF',               " LeaderF interactive fuzzy finder
                                          " \ { 'do': './install.sh' }
 Plug 'akinsho/toggleterm.nvim'           " Wrapper for neovim terminal
 Plug 'mhinz/vim-startify'                " Start screen for vim
 Plug 'tpope/vim-surround'                " Vim surround command 's'
 Plug 'svermeulen/vim-cutlass'            " use the black hole register for: c, cc, C, s, S, d, dd, D, x, X (manually removed s & S from source to not conflict with lightspeed)
 Plug 'ggandor/lightspeed.nvim'           " Jump around based on labels
-" Plug 'junegunn/vim-easy-align'           " Align text
 Plug 'vim-utils/vim-line'                " Add 'inner line' text object: _  v_  y_  d_
-Plug 'ixru/nvim-markdown'                " Improvements for markdown files
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+"" Plug 'junegunn/vim-easy-align'           " Align text
+"" Plug 'ixru/nvim-markdown'                " Improvements for markdown files
+"" Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
 " -- Tree explorers
 Plug 'luukvbaal/nnn.nvim'
-" Plug 'lambdalisue/fern.vim'
-" Plug 'lambdalisue/fern-git-status.vim'
-" Plug 'lambdalisue/fern-hijack.vim'       " Use as default tree viewer
-" Plug 'yuki-yano/fern-preview.vim'        " Preview files
-" Plug 'hrsh7th/fern-mapping-collapse-or-leave.vim' " Adds default mapping: nmap <buffer><silent> h <Plug>(fern-action-collapse-or-leave)
-" Plug 'cocopon/vaffle.vim'                " Easy tree explorer
-" Plug 'kevinhwang91/rnvimr'               " Open ranger in floating window
+"" Plug 'lambdalisue/fern.vim'
+"" Plug 'lambdalisue/fern-git-status.vim'
+"" Plug 'lambdalisue/fern-hijack.vim'       " Use as default tree viewer
+"" Plug 'yuki-yano/fern-preview.vim'        " Preview files
+"" Plug 'hrsh7th/fern-mapping-collapse-or-leave.vim' " Adds default mapping: nmap <buffer><silent> h <Plug>(fern-action-collapse-or-leave)
+"" Plug 'cocopon/vaffle.vim'                " Easy tree explorer
+"" Plug 'kevinhwang91/rnvimr'               " Open ranger in floating window
 
 " -- Coding tools
-" Plug 'vim-vdebug/vdebug'            " Debugger for DBGP protocol (eg. xdebug for php)
 Plug 'tpope/vim-commentary'         " Vim commentary for commenting
 Plug 'airblade/vim-rooter'          " Set the working dir to closest VCS root
-" Plug 'airblade/vim-gitgutter'       " Show Git changes in gutter
 Plug 'lewis6991/gitsigns.nvim'      " Show git changes in the gutter
 Plug 'tpope/vim-fugitive'           " Git wrapper for vim
-" Plug 'idanarye/vim-merginal'        " Interface for Git branches :Merginal
 Plug 'samoshkin/vim-mergetool'      " Mergetool for vim
-" Plug 'andymass/vim-matchup'       " Better % (matching html tags)
 Plug 'AndrewRadev/tagalong.vim'     " Edit HTML tags together automatically
-" Plug 'Raimondi/delimitMate'         " Auto closing pairs but nicer
-" Plug 'captbaritone/better-indent-support-for-php-with-html'
-" Plug 'pangloss/vim-javascript'      " Better javascript indent and syntax highlighting
-" Plug 'tpope/vim-dadbod'             " SQL for Vim
-" Plug 'kristijanhusak/vim-dadbod-ui' " DadbodUI for visual navigation
 Plug 'Yggdroot/indentLine'        " Show indent markers
+"" Plug 'vim-vdebug/vdebug'            " Debugger for DBGP protocol (eg. xdebug for php)
+"" Plug 'airblade/vim-gitgutter'       " Show Git changes in gutter
+"" Plug 'idanarye/vim-merginal'        " Interface for Git branches :Merginal
+"" Plug 'andymass/vim-matchup'       " Better % (matching html tags)
+"" Plug 'Raimondi/delimitMate'         " Auto closing pairs but nicer
+"" Plug 'captbaritone/better-indent-support-for-php-with-html'
+"" Plug 'pangloss/vim-javascript'      " Better javascript indent and syntax highlighting
+"" Plug 'tpope/vim-dadbod'             " SQL for Vim
+"" Plug 'kristijanhusak/vim-dadbod-ui' " DadbodUI for visual navigation
 
 " Tabnine AI autocompletion
-" Plug 'neovim/nvim-lspconfig'
-" Plug 'hrsh7th/cmp-nvim-lsp'
-" Plug 'hrsh7th/cmp-buffer'
-" Plug 'hrsh7th/cmp-path'
+"" Plug 'neovim/nvim-lspconfig'
+"" Plug 'hrsh7th/cmp-nvim-lsp'
+"" Plug 'hrsh7th/cmp-buffer'
+"" Plug 'hrsh7th/cmp-path'
 Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 Plug 'hrsh7th/nvim-cmp'
-" Plug 'dcampos/nvim-snippy'              " Snippet engine in Lua for neovim
-" Plug 'dcampos/cmp-snippy'               " Plugin to use snippy with cmp
+Plug 'dcampos/nvim-snippy'              " Snippet engine in Lua for neovim
+Plug 'dcampos/cmp-snippy'               " Plugin to use snippy with cmp
 
 " -- Visual improvements
 Plug 'pacha/vem-tabline'                " Tabline plugin to show buffers
 Plug 'chriskempson/base16-vim'          " Load base16 colorscheme into vim
-" Plug 'sheerun/vim-polyglot'             " Better syntax highlighting
-" Plug 'junegunn/rainbow_parentheses.vim' " Make matching parentheses same color
 Plug 'psliwka/vim-smoothie'             " Smooth scrolling with Ctrl+D,U,F,B
 Plug 'machakann/vim-highlightedyank'    " Highlight yanks
-" Plug 'inside/vim-search-pulse'          " Highlight search
+"" Plug 'sheerun/vim-polyglot'             " Better syntax highlighting
+"" Plug 'junegunn/rainbow_parentheses.vim' " Make matching parentheses same color
+"" Plug 'inside/vim-search-pulse'          " Highlight search
 
 " -- Theme
-" Plug 'davidosomething/vim-colors-meh' "meh THIS IS FAVORITE THEME set theme
-" Plug 'axvr/photon.vim'
-" Plug 'andreypopp/vim-colors-plain'
-" Plug 'arzg/vim-colors-xcode'
-" Plug 'rakr/vim-one'
-" Plug 'morhetz/gruvbox'
-" Plug 'cideM/yui'
-" Plug 'lurst/austere.vim' "austere
-" Plug 'pgdouyon/vim-yin-yang' "yin
-" Plug 'pgdouyon/vim-alayas' "vimalayas
-" Plug 'nikolvs/vim-sunbather' "sunbather
+"" Plug 'davidosomething/vim-colors-meh' "meh THIS IS FAVORITE THEME set theme
+"" Plug 'axvr/photon.vim'
+"" Plug 'andreypopp/vim-colors-plain'
+"" Plug 'arzg/vim-colors-xcode'
+"" Plug 'rakr/vim-one'
+"" Plug 'morhetz/gruvbox'
+"" Plug 'cideM/yui'
+"" Plug 'lurst/austere.vim' "austere
+"" Plug 'pgdouyon/vim-yin-yang' "yin
+"" Plug 'pgdouyon/vim-alayas' "vimalayas
+"" Plug 'nikolvs/vim-sunbather' "sunbather
 
 " Initialize plugin system
 call plug#end()
@@ -309,7 +310,7 @@ autocmd TermOpen * tnoremap <buffer> <Esc> <c-\><c-n>     " Use escape to exit i
 " ---------------------------
 lua <<EOF
 require('gitsigns').setup()
--- require("nnn").setup()
+require("nnn").setup()
 EOF
 
 " NNN keymaps
@@ -449,18 +450,78 @@ function notes_grep()
   opts.path_display = { "shorten" }
   require("telescope.builtin").live_grep(opts)
 end
+
+
+
+-- Select folders to search
+local Path = require "plenary.path"
+local action_set = require "telescope.actions.set"
+local action_state = require "telescope.actions.state"
+local actions = require "telescope.actions"
+local conf = require("telescope.config").values
+local finders = require "telescope.finders"
+local make_entry = require "telescope.make_entry"
+local os_sep = Path.path.sep
+local pickers = require "telescope.pickers"
+local scan = require "plenary.scandir"
+
+local my_pickers = {}
+
+my_pickers.live_grep_in_folder = function(opts)
+  opts = opts or {}
+  local data = {}
+  scan.scan_dir(vim.loop.cwd(), {
+    hidden = opts.hidden,
+    only_dirs = true,
+    respect_gitignore = opts.respect_gitignore,
+    on_insert = function(entry)
+      table.insert(data, entry .. os_sep)
+    end,
+  })
+  table.insert(data, 1, "." .. os_sep)
+
+  pickers.new(opts, {
+    prompt_title = "Folders for Live Grep",
+    finder = finders.new_table { results = data, entry_maker = make_entry.gen_from_file(opts) },
+    previewer = conf.file_previewer(opts),
+    sorter = conf.file_sorter(opts),
+    attach_mappings = function(prompt_bufnr)
+      action_set.select:replace(function()
+        local current_picker = action_state.get_current_picker(prompt_bufnr)
+        local dirs = {}
+        local selections = current_picker:get_multi_selection()
+        if vim.tbl_isempty(selections) then
+          table.insert(dirs, action_state.get_selected_entry().value)
+        else
+          for _, selection in ipairs(selections) do
+            table.insert(dirs, selection.value)
+          end
+        end
+        actions._close(prompt_bufnr, current_picker.initial_mode == "insert")
+        require("telescope.builtin").live_grep { search_dirs = dirs }
+      end)
+      return true
+    end,
+  }):find()
+end
+
+return my_pickers
+
 EOF
 
 " -- Telescope keybindings
 " Use custom function to search git_files first then find_files
-nnoremap <leader>f <cmd>lua project_files()<cr>
-nnoremap <leader>F <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>F <cmd>lua project_files()<cr>
+nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>l <cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>
 nnoremap <leader>L <cmd>lua require('telescope.builtin').live_grep({grep_open_files=true})<cr>
 " Search for selected text in visual mode
 vnoremap <leader>g "zy:Telescope live_grep default_text=<C-r>z<cr>
 " Search with fuzzy find in cwd - optionally filtered first by a string
 nnoremap <leader>g <cmd>lua require 'telescope.builtin'.grep_string({disable_coordinates = true, only_sort_text = true, search = vim.fn.input("Grep For > ") })<cr>
+" Select folders before live grep
+" FIX THIS
+nnoremap <C-g> <cmd>lua my_pickers.live_grep_in_folder()<cr>
 " nnoremap <C-g> <cmd>lua require 'telescope.builtin'.grep_string({disable_coordinates = true, only_sort_text = true, search = vim.fn.input("Grep For > "), cwd = vim.fn.expand('%:p:h') })<cr>
 " nnoremap <leader>g <cmd>lua require 'telescope.builtin'.grep_string({ path_display = {"shorten"}, disable_coordinates = true, only_sort_text = true, search = '' })<cr>
 " 2 stage search, first filter with ripgrep and then fuzzy find in matches
