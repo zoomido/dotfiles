@@ -39,7 +39,7 @@ hs.hotkey.bind({}, "§", function()
         hs.application.open("kitty.app")
     end
 end)
--- Start/switch/hide Kitty
+-- Start/switch/hide Warp terminal
 -- hs.hotkey.bind({}, "§", function()
 --     local app = hs.application.find('Warp')
 --     if ( app and app:isFrontmost() ) then
