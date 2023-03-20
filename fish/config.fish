@@ -36,10 +36,10 @@ if status --is-interactive
     abbr --add --global ...  'cd ../../..'
     abbr --add --global c    clear
     abbr --add --global v    nvim
-    abbr --add --global l    exa
-    abbr --add --global la   exa -a
-    abbr --add --global ll   exa -l
-    abbr --add --global lla  exa -la
+    abbr --add --global l    exa --icons --group-directories-first
+    abbr --add --global la   exa -a --icons --group-directories-first
+    abbr --add --global ll   exa -l --icons --group-directories-first --git
+    abbr --add --global lla  exa -la --icons --group-directories-first --git
     abbr --add --global diskusage   ncdu
     # Git
     abbr --add --global gs   git status
