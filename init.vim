@@ -10,14 +10,14 @@ Plug 'nvim-telescope/telescope.nvim'     " Search everything
 Plug 'nvim-telescope/telescope-file-browser.nvim' "File browser plugin
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-telescope/telescope-live-grep-args.nvim' " Raw search with rg
+Plug 'nvim-telescope/telescope-ui-select.nvim'  " Use telescope for neovim core stuff
 Plug 'AckslD/nvim-neoclip.lua'           " Clipboard manager
 
-"" Plug 'junegunn/fzf', {
-    " \ 'do': './install --all' }        " Install fzf globally with vim-plug
-"" Plug 'junegunn/fzf.vim'                  " Fzf <3 Vim
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }   " Install fzf globally with vim-plug
+" Plug 'junegunn/fzf.vim'
 "" Plug 'yuki-ycino/fzf-preview.vim'        " Interface for fzf
 "" Plug 'Yggdroot/LeaderF',               " LeaderF interactive fuzzy finder
-                                         " \ { 'do': './install.sh' }
+" \ { 'do': './install.sh' }
 Plug 'akinsho/toggleterm.nvim'           " Wrapper for neovim terminal
 Plug 'mhinz/vim-startify'                " Start screen for vim
 Plug 'tpope/vim-surround'                " Vim surround command 's'
@@ -27,6 +27,7 @@ Plug 'vim-utils/vim-line'                " Add 'inner line' text object: _  v_  
 "" Plug 'junegunn/vim-easy-align'           " Align text
 "" Plug 'ixru/nvim-markdown'                " Improvements for markdown files
 "" Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plug 'nanotee/zoxide.vim'               " Wrapper for using :Z <query> to jump around dirs
 
 " -- Tree explorers
 Plug 'luukvbaal/nnn.nvim'
@@ -317,6 +318,9 @@ EOF
 " nnoremap <leader>e <cmd>NnnPicker %:p:h<CR>
 " nnoremap <leader>E <cmd>NnnPicker<CR>
 
+" Zoxide settings
+let g:zoxide_use_select=1
+
 "   Telescope settings
 " ---------------------
 lua <<EOF
@@ -388,6 +392,7 @@ require('telescope').setup{
 
 -- Telescope Plugins
 
+require("telescope").load_extension("ui-select")
 require('telescope').load_extension('fzf')
 require("telescope").load_extension('file_browser')
 require('neoclip').setup({
