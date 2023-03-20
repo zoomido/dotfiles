@@ -15,15 +15,17 @@ end
 set fish_greeting
 
 # Set nvim as default editor
-set -gx EDITOR nvim
+set EDITOR nvim
 
 # Active VI keybindings
 # fish_vi_key_bindings
 
 # Fish extensions settings
 # https://github.com/b4b4r07/enhancd
-set -gx ENHANCD_DOT_ARG '...'
+set ENHANCD_COMMAND 'cde'
 
+# Start zoxide change dir tool
+zoxide init fish | source
 
 
 
@@ -32,8 +34,8 @@ set -gx ENHANCD_DOT_ARG '...'
 # -----------------
 if status --is-interactive
     # System
-    abbr --add --global -- - 'cd -'
-    abbr --add --global ...  'cd ../../..'
+    # abbr --add --global -- - 'cd -'
+    # abbr --add --global ...  'cd ../../..'
     abbr --add --global c    clear
     abbr --add --global v    nvim
     abbr --add --global l    exa --icons --group-directories-first
@@ -50,8 +52,8 @@ if status --is-interactive
     #abbr --add --global gtb  "git switch master && git pull --rebase && git switch -c"
     abbr --add --global lg   find . -type d -name \'.git\' -exec echo {} \\\; -exec git -C {} branch --show-current \\\;
     # Fzf
-    #abbr --add --global dot  'nvim (find ~/.dotfiles -path ~/.dotfiles/.git -prune -o -print -type f | fzf)' # Search in .dotfiles folder
-    #abbr --add --global ff   'nvim (fzf)' # Search with fzf and open in nvim
+    # abbr --add --global dot  'nvim (find ~/.dotfiles -path ~/.dotfiles/.git -prune -o -print -type f | fzf)' # Search in .dotfiles folder
+    # abbr --add --global ff   'nvim (fzf)' # Search with fzf and open in nvim
     abbr --add --global cdf   'cd (fd --type directory | fzf)'
 end
 
