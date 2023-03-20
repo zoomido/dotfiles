@@ -40,12 +40,13 @@ if status --is-interactive
     abbr --add --global la   exa -a
     abbr --add --global ll   exa -l
     abbr --add --global lla  exa -la
+    abbr --add --global diskusage   ncdu
     # Git
-    #abbr --add --global gs   git status
+    abbr --add --global gs   git status
     abbr --add --global gss  git switch
-    #abbr --add --global gfa  git fetch --all
-    #abbr --add --global gpr  git pull --rebase
-    #abbr --add --global gp   git push
+    abbr --add --global gfa  git fetch --all
+    abbr --add --global gpr  git pull --rebase
+    abbr --add --global gpf   git push --force-with-lease
     #abbr --add --global gtb  "git switch master && git pull --rebase && git switch -c"
     abbr --add --global lg   find . -type d -name \'.git\' -exec echo {} \\\; -exec git -C {} branch --show-current \\\;
     # Fzf
