@@ -29,6 +29,11 @@ hs.hotkey.bind({'alt'}, '¨', function()
     hs.eventtap.keyStrokes("~")
 end)
 
+-- Hack to send dollar char
+-- hs.hotkey.bind({'alt'}, '$', function()
+--     hs.eventtap.keyStrokes("plop")
+-- end)
+
 
 -- Start/switch/hide Kitty
 hs.hotkey.bind({}, "§", function()
