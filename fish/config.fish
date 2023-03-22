@@ -15,7 +15,7 @@ end
 set fish_greeting
 
 # Set nvim as default editor
-set EDITOR nvim
+set -x EDITOR nvim
 
 # Active VI keybindings
 # fish_vi_key_bindings
@@ -35,7 +35,7 @@ zoxide init fish | source
 if status --is-interactive
     # System
     # abbr --add --global -- - 'cd -'
-    # abbr --add --global ...  'cd ../../..'
+    abbr --add --global ...  'cd ../../..'
     abbr --add --global c    clear
     abbr --add --global v    nvim
     abbr --add --global l    exa --icons --group-directories-first
@@ -44,13 +44,14 @@ if status --is-interactive
     abbr --add --global lla  exa -la --icons --group-directories-first --git
     abbr --add --global diskusage   ncdu
     # Git
-    abbr --add --global gs   git status
-    abbr --add --global gss  git switch
-    abbr --add --global gfa  git fetch --all
-    abbr --add --global gpr  git pull --rebase
-    abbr --add --global gpf   git push --force-with-lease
-    #abbr --add --global gtb  "git switch master && git pull --rebase && git switch -c"
-    abbr --add --global lg   find . -type d -name \'.git\' -exec echo {} \\\; -exec git -C {} branch --show-current \\\;
+    abbr --add --global gs      git status
+    abbr --add --global gss     git switch
+    abbr --add --global gfa     git fetch --all
+    abbr --add --global gpr     git pull --rebase
+    abbr --add --global gpf     git push --force-with-lease
+    #abbr --add --global gtb    "git switch master && git pull --rebase && git switch -c"
+    abbr --add --global cdg     "cd (git rev-parse --show-toplevel)"
+    abbr --add --global lg      find . -type d -name \'.git\' -exec echo {} \\\; -exec git -C {} branch --show-current \\\;
     # Fzf
     # abbr --add --global dot  'nvim (find ~/.dotfiles -path ~/.dotfiles/.git -prune -o -print -type f | fzf)' # Search in .dotfiles folder
     # abbr --add --global ff   'nvim (fzf)' # Search with fzf and open in nvim
