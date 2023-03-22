@@ -516,17 +516,18 @@ EOF
 
 " -- Telescope keybindings
 " Use custom function to search git_files first then find_files
-nnoremap <leader>F <cmd>lua project_files()<cr>
-nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files()<cr>
+" nnoremap <leader>F <cmd>lua project_files()<cr>
+nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files({no_ignore=true, prompt_title='Search for any file (no_ignore) >'})<cr>
 nnoremap <leader>l <cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>
-nnoremap <leader>L <cmd>lua require('telescope.builtin').live_grep({grep_open_files=true})<cr>
+nnoremap <leader>L <cmd>lua require('telescope.builtin').live_grep({grep_open_files=true, prompt_title='Search in all open buffers >'})<cr>
 " Search for selected text in visual mode
-vnoremap <leader>g "zy:Telescope live_grep default_text=<C-r>z<cr>
+" vnoremap <leader>g "zy:Telescope live_grep default_text=<C-r>z<cr>
+vnoremap <leader>g <cmd>lua require('telescope.builtin').grep_string()<cr>
 " Search with fuzzy find in cwd - optionally filtered first by a string
 nnoremap <leader>g <cmd>lua require 'telescope.builtin'.grep_string({disable_coordinates = true, only_sort_text = true, search = vim.fn.input("Grep For > ") })<cr>
 " Select folders before live grep
 " FIX THIS
-nnoremap <C-g> <cmd>lua my_pickers.live_grep_in_folder()<cr>
+" nnoremap <C-g> <cmd>lua my_pickers.live_grep_in_folder()<cr>
 " nnoremap <C-g> <cmd>lua require 'telescope.builtin'.grep_string({disable_coordinates = true, only_sort_text = true, search = vim.fn.input("Grep For > "), cwd = vim.fn.expand('%:p:h') })<cr>
 " nnoremap <leader>g <cmd>lua require 'telescope.builtin'.grep_string({ path_display = {"shorten"}, disable_coordinates = true, only_sort_text = true, search = '' })<cr>
 " 2 stage search, first filter with ripgrep and then fuzzy find in matches
@@ -537,10 +538,15 @@ nnoremap <C-g> <cmd>lua my_pickers.live_grep_in_folder()<cr>
 nnoremap <leader>G <cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<cr>
 nnoremap <leader>e <cmd>lua require("telescope").extensions.file_browser.file_browser({path = "%:p:h"})<cr>
 nnoremap <leader>E <cmd>lua require("telescope").extensions.file_browser.file_browser()<cr>
-nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers({sort_mru=true})<cr>
 nnoremap <leader>B <cmd>lua require('telescope.builtin').oldfiles()<cr>
 nnoremap <leader>P <cmd>lua require('telescope.builtin').registers()<cr>
 nnoremap <leader>p <cmd>lua require('telescope').extensions.neoclip.default()<cr>
+nnoremap <leader>sm <cmd>lua require('telescope.builtin').marks()<cr>
+nnoremap <leader>sgb <cmd>lua require('telescope.builtin').git_bcommits()<cr>
+nnoremap <leader>sgc <cmd>lua require('telescope.builtin').git_commits()<cr>
+nnoremap <leader>sgr <cmd>lua require('telescope.builtin').git_branches()<cr>
+nnoremap <leader>sgs <cmd>lua require('telescope.builtin').git_status()<cr>
 " nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 nnoremap <leader>j <cmd>lua require('telescope.builtin').jumplist()<cr>
 nnoremap <leader>n <cmd>lua notes_browse()<cr>
