@@ -795,6 +795,11 @@ let g:rnvimr_layout = {
 " ### Coding tools
 
 
+
+"   IndentLine settings
+let g:indentLine_fileTypeExclude = ['json']
+
+
 "   Vdebug settings
 " ------------------
 " let g:vdebug_keymap = {
