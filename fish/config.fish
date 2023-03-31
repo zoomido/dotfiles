@@ -56,25 +56,38 @@ if status --is-interactive
     # abbr --add --global dot  'nvim (find ~/.dotfiles -path ~/.dotfiles/.git -prune -o -print -type f | fzf)' # Search in .dotfiles folder
     # abbr --add --global ff   'nvim (fzf)' # Search with fzf and open in nvim
     abbr --add --global cdf   'cd (fd --type directory | fzf)'
+    # Magento
+    abbr --add m2ccc    'warden env exec php-fpm bash -c "/home/www-data/m2ccc.sh"'
+    abbr --add m2ccce   'warden env exec php-fpm bash -c "/home/www-data/m2ccc.sh" && exit'
+    abbr --add m2css    'warden env exec php-fpm bash -c "/home/www-data/m2css.sh"'
+    abbr --add m2csse   'warden env exec php-fpm bash -c "/home/www-data/m2css.sh" && exit'
 end
 
 function hej
     echo '
+    # SYSTEM
     --: cd -
     l: exa (filelist)
     la: exa -a (filelist + hidden)
     ll: exa -l (detailed filelist)
     lla: exa -la (detailed filelist + hidden)
-    lg: list git repos
-    cdf: find directory with fzf
 
+    # TOOLS
+    cdf: find directory with fzf
+    Ctrl+r: Fzf history search
+    ncdu/diskusage
+    z <dirname>: change to frecenzy dir
+    zi <?dirname>: interactive finder
+    cde <?dirname>: change dir with enhancd
+
+    # GIT
     gs: git status
     gss: git switch
     gfa: git fetch --all
     gpr: git pull --rebase
-    gp: git push
-
-    Ctrl+r: Fzf history search
+    gpf: git push --force-with-lease
+    cdg: cd to current git repo root
+    lg: list git repos
     '
 end
 
@@ -98,6 +111,10 @@ end
 set -x FZF_DEFAULT_OPTS "--info 'inline' --reverse --color 'border:#ffff00,info:#ffff00' --bind 'ctrl-d:preview-down,ctrl-u:preview-up,ctrl-o:toggle-preview,ctrl-w:toggle-preview-wrap,ctrl-l:accept,ctrl-h:clear-query'"
 # set -x FZF_PREVIEW_LINES 80
 
+# Llama file explorer
+function lcd
+  set loc (llama $argv); and cd $loc;
+end
 
 
 
