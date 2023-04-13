@@ -40,9 +40,11 @@ if status --is-interactive
     abbr --add --global v    nvim
     abbr --add --global l    exa --icons --group-directories-first
     abbr --add --global la   exa -a --icons --group-directories-first
-    abbr --add --global ll   exa -l --icons --group-directories-first --git
-    abbr --add --global lla  exa -la --icons --group-directories-first --git
+    abbr --add --global ll   exa -la --icons --group-directories-first --git
     abbr --add --global diskusage   ncdu
+    abbr --add --global del  trash
+    abbr --add --global rm   use del or rip instead
+
     # Git
     abbr --add --global gs      git status
     abbr --add --global gss     git switch
@@ -52,11 +54,14 @@ if status --is-interactive
     #abbr --add --global gtb    "git switch master && git pull --rebase && git switch -c"
     abbr --add --global cdg     "cd (git rev-parse --show-toplevel)"
     abbr --add --global lg      find . -type d -name \'.git\' -exec echo {} \\\; -exec git -C {} branch --show-current \\\;
+
     # Fzf
     # abbr --add --global dot  'nvim (find ~/.dotfiles -path ~/.dotfiles/.git -prune -o -print -type f | fzf)' # Search in .dotfiles folder
     # abbr --add --global ff   'nvim (fzf)' # Search with fzf and open in nvim
     abbr --add --global cdf   'cd (fd --type directory | fzf)'
+
     # Magento
+    abbr --add ws       'warden shell'
     abbr --add m2ccc    'warden env exec php-fpm bash -c "/home/www-data/m2ccc.sh"'
     abbr --add m2ccce   'warden env exec php-fpm bash -c "/home/www-data/m2ccc.sh" && exit'
     abbr --add m2css    'warden env exec php-fpm bash -c "/home/www-data/m2css.sh"'
@@ -69,8 +74,7 @@ function hej
     --: cd -
     l: exa (filelist)
     la: exa -a (filelist + hidden)
-    ll: exa -l (detailed filelist)
-    lla: exa -la (detailed filelist + hidden)
+    ll: exa -la (detailed filelist + hidden items)
 
     # TOOLS
     cdf: find directory with fzf
