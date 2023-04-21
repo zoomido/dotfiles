@@ -24,9 +24,6 @@ set -x EDITOR nvim
 # https://github.com/b4b4r07/enhancd
 set ENHANCD_COMMAND 'cde'
 
-# Start zoxide change dir tool
-zoxide init fish | source
-
 
 
 #
@@ -39,8 +36,8 @@ if status --is-interactive
     abbr --add --global c    clear
     abbr --add --global v    nvim
     abbr --add --global l    exa --icons --group-directories-first
-    abbr --add --global la   exa -a --icons --group-directories-first
-    abbr --add --global ll   exa -la --icons --group-directories-first --git
+    abbr --add --global ll   exa -a --icons --group-directories-first
+    abbr --add --global lll  exa -la --icons --group-directories-first --git
     abbr --add --global diskusage   ncdu
     abbr --add --global del  trash
     abbr --add --global rm   use del or rip instead
@@ -66,6 +63,9 @@ if status --is-interactive
     abbr --add m2ccce   'warden env exec php-fpm bash -c "/home/www-data/m2ccc.sh" && exit'
     abbr --add m2css    'warden env exec php-fpm bash -c "/home/www-data/m2css.sh"'
     abbr --add m2csse   'warden env exec php-fpm bash -c "/home/www-data/m2css.sh" && exit'
+
+    # Tools
+    abbr --add weather 'curl v2d.wttr.in/Göteborg'
 end
 
 function hej
@@ -73,8 +73,8 @@ function hej
     # SYSTEM
     --: cd -
     l: exa (filelist)
-    la: exa -a (filelist + hidden)
-    ll: exa -la (detailed filelist + hidden items)
+    ll: exa -a (filelist + hidden)
+    lll: exa -la (detailed filelist + hidden items)
 
     # TOOLS
     cdf: find directory with fzf
@@ -83,6 +83,8 @@ function hej
     z <dirname>: change to frecenzy dir
     zi <?dirname>: interactive finder
     cde <?dirname>: change dir with enhancd
+    lazydocker: open docker stats
+    weather: curl v2d.wttr.in/Göteborg
 
     # GIT
     gs: git status
@@ -112,13 +114,50 @@ end
 #set -x BAT_THEME 'base16'
 
 # Fzf global settings
-set -x FZF_DEFAULT_OPTS "--info 'inline' --reverse --color 'border:#ffff00,info:#ffff00' --bind 'ctrl-d:preview-down,ctrl-u:preview-up,ctrl-o:toggle-preview,ctrl-w:toggle-preview-wrap,ctrl-l:accept,ctrl-h:clear-query'"
+#set -x FZF_DEFAULT_OPTS "--info 'inline' --reverse --color 'border:#ffff00,info:#ffff00' --bind 'ctrl-d:preview-down,ctrl-u:preview-up,ctrl-o:toggle-preview,ctrl-w:toggle-preview-wrap,ctrl-l:accept,ctrl-h:clear-query'"
 # set -x FZF_PREVIEW_LINES 80
+set -x FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --glob "!.git"'
 
-# Llama file explorer
-function lcd
-  set loc (llama $argv); and cd $loc;
+# Start FZF in explorer mode
+function fzfexplorer
+    # Store the STDOUT of fzf in a variable
+    set SELECTION (find . -type d | fzf --multi --height=80% --border=sharp \
+            --preview='tree -C --filelimit 100 --dirsfirst {}' --preview-window='45%,border-sharp' \
+            --prompt='Dirs > ' \
+            --bind='ctrl-x:execute(rip -i {+})' \
+            --bind='ctrl-p:toggle-preview' \
+            --bind='ctrl-d:change-prompt(Dirs > )' \
+            --bind='ctrl-d:+reload(find . -type d)' \
+            --bind='ctrl-d:+change-preview(tree -C {})' \
+            --bind='ctrl-d:+refresh-preview' \
+            --bind='ctrl-f:change-prompt(Files > )' \
+            --bind='ctrl-f:+reload(find . -type f)' \
+            --bind='ctrl-f:+change-preview(cat {})' \
+            --bind='ctrl-f:+refresh-preview' \
+            --bind='ctrl-l:accept' \
+            --bind='ctrl-t:toggle-all' \
+            --header '
+            CTRL-D to display directories | CTRL-F to display files
+            CTRL-T to select/deselect all
+            CTRL-L to open | CTRL-X to delete
+            CTRL-P to toggle preview
+            '
+    )
+
+    # Determine what to do depending on the selection
+    if test -d "$SELECTION"
+    echo "this should cd to $SELECTION"
+        cd $SELECTION
+        else if test -f "$SELECTION"
+    echo "this should open vim with $SELECTION"
+        eval "$EDITOR $SELECTION"
+    else
+        echo "No file or dir selected"
+    end
 end
+
+# Start zoxide change dir tool
+zoxide init fish | source
 
 
 

@@ -4,7 +4,7 @@
 
 call plug#begin('~/.vim/neoplugged')
 " -- Generic Tools
-" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update. Dep for telescope
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update. Dep for telescope
 Plug 'nvim-lua/plenary.nvim'             " Dependency for telescope
 Plug 'nvim-telescope/telescope.nvim'     " Search everything
 Plug 'nvim-telescope/telescope-file-browser.nvim' "File browser plugin
@@ -58,7 +58,15 @@ Plug 'Yggdroot/indentLine'        " Show indent markers
 "" Plug 'kristijanhusak/vim-dadbod-ui' " DadbodUI for visual navigation
 
 " Tabnine AI autocompletion
-"" Plug 'neovim/nvim-lspconfig'
+Plug 'neovim/nvim-lspconfig'
+" lsp test
+Plug 'williamboman/mason.nvim', {'do': ':MasonUpdate'} " Optional
+Plug 'williamboman/mason-lspconfig.nvim'               " Optional
+Plug 'hrsh7th/cmp-nvim-lsp' " Required
+Plug 'L3MON4D3/LuaSnip'     " Required
+Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v2.x'}
+" lst test end
+
 "" Plug 'hrsh7th/cmp-nvim-lsp'
 "" Plug 'hrsh7th/cmp-buffer'
 "" Plug 'hrsh7th/cmp-path'
@@ -312,6 +320,15 @@ autocmd TermOpen * tnoremap <buffer> <Esc> <c-\><c-n>     " Use escape to exit i
 lua <<EOF
 require('gitsigns').setup()
 require("nnn").setup()
+
+-- LSP Zero setup
+local lsp = require('lsp-zero').preset({})
+lsp.on_attach(function(client, bufnr)
+  lsp.default_keymaps({buffer = bufnr})
+end)
+-- (Optional) Configure lua language server for neovim
+require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
+lsp.setup()
 EOF
 
 " NNN keymaps
