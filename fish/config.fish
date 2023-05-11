@@ -57,12 +57,12 @@ if status --is-interactive
     # abbr --add --global ff   'nvim (fzf)' # Search with fzf and open in nvim
     abbr --add --global cdf   'cd (fd --type directory | fzf)'
 
-    # Magento
+    # Magento (uses -l for login-shell to respect nvm settings)
     abbr --add ws       'warden shell'
-    abbr --add m2ccc    'warden env exec php-fpm bash -c "/home/www-data/m2ccc.sh"'
-    abbr --add m2ccce   'warden env exec php-fpm bash -c "/home/www-data/m2ccc.sh" && exit'
-    abbr --add m2css    'warden env exec php-fpm bash -c "/home/www-data/m2css.sh"'
-    abbr --add m2csse   'warden env exec php-fpm bash -c "/home/www-data/m2css.sh" && exit'
+    abbr --add m2ccc    'warden env exec php-fpm bash -lc "/home/www-data/m2ccc.sh"'
+    abbr --add m2ccce   'warden env exec php-fpm bash -lc "/home/www-data/m2ccc.sh" && exit'
+    abbr --add m2css    'warden env exec php-fpm bash -lc "/home/www-data/m2css.sh"'
+    abbr --add m2csse   'warden env exec php-fpm bash -lc "/home/www-data/m2css.sh" && exit'
 
     # Tools
     abbr --add weather 'curl v2d.wttr.in/Göteborg'
