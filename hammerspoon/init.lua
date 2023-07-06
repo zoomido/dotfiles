@@ -132,48 +132,47 @@ end)
 -- set up your windowfilter
 -- switcher = hs.window.switcher.new() -- default windowfilter: only visible windows, all Spaces
 -- switcher_browsers = hs.window.switcher.new{'Safari','Google Chrome'} -- specialized switcher for your dozens of browser windows :)
-switcher_space = hs.window.switcher.new(hs.window.filter.new():setCurrentSpace(true):setDefaultFilter{}) -- include minimized/hidden windows, current Space only
-switcher_space.ui.showTitles = false
-switcher_space.ui.backgroundColor = {0.1,0.1,0.1,0.3}
-switcher_space.ui.selectedThumbnailSize = 300
-switcher_space.ui.showSelectedTitle = false
-switcher_space.ui.fontName = 'Helvetica'
-hs.window.animationDuration = 0
+-- switcher_space = hs.window.switcher.new(hs.window.filter.new():setCurrentSpace(true):setDefaultFilter{}) -- include minimized/hidden windows, current Space only
+-- switcher_space.ui.showTitles = false
+-- switcher_space.ui.backgroundColor = {0.1,0.1,0.1,0.3}
+-- switcher_space.ui.selectedThumbnailSize = 300
+-- switcher_space.ui.showSelectedTitle = false
+-- switcher_space.ui.fontName = 'Helvetica'
+-- hs.window.animationDuration = 0
 
 -- bind to hotkeys; WARNING: at least one modifier key is required!
-hs.hotkey.bind('alt', 'tab', nil, function()switcher_space:next()end)
-hs.hotkey.bind('alt-shift', 'tab', nil, function()switcher_space:previous()end)
+-- hs.hotkey.bind('alt', 'tab', nil, function()switcher_space:next()end)
+-- hs.hotkey.bind('alt-shift', 'tab', nil, function()switcher_space:previous()end)
 
 
 --------------------------
 -- Load SpoonInstall plug
 --------------------------
-hs.loadSpoon("SpoonInstall")
+-- hs.loadSpoon("SpoonInstall")
 
 
 ---------------------------
 -- Load ControlEscape plug
 ---------------------------
-spoon.SpoonInstall:andUse('ControlEscape', {
-    start = true
-})
--- theControlEscape = hs.loadSpoon('ControlEscape')
--- theControlEscape:start()
+-- spoon.SpoonInstall:andUse('ControlEscape', {
+--     start = true
+-- })
+hs.loadSpoon('ControlEscape'):start() -- Load Hammerspoon bits from https://github.com/jasonrudolph/ControlEscape.spoon
 
 
 -----------------
 -- ClipboardTool
 -----------------
-spoon.SpoonInstall:andUse('ClipboardTool', {
-    hotkeys = {
-        show_clipboard = { {"ctrl","cmd"},"v"}
-    },
-    config = {
-        menubar_title = "\u{2702}",
-        paste_on_select = true,
-    },
-    start = true
-})
+-- spoon.SpoonInstall:andUse('ClipboardTool', {
+--    hotkeys = {
+--        show_clipboard = { {"ctrl","cmd"},"v"}
+--    },
+--    config = {
+--        menubar_title = "\u{2702}",
+--        paste_on_select = true,
+--    },
+--    start = true
+-- })
 
 
 ---------------------
@@ -224,36 +223,36 @@ inputDevice:watcherStart()
 ----------------------------------------
 -- Load Lunette (Spectacle keybindings)
 ----------------------------------------
-hs.loadSpoon("Lunette")
-customBindings = {
-    center = false,
-    fullScreen = {
-        {mash, "f"}
-    },
-    leftHalf = {
-        {mash, "h"}
-    },
-    rightHalf = {
-        {mash, "l"}
-    },
-    topHalf = false,
-    bottomHalf = false,
-    topLeft = false,
-    bottomLeft = false,
-    topRight = false,
-    bottomRight = false,
-    nextDisplay = {
-        {mash, "d"}
-    },
-    prevDisplay = false,
-    nextThird = false,
-    prevThird = false,
-    enlarge = false,
-    shrink = false,
-    undo = false,
-    redo = false,
-}
-spoon.Lunette:bindHotkeys(customBindings)
+-- hs.loadSpoon("Lunette")
+-- customBindings = {
+--     center = false,
+--     fullScreen = {
+--         {mash, "f"}
+--     },
+--     leftHalf = {
+--         {mash, "h"}
+--     },
+--     rightHalf = {
+--         {mash, "l"}
+--     },
+--     topHalf = false,
+--     bottomHalf = false,
+--     topLeft = false,
+--     bottomLeft = false,
+--     topRight = false,
+--     bottomRight = false,
+--     nextDisplay = {
+--         {mash, "d"}
+--     },
+--     prevDisplay = false,
+--     nextThird = false,
+--     prevThird = false,
+--     enlarge = false,
+--     shrink = false,
+--     undo = false,
+--     redo = false,
+-- }
+-- spoon.Lunette:bindHotkeys(customBindings)
 
 
 -----------

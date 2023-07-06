@@ -22,7 +22,7 @@ set -x EDITOR nvim
 
 # Fish extensions settings
 # https://github.com/b4b4r07/enhancd
-set ENHANCD_COMMAND 'cde'
+# set ENHANCD_COMMAND 'cde'
 
 
 
@@ -32,7 +32,7 @@ set ENHANCD_COMMAND 'cde'
 if status --is-interactive
     # System
     # abbr --add --global -- - 'cd -'
-    abbr --add --global ...  'cd ../../..'
+    # abbr --add --global ...  'cd ../../..'
     abbr --add --global c    clear
     abbr --add --global v    nvim
     abbr --add --global l    exa --icons --group-directories-first
@@ -105,10 +105,10 @@ end
 # ---------------------
 
 # Base16 Shell
-if status --is-interactive
-    set BASE16_SHELL "$HOME/.config/base16-shell"
-    source "$BASE16_SHELL/profile_helper.fish"
-end
+#if status --is-interactive
+#    set BASE16_SHELL "$HOME/.config/base16-shell"
+#    source "$BASE16_SHELL/profile_helper.fish"
+#end
 
 # Bat global settings
 #set -x BAT_THEME 'base16'
@@ -171,9 +171,9 @@ zoxide init fish | source
 #end
 
 # Source NNN config if nnn exists
-if command -v nnn &> /dev/null
-    source $HOME/.config/fish/nnn.fish
-end
+#if command -v nnn &> /dev/null
+#    source $HOME/.config/fish/nnn.fish
+#end
 
 
 
