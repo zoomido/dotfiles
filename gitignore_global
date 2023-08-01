@@ -1,8 +1,5 @@
 *.un~
 .warden/
-dadbods.vim
-jira.vim
-project.vim
-devbox.zsh
 deploy.sh
 .env
+warden-env.yml

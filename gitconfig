@@ -1,41 +1,20 @@
-# This is Git's per-user configuration file.
 [user]
-	email = me@zoomido.se
-	name = Alex
+    useConfigOnly = true
+
 [core]
-    excludesfile = $HOME/.gitignore_global
-
-[merge]
-tool = vim_mergetool
-conflictstyle = diff3
-
-[mergetool "vim_mergetool"]
-cmd = nvim -f -c "MergetoolStart" "$MERGED" "$BASE" "$LOCAL" "$REMOTE"
-trustExitCode = true
-
-# [mergetool]
-#     # automatically launch merge tool without displaying a prompt
-#     prompt = false
-#     keepBackup = false
-# [mergetool "fugitive"]
-#     # use vim-fugitive as mergetool
-#     cmd = nvim -f -c \"Gvdiffsplit!\" \"$MERGED\"
-# [merge]
-#     tool = fugitive
-
-[checkout]
-    # Use origin as default remote when switching branches: https://stackoverflow.com/a/58124339
-    defaultRemote = origin
+    excludesFile = ~/.gitignore_global
 
 [push]
-    # automatically set upstream when pushing a new branch
-    default = current
+	autoSetupRemote = true
+
+[merge]
+	tool = vim_mergetool
+	conflictstyle = diff3
+
+[mergetool "vim_mergetool"]
+	cmd = nvim -f -c "MergetoolStart" "$MERGED" "$BASE" "$LOCAL" "$REMOTE"
+	trustExitCode = true
 
 [alias]
     parent = "!git show-branch | grep '*' | grep -v \"$(git rev-parse --abbrev-ref HEAD)\" | head -n1 | sed 's/.*\\[\\(.*\\)\\].*/\\1/' | sed 's/[\\^~].*//' #"
 
-[bash]
-    showDirtyState = true
-    showUntrackedFiles = true
-[credential]
-	helper = store
