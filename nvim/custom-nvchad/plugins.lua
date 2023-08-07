@@ -41,44 +41,74 @@ local plugins = {
     {
         "max397574/better-escape.nvim",
         event = "InsertEnter",
+        config = true,
+        -- config = function()
+        --     require("better_escape").setup()
+        -- end,
+    },
+
+    -- Telescope settings & Plugins
+    {
+        "nvim-telescope/telescope.nvim",
+        -- opts = {
+        --     extensions = {
+        --         file_browser = {
+        --             hijack_netrw = true,
+        --         },
+        --     },
+        -- },
+    },
+    {
+        "nvim-telescope/telescope-file-browser.nvim",
+        dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+        event = "VeryLazy",
+        keys = {
+            { "<leader>E", "<CMD>Telescope file_browser<CR>", desc = "Telescope file browser" },
+        },
         config = function()
-            require("better_escape").setup()
+            require("telescope").load_extension "file_browser"
         end,
     },
 
     -- Custom plugins below
     {
         "karb94/neoscroll.nvim",
-        lazy = false;
-        config = function()
-            require("neoscroll").setup()
-        end,
+        event = "VeryLazy",
+        config = true,
+        -- config = function()
+        --     require("neoscroll").setup()
+        -- end,
     },
     {
         "roobert/neoscroll-motions.nvim",
         dependencies = "karb94/neoscroll.nvim",
-        config = function()
-            require("neoscroll-motions").setup()
-        end,
+        event = "VeryLazy",
+        config = true,
+        -- config = function()
+        --     require("neoscroll-motions").setup()
+        -- end,
     },
 
     {
         "kylechui/nvim-surround",
         version = "*", -- Use for stability; omit to use `main` branch for the latest features
         event = "VeryLazy",
-        config = function()
-            require("nvim-surround").setup({
-                -- Configuration here, or leave empty to use defaults
-            })
-        end
+        config = true,
+        -- config = function()
+        --     require("nvim-surround").setup({
+        --         -- Configuration here, or leave empty to use defaults
+        --     })
+        -- end
     },
 
     {
         "samoshkin/vim-mergetool",
+        cmd = "MergetoolStart",
     },
 
     {
         "nanotee/zoxide.vim",
+        cmd = "Z",
     },
 
     {
@@ -108,6 +138,7 @@ local plugins = {
 
     {
         "gbprod/yanky.nvim",
+        event = "VeryLazy",
         keys = {
             { "p", mode = { "n", "x" }, "<Plug>(YankyPutAfter)", desc = "YankyPutAfter" },
             { "P", mode = { "n", "x" }, "<Plug>(YankyPutBefore)", desc = "YankyPutBefore" },
