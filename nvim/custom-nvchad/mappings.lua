@@ -1,5 +1,6 @@
 ---@type MappingsTable
 local M = {}
+local utils = require("custom.utils")
 
 M.general = {
     n = {
@@ -7,6 +8,12 @@ M.general = {
         ["<leader>X"] = { ":qa<CR>", "Quit all windows" },
         ["<leader>s"] = { "/", "Start search" },
         ["+"] = { "\"0p", "Paste latest yank" },
+        ["<leader>g"] = { 
+            function()
+                utils.grep()
+            end,
+            "Custom grep"
+        },
     },
     v = {
         ["J"] = { ":m '>+1<CR>gv=gv", "Move selection down"},
