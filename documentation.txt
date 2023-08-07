@@ -1,0 +1,36 @@
+# System
+l: exa (filelist)
+ll: exa -a (filelist + hidden)
+lll: exa -la (detailed filelist + hidden items)
+
+# Navigation & Search
+Ctrl+r: Fzf history search
+Ctrl+Alt+f: Fzf directory search
+Ctrl+Alt+l: Fzf git log search
+z <dirname>: change to frecenzy dir
+zi <?dirname>: interactive finder
+cde <?dirname>: change dir with enhancd
+cs: search for code
+
+# Local tools
+ncdu (or use alias diskusage)
+lazydocker: open docker stats
+mycli - Connect to mysql
+tldr "tldr ln" - Show examples for ln
+gpt-do "do <question>" - Ask chatgpt for help
+m-cli "m help" - Control mac os from cli
+
+# Online tools
+weather: curl v2d.wttr.in
+
+# Git
+gs: git status
+gss: git switch
+gfa: git fetch --all
+gpr: git pull --rebase
+gpf: git push --force-with-lease
+cdg: cd to current git repo root
+lg: list git repos
+
+-------------------------------------
+Don't forget to check raycast plugins

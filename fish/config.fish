@@ -53,9 +53,9 @@ if status --is-interactive
     abbr --add --global lg      find . -type d -name \'.git\' -exec echo {} \\\; -exec git -C {} branch --show-current \\\;
 
     # Fzf
-    # abbr --add --global dot  'nvim (find ~/.dotfiles -path ~/.dotfiles/.git -prune -o -print -type f | fzf)' # Search in .dotfiles folder
-    # abbr --add --global ff   'nvim (fzf)' # Search with fzf and open in nvim
-    abbr --add --global cdf   'cd (fd --type directory | fzf)'
+    #abbr --add --global dot  'nvim (find ~/.dotfiles -path ~/.dotfiles/.git -prune -o -print -type f | fzf)' # Search in .dotfiles folder
+    #abbr --add --global ff   'nvim (fzf)' # Search with fzf and open in nvim
+    #abbr --add --global cdf   'cd (fd --type directory | fzf)' # Change directory
 
     # Magento (uses -l for login-shell to respect nvm settings)
     abbr --add ws       'warden shell'
@@ -65,36 +65,11 @@ if status --is-interactive
     abbr --add m2csse   'warden env exec php-fpm bash -lc "/home/www-data/m2css.sh" && exit'
 
     # Tools
-    abbr --add weather 'curl v2d.wttr.in/Göteborg'
+    abbr --add weather 'curl v2d.wttr.in'
 end
 
 function hej
-    echo '
-    # SYSTEM
-    --: cd -
-    l: exa (filelist)
-    ll: exa -a (filelist + hidden)
-    lll: exa -la (detailed filelist + hidden items)
-
-    # TOOLS
-    cdf: find directory with fzf
-    Ctrl+r: Fzf history search
-    ncdu/diskusage
-    z <dirname>: change to frecenzy dir
-    zi <?dirname>: interactive finder
-    cde <?dirname>: change dir with enhancd
-    lazydocker: open docker stats
-    weather: curl v2d.wttr.in/Göteborg
-
-    # GIT
-    gs: git status
-    gss: git switch
-    gfa: git fetch --all
-    gpr: git pull --rebase
-    gpf: git push --force-with-lease
-    cdg: cd to current git repo root
-    lg: list git repos
-    '
+	cat $HOME/dotfiles/documentation.txt
 end
 
 
@@ -117,6 +92,9 @@ end
 #set -x FZF_DEFAULT_OPTS "--info 'inline' --reverse --color 'border:#ffff00,info:#ffff00' --bind 'ctrl-d:preview-down,ctrl-u:preview-up,ctrl-o:toggle-preview,ctrl-w:toggle-preview-wrap,ctrl-l:accept,ctrl-h:clear-query'"
 # set -x FZF_PREVIEW_LINES 80
 set -x FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --glob "!.git"'
+
+# Fzf fish settings
+set fzf_fd_opts --hidden --no-ignore
 
 # Start FZF in explorer mode
 function fzfexplorer
@@ -166,9 +144,9 @@ zoxide init fish | source
 # -------
 
 # Source private configs if exists
-#if test -e ~/dotfiles-private/private.fish
-#    source ~/dotfiles-private/private.fish
-#end
+if test -e ~/dotfiles-private/private.fish
+    source ~/dotfiles-private/private.fish
+end
 
 # Source NNN config if nnn exists
 #if command -v nnn &> /dev/null
