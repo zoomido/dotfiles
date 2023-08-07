@@ -101,11 +101,15 @@ end)
 -- For center screen and make it almost fullscreen
 hs.window.animationDuration = 0
 units = {
+  fullscreen        = { x = 0.0, y = 0.0, w = 1, h = 1 },
   almostFullscreen  = { x = 0.025, y = 0.04, w = 0.946, h = 0.930 },
   centerSmall       = { x = 0.1, y = 0.1, w = 0.8, h = 0.8 },
   smallMobile       = { x = 0.02, y = 0.02, w = 0.346, h = 0.975 },
   inspectorChrome   = { x = 0.366, y = 0.02, w = 0.61, h = 0.975 }
 }
+hs.hotkey.bind(mash, 'f', function()
+        hs.window.focusedWindow():move(units.fullscreen,  nil, true)
+end)
 hs.hotkey.bind(mash, 'a', function()
         hs.window.focusedWindow():move(units.almostFullscreen,  nil, true)
 end)
