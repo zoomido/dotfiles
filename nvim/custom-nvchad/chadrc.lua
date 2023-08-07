@@ -2,8 +2,8 @@
 local M = {}
 
 M.ui = {
-  theme = "penumbra_dark",
-  theme_toggle = { "penumbra_dark", "penumbra_light" },
+  theme = "blossom_light",
+  theme_toggle = { "blossom_light", "penumbra_dark" },
   hl_override = {
     Normal =  {
       bg = 'none'
