@@ -50,13 +50,38 @@ local plugins = {
     -- Telescope settings & Plugins
     {
         "nvim-telescope/telescope.nvim",
-        -- opts = {
-        --     extensions = {
-        --         file_browser = {
-        --             hijack_netrw = true,
-        --         },
-        --     },
-        -- },
+        opts = {
+            defaults = {
+                -- layout_strategy = 'vertical',
+                layout_config = { height = 0.99, width = 0.99 },
+            },
+            extensions = {
+                zoxide = {
+                    -- prompt_title = "[ Walking on the shoulders of TJ ]",
+                    mappings = {
+                        -- default = {
+                        --     after_action = function(selection)
+                        --         print("Update to (" .. selection.z_score .. ") " .. selection.path)
+                        --     end
+                        -- },
+                        -- ["<C-s>"] = {
+                        --     before_action = function(selection) print("before C-s") end,
+                        --     action = function(selection)
+                        --         vim.cmd.edit(selection.path)
+                        --     end
+                        -- },
+                        -- ["<C-q>"] = { action = z_utils.create_basic_command("split") },
+                        ["<C-b>"] = {
+                            keepinsert = true,
+                            action = function(selection)
+                                -- builtin.file_browser({ cwd = selection.path })
+                                require "telescope".extensions.file_browser.file_browser({path = selection.path})
+                            end
+                        },
+                    },
+                },
+            },
+        },
     },
     {
         "nvim-telescope/telescope-file-browser.nvim",
@@ -66,11 +91,19 @@ local plugins = {
             { "<leader>E", "<CMD>Telescope file_browser<CR>", desc = "Telescope file browser" },
         },
         config = function()
-            require("telescope").load_extension "file_browser"
+            require("telescope").load_extension("file_browser")
         end,
     },
+    {
+        "jvgrootveld/telescope-zoxide",
+        dependencies = { "nvim-telescope/telescope.nvim", "nvim-telescope/telescope-file-browser.nvim" },
+        event = "VeryLazy",
+        config = function()
+            require("telescope").load_extension("zoxide")
+        end
+    },
 
-    -- Custom plugins below
+    -- Custom plugins Basics
     {
         "karb94/neoscroll.nvim",
         event = "VeryLazy",
@@ -99,37 +132,6 @@ local plugins = {
         --         -- Configuration here, or leave empty to use defaults
         --     })
         -- end
-    },
-
-    {
-        "samoshkin/vim-mergetool",
-        cmd = "MergetoolStart",
-    },
-
-    {
-        "nanotee/zoxide.vim",
-        cmd = "Z",
-    },
-
-    {
-        "folke/flash.nvim",
-        event = "VeryLazy",
-        opts = {},
-        keys = {
-            { "s", mode = { "n", "x", "o" }, function() require("flash").jump({search = {
-                mode = "fuzzy"
-            },}) end, desc = "Flash" },
-            -- Search only start of word
-            -- { "s", mode = { "n", "x", "o" }, function() require("flash").jump({search = {
-            --     mode = function(str)
-            --         return "\\<" .. str
-            --     end,
-            -- },}) end, desc = "Flash" },
-            { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-            { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-            { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-            { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
-        },
     },
 
     -- {
@@ -171,6 +173,48 @@ local plugins = {
             })
             require("telescope").load_extension("yank_history")
         end,
+    },
+
+    -- Custom plugins Git
+    {
+        "samoshkin/vim-mergetool",
+        cmd = "MergetoolStart",
+    },
+
+    -- Custom plugins Navigation
+    -- {
+    --     "nanotee/zoxide.vim",
+    --     cmd = "Z",
+    -- },
+
+    {
+        'notjedi/nvim-rooter.lua',
+        config = function()
+            require("nvim-rooter").setup({
+                manual = true,
+            })
+        end,
+    },
+
+    {
+        "folke/flash.nvim",
+        event = "VeryLazy",
+        opts = {},
+        keys = {
+            { "s", mode = { "n", "x", "o" }, function() require("flash").jump({search = {
+                mode = "fuzzy"
+            },}) end, desc = "Flash" },
+            -- Search only start of word
+            -- { "s", mode = { "n", "x", "o" }, function() require("flash").jump({search = {
+            --     mode = function(str)
+            --         return "\\<" .. str
+            --     end,
+            -- },}) end, desc = "Flash" },
+            { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+            { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+            { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+            { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+        },
     },
 
     -- To make a plugin not be loaded
