@@ -108,18 +108,12 @@ local plugins = {
         "karb94/neoscroll.nvim",
         event = "VeryLazy",
         config = true,
-        -- config = function()
-        --     require("neoscroll").setup()
-        -- end,
     },
     {
         "roobert/neoscroll-motions.nvim",
         dependencies = "karb94/neoscroll.nvim",
         event = "VeryLazy",
         config = true,
-        -- config = function()
-        --     require("neoscroll-motions").setup()
-        -- end,
     },
 
     {
@@ -127,11 +121,6 @@ local plugins = {
         version = "*", -- Use for stability; omit to use `main` branch for the latest features
         event = "VeryLazy",
         config = true,
-        -- config = function()
-        --     require("nvim-surround").setup({
-        --         -- Configuration here, or leave empty to use defaults
-        --     })
-        -- end
     },
 
     -- {
@@ -175,6 +164,12 @@ local plugins = {
         end,
     },
 
+    -- {
+    --     "glepnir/dbsession.nvim",
+    --     cmd = { "SessionSave", "SessionDelete", "SessionLoad" },
+    --     opts = { auto_save_on_exit = true },
+    -- },
+
     -- Custom plugins Git
     {
         "samoshkin/vim-mergetool",
@@ -182,11 +177,6 @@ local plugins = {
     },
 
     -- Custom plugins Navigation
-    -- {
-    --     "nanotee/zoxide.vim",
-    --     cmd = "Z",
-    -- },
-
     {
         'notjedi/nvim-rooter.lua',
         config = function()
@@ -215,6 +205,18 @@ local plugins = {
             { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
             { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
         },
+    },
+
+    -- Custom plugins ChatGPT
+    {
+        "jackMort/ChatGPT.nvim",
+        event = "VeryLazy",
+        opts = { api_key_cmd = "cat ~/openai_secret_api.txt" },
+        dependencies = {
+            "MunifTanjim/nui.nvim",
+            "nvim-lua/plenary.nvim",
+            "nvim-telescope/telescope.nvim"
+        }
     },
 
     -- To make a plugin not be loaded

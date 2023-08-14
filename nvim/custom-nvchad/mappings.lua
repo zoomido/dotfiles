@@ -8,7 +8,7 @@ M.general = {
         ["<leader>X"] = { ":qa<CR>", "Quit all windows" },
         ["<leader>s"] = { "/", "Start search" },
         ["+"] = { "\"0p", "Paste latest yank" },
-        ["<leader>g"] = { 
+        ["<leader>g"] = {
             function()
                 utils.grep()
             end,
@@ -18,6 +18,7 @@ M.general = {
     v = {
         ["J"] = { ":m '>+1<CR>gv=gv", "Move selection down"},
         ["K"] = { ":m '<-2<CR>gv=gv", "Move selection up"},
+        [":"] = { "y:<C-r>\"<C-b>", "Paste visual selection in cmdline"},
     },
     -- x = {
     --     ["+"] = { "d", "Cut" },
@@ -40,6 +41,7 @@ M.telescope = {
     n = {
         -- ["<leader><leader>"] = { "<cmd> Telescope buffers <CR>", "Find buffers" },
         ["<leader>b"] = { "<cmd> Telescope buffers <CR>", "Find buffers" },
+        ["<leader>fb"] = { "<cmd> Telescope current_buffer_fuzzy_find <CR>", "Find in current buffer" },
     },
 }
 -- more keybinds!

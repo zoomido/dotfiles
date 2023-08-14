@@ -11,6 +11,7 @@ M.treesitter = {
         "tsx",
         "markdown",
         "markdown_inline",
+        "php",
     },
     indent = {
         enable = true,
@@ -32,6 +33,8 @@ M.mason = {
         "typescript-language-server",
         "deno",
         "prettier",
+        "intelephense",
+        "phpmd",
     },
 }
 
