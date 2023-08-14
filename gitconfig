@@ -1,6 +1,9 @@
 [user]
     useConfigOnly = true
 
+[includeIf "gitdir:~/sites/**"]
+    path = ~/sites/gitconfig-work
+
 [core]
     excludesFile = ~/.gitignore_global
 
