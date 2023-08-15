@@ -20,6 +20,7 @@ M.treesitter = {
         "xml",
         "yaml",
         "dockerfile",
+        "git_config",
     },
     indent = {
         enable = true,
@@ -46,6 +47,8 @@ M.mason = {
         "prettier",
         "intelephense",
         "phpmd",
+        "lemminx",
+        "xmlformatter",
     },
 }
 
