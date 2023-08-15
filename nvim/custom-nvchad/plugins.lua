@@ -32,6 +32,12 @@ local plugins = {
         "nvim-treesitter/nvim-treesitter",
         opts = overrides.treesitter,
     },
+    {
+        'JoosepAlviste/nvim-ts-context-commentstring',
+        dependencies = {
+            'nvim-treesitter/nvim-treesitter',
+        },
+    },
 
     {
         "nvim-tree/nvim-tree.lua",
@@ -54,28 +60,33 @@ local plugins = {
             defaults = {
                 -- layout_strategy = 'vertical',
                 layout_config = { height = 0.99, width = 0.99 },
+                mappings = {
+                    i = {
+                        -- map actions.which_key to <C-h> (default: <C-/>)
+                        -- actions.which_key shows the mappings for your picker,
+                        -- e.g. git_{create, delete, ...}_branch for the git_branches picker
+                        ["<C-l>"] = "select_default"
+                    },
+                },
+            },
+            pickers = {
+                buffers = {
+                    sort_lastused = true,
+                    sort_mru = true,
+                },
             },
             extensions = {
                 zoxide = {
-                    -- prompt_title = "[ Walking on the shoulders of TJ ]",
                     mappings = {
-                        -- default = {
-                        --     after_action = function(selection)
-                        --         print("Update to (" .. selection.z_score .. ") " .. selection.path)
-                        --     end
-                        -- },
-                        -- ["<C-s>"] = {
-                        --     before_action = function(selection) print("before C-s") end,
-                        --     action = function(selection)
-                        --         vim.cmd.edit(selection.path)
-                        --     end
-                        -- },
-                        -- ["<C-q>"] = { action = z_utils.create_basic_command("split") },
+                        ["<C-g>"] = {
+                            action = function(selection)
+                                require("telescope").extensions.egrepify.egrepify({cwd = selection.path})
+                            end
+                        },
                         ["<C-b>"] = {
                             keepinsert = true,
                             action = function(selection)
-                                -- builtin.file_browser({ cwd = selection.path })
-                                require "telescope".extensions.file_browser.file_browser({path = selection.path})
+                                require("telescope").extensions.file_browser.file_browser({path = selection.path})
                             end
                         },
                     },
@@ -98,8 +109,35 @@ local plugins = {
         "jvgrootveld/telescope-zoxide",
         dependencies = { "nvim-telescope/telescope.nvim", "nvim-telescope/telescope-file-browser.nvim" },
         event = "VeryLazy",
+        keys = {
+            { "<leader>z", "<CMD>Telescope zoxide list<CR>", desc = "List latest folders" },
+        },
         config = function()
             require("telescope").load_extension("zoxide")
+        end
+    },
+    {
+        "fdschmidt93/telescope-egrepify.nvim",
+        dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+        event = "VeryLazy",
+        config = function()
+            require("telescope").load_extension("egrepify")
+        end
+    },
+    {
+        "brookhong/telescope-pathogen.nvim",
+        dependencies = { "nvim-telescope/telescope.nvim" },
+        event = "VeryLazy",
+        keys = {
+            -- { "<leader>g", mode = { "v" }, require("telescope").extensions["pathogen"].grep_string(), desc = "Search for visual selection" },
+        { "<leader>g", mode = { "v" }, function() require("telescope").extensions["pathogen"].grep_string() end, desc = "Search for visual selection" },
+            -- { "<space>a", ":Telescope pathogen live_grep<CR>", silent = true },
+            -- { "<C-p>", ":Telescope pathogen<CR>", silent = true },
+            -- { "<C-f>", ":Telescope pathogen find_files<CR>", silent = true },
+            -- { "<space>g", ":Telescope pathogen grep_string<CR>", silent = true },
+        },
+        config = function()
+            require("telescope").load_extension("pathogen")
         end
     },
 
@@ -109,12 +147,12 @@ local plugins = {
         event = "VeryLazy",
         config = true,
     },
-    {
-        "roobert/neoscroll-motions.nvim",
-        dependencies = "karb94/neoscroll.nvim",
-        event = "VeryLazy",
-        config = true,
-    },
+    -- {
+    --     "roobert/neoscroll-motions.nvim",
+    --     dependencies = "karb94/neoscroll.nvim",
+    --     event = "VeryLazy",
+    --     config = true,
+    -- },
 
     {
         "kylechui/nvim-surround",
@@ -124,7 +162,30 @@ local plugins = {
     },
 
     -- {
-    --     "svermeulen/vim-cutlass",
+    --     "yamatsum/nvim-cursorline",
+    --     event = "VeryLazy",
+    --     config = function ()
+    --         require('nvim-cursorline').setup {
+    --             cursorline = {
+    --                 enable = true,
+    --                 timeout = 1000,
+    --                 number = false,
+    --             },
+    --             cursorword = {
+    --                 enable = true,
+    --                 min_length = 3,
+    --                 hl = { underline = true },
+    --             }
+    --         }
+    --     end
+    -- },
+    -- {
+    --     "delphinus/auto-cursorline.nvim",
+    --     event = "VeryLazy",
+    --     -- config = true,
+    --     config = function()
+    --         require("auto-cursorline").setup {}
+    --     end,
     -- },
 
     {
@@ -164,11 +225,31 @@ local plugins = {
         end,
     },
 
-    -- {
-    --     "glepnir/dbsession.nvim",
-    --     cmd = { "SessionSave", "SessionDelete", "SessionLoad" },
-    --     opts = { auto_save_on_exit = true },
-    -- },
+    {
+        "jedrzejboczar/possession.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        event = "VeryLazy",
+        -- cmd = {"SSave", "SLoad", "SList", "SDelete"},
+        config = function ()
+            require("possession").setup {
+                autosave = {
+                    current = true,
+                    tmp = true,
+                },
+                plugins = {
+                    delete_hidden_buffers = false, -- Keep hidden buffers in session
+                    delete_buffers = true, -- Delete all buffers before loading another session
+                },
+                commands = {
+                    save = "SSave",
+                    load = "SLoad",
+                    list = "SList",
+                    delete = "SDelete",
+                },
+            }
+            require("telescope").load_extension("possession")
+        end
+    },
 
     -- Custom plugins Git
     {
@@ -176,9 +257,20 @@ local plugins = {
         cmd = "MergetoolStart",
     },
 
+    {
+        "NeogitOrg/neogit",
+        dependencies = {
+            "nvim-lua/plenary.nvim",         -- required
+            "nvim-telescope/telescope.nvim", -- optional
+            "sindrets/diffview.nvim",        -- optional
+        },
+        cmd = "Neogit",
+        config = true
+    },
+
     -- Custom plugins Navigation
     {
-        'notjedi/nvim-rooter.lua',
+        "notjedi/nvim-rooter.lua",
         config = function()
             require("nvim-rooter").setup({
                 manual = true,
