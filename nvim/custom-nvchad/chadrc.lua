@@ -2,17 +2,17 @@
 local M = {}
 
 --[[ TODO
- * Session management
- * grep visual selection to telescope
- * search inside visual selection
  * git plugin
  * cursorline if needed
+ * grep visual selection to telescope
  * check old dotfiles for inspiration
+ X Session management
+ X search inside visual selection
 --]]
 
 M.ui = {
-    theme = "gruvbox",
-    theme_toggle = { "gruvbox", "penumbra_dark" },
+    theme = "everforest_light",
+    theme_toggle = { "everforest_light", "penumbra_dark" },
     hl_override = {
         Normal =  {
             bg = 'none'
