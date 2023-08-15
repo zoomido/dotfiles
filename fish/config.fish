@@ -35,6 +35,9 @@ if status --is-interactive
     # abbr --add --global ...  'cd ../../..'
     abbr --add --global c    clear
     abbr --add --global v    nvim
+    abbr --add --global vp   nvim -c "\"Telescope possession list\""
+    abbr --add --global vz   nvim -c "\"Telescope zoxide list\""
+    abbr --add --global ve   nvim -c "\"Telescope file_browser\""
     abbr --add --global l    exa --icons --group-directories-first
     abbr --add --global ll   exa -a --icons --group-directories-first
     abbr --add --global lll  exa -la --icons --group-directories-first --git
@@ -59,10 +62,10 @@ if status --is-interactive
 
     # Magento (uses -l for login-shell to respect nvm settings)
     abbr --add ws       'warden shell'
-    abbr --add m2ccc    'warden env exec php-fpm bash -lc "/home/www-data/m2ccc.sh"'
-    abbr --add m2ccce   'warden env exec php-fpm bash -lc "/home/www-data/m2ccc.sh" && exit'
-    abbr --add m2css    'warden env exec php-fpm bash -lc "/home/www-data/m2css.sh"'
-    abbr --add m2csse   'warden env exec php-fpm bash -lc "/home/www-data/m2css.sh" && exit'
+    abbr --add m2ccc    'warden env exec php-fpm bash -lc "/home/www-data/bin/m2ccc.sh"'
+    abbr --add m2ccce   'warden env exec php-fpm bash -lc "/home/www-data/bin/m2ccc.sh" && exit'
+    abbr --add m2css    'warden env exec php-fpm bash -lc "/home/www-data/bin/m2css.sh"'
+    abbr --add m2csse   'warden env exec php-fpm bash -lc "/home/www-data/bin/m2css.sh" && exit'
 
     # Tools
     abbr --add weather 'curl v2d.wttr.in'
@@ -91,48 +94,48 @@ end
 # Fzf global settings
 #set -x FZF_DEFAULT_OPTS "--info 'inline' --reverse --color 'border:#ffff00,info:#ffff00' --bind 'ctrl-d:preview-down,ctrl-u:preview-up,ctrl-o:toggle-preview,ctrl-w:toggle-preview-wrap,ctrl-l:accept,ctrl-h:clear-query'"
 # set -x FZF_PREVIEW_LINES 80
-set -x FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --glob "!.git"'
+##set -x FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --glob "!.git"'
 
 # Fzf fish settings
-set fzf_fd_opts --hidden --no-ignore
+##set fzf_fd_opts --hidden --no-ignore
 
 # Start FZF in explorer mode
-function fzfexplorer
-    # Store the STDOUT of fzf in a variable
-    set SELECTION (find . -type d | fzf --multi --height=80% --border=sharp \
-            --preview='tree -C --filelimit 100 --dirsfirst {}' --preview-window='45%,border-sharp' \
-            --prompt='Dirs > ' \
-            --bind='ctrl-x:execute(rip -i {+})' \
-            --bind='ctrl-p:toggle-preview' \
-            --bind='ctrl-d:change-prompt(Dirs > )' \
-            --bind='ctrl-d:+reload(find . -type d)' \
-            --bind='ctrl-d:+change-preview(tree -C {})' \
-            --bind='ctrl-d:+refresh-preview' \
-            --bind='ctrl-f:change-prompt(Files > )' \
-            --bind='ctrl-f:+reload(find . -type f)' \
-            --bind='ctrl-f:+change-preview(cat {})' \
-            --bind='ctrl-f:+refresh-preview' \
-            --bind='ctrl-l:accept' \
-            --bind='ctrl-t:toggle-all' \
-            --header '
-            CTRL-D to display directories | CTRL-F to display files
-            CTRL-T to select/deselect all
-            CTRL-L to open | CTRL-X to delete
-            CTRL-P to toggle preview
-            '
-    )
-
-    # Determine what to do depending on the selection
-    if test -d "$SELECTION"
-    echo "this should cd to $SELECTION"
-        cd $SELECTION
-        else if test -f "$SELECTION"
-    echo "this should open vim with $SELECTION"
-        eval "$EDITOR $SELECTION"
-    else
-        echo "No file or dir selected"
-    end
-end
+# function fzfexplorer
+#     # Store the STDOUT of fzf in a variable
+#     set SELECTION (find . -type d | fzf --multi --height=80% --border=sharp \
+#             --preview='tree -C --filelimit 100 --dirsfirst {}' --preview-window='45%,border-sharp' \
+#             --prompt='Dirs > ' \
+#             --bind='ctrl-x:execute(rip -i {+})' \
+#             --bind='ctrl-p:toggle-preview' \
+#             --bind='ctrl-d:change-prompt(Dirs > )' \
+#             --bind='ctrl-d:+reload(find . -type d)' \
+#             --bind='ctrl-d:+change-preview(tree -C {})' \
+#             --bind='ctrl-d:+refresh-preview' \
+#             --bind='ctrl-f:change-prompt(Files > )' \
+#             --bind='ctrl-f:+reload(find . -type f)' \
+#             --bind='ctrl-f:+change-preview(cat {})' \
+#             --bind='ctrl-f:+refresh-preview' \
+#             --bind='ctrl-l:accept' \
+#             --bind='ctrl-t:toggle-all' \
+#             --header '
+#             CTRL-D to display directories | CTRL-F to display files
+#             CTRL-T to select/deselect all
+#             CTRL-L to open | CTRL-X to delete
+#             CTRL-P to toggle preview
+#             '
+#     )
+#
+#     # Determine what to do depending on the selection
+#     if test -d "$SELECTION"
+#     echo "this should cd to $SELECTION"
+#         cd $SELECTION
+#         else if test -f "$SELECTION"
+#     echo "this should open vim with $SELECTION"
+#         eval "$EDITOR $SELECTION"
+#     else
+#         echo "No file or dir selected"
+#     end
+# end
 
 # Start zoxide change dir tool
 zoxide init fish | source
