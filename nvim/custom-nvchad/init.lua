@@ -12,6 +12,7 @@ local opt = vim.opt
 
 opt.clipboard = ""
 opt.timeoutlen = 1000 -- Time in milliseconds to wait for a mapped sequence to complete
+opt.gdefault = true -- Set /g global as the default option when doing search and replace
 
 -- Indenting
 opt.shiftwidth = 4 -- When indenting with '>>', '<<' or '==', use 4 spaces width
