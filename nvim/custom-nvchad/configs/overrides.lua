@@ -7,17 +7,28 @@ M.treesitter = {
         "html",
         "css",
         "javascript",
+        "json",
         "typescript",
         "tsx",
+        "vue",
+        "php",
+        "phpdoc",
         "markdown",
         "markdown_inline",
-        "php",
+        "fish",
+        "regex",
+        "xml",
+        "yaml",
+        "dockerfile",
     },
     indent = {
         enable = true,
         -- disable = {
         --   "python"
         -- },
+    },
+    context_commentstring = {
+        enable = true,
     },
 }
 
