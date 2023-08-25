@@ -188,7 +188,7 @@ spoon.GlobalMute:bindHotkeys({
 })
 spoon.GlobalMute:configure({
     enforce_desired_state = true,
-    unmute_title = "<---- HOT MIC -----",
+    unmute_title = "HOT MIC",
     mute_title = "",
 })
 -- Listen for event and show alert
