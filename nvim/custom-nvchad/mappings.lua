@@ -11,11 +11,18 @@ M.general = {
         ["<leader>X"] = { ":qa!<CR>", "Quit all windows, force" },
         ["<leader>s"] = { "/", "Start search" },
         ["+"] = { "\"0p", "Paste latest yank" },
-        ["<leader>g"] = {
+        ["<leader>g"] = { "<cmd>Telescope egrepify<CR>", "Custom grep" },
+        ["<leader>t"] = {
             function()
-                utils.grep()
+                require("nvterm.terminal").toggle "horizontal"
             end,
-            "Custom grep"
+            "Toggle horizontal term",
+        },
+        ["<leader>T"] = {
+            function()
+                require("nvterm.terminal").toggle "vertical"
+            end,
+            "Toggle vertical term",
         },
     },
 -- " Replace word under cursor
@@ -51,7 +58,8 @@ M.telescope = {
         -- ["<leader><leader>"] = { "<cmd> Telescope buffers <CR>", "Find buffers" },
         ["<leader>b"] = { "<cmd> Telescope buffers <CR>", "Find buffers" },
         ["<leader>fb"] = { "<cmd> Telescope current_buffer_fuzzy_find <CR>", "Find in current buffer" },
-        ["<leader>t"] = { function()
+        ["<leader>gs"] = { "<cmd> Telescope git_status <CR>", "Git status" },
+        ["<leader>gt"] = { function()
             require('telescope.builtin').builtin { include_extensions = true }
         end, "Find in current buffer" },
     },
