@@ -5,6 +5,8 @@
 
 -- Set highlight on search
 vim.o.hlsearch = false
+-- Use global search/replace by default
+vim.o.gdefault = true
 -- Make line numbers default
 vim.wo.number = true
 -- Keep space above/below cursor
