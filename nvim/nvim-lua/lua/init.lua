@@ -30,47 +30,8 @@ vim.opt.rtp:prepend(lazypath)
 --
 require('lazy').setup({
 
-    -- Git related
-    {'tpope/vim-fugitive', cmd = 'G'},
-    -- Support bitbucket url for Gbrowse
-    {'tommcdo/vim-fubitive', cmd = 'GBrowse'},
-    -- Detect tabstop and shiftwidth automatically
-    {'tpope/vim-sleuth', event = 'VeryLazy'},
-    -- Add indent text object to vim. <count>ai ii aI iI
-    {'michaeljsmith/vim-indent-object', event = 'VeryLazy'},
-    -- Vim "inner line" text object. Ignore leading and trailing whitespace. v_ y_ d_
-    {'bruno-/vim-line', event = 'VeryLazy'},
-
-    -- Useful plugin to show you pending keybinds.
-    {'folke/which-key.nvim', event = 'VeryLazy', opts = {}},
-    -- "gc" to comment visual regions/lines
-    {'numToStr/Comment.nvim', event = 'VeryLazy', opts = {}},
-
     {
-        -- Smooth scrolling
-        'declancm/cinnamon.nvim',
-        event = 'VeryLazy',
-        opts = {
-            extra_keymaps = true,
-            max_length = 500,
-        },
-    },
-
-    {
-        -- Add indentation guides even on blank lines
-        -- Enable `lukas-reineke/indent-blankline.nvim`
-        -- See `:help indent_blankline.txt`
-        'lukas-reineke/indent-blankline.nvim',
-        event = 'VeryLazy',
-        main = 'ibl',
-        opts = {
-            char = '┊',
-            show_trailing_blankline_indent = false,
-        },
-    },
-
-    -- LSP from Zero to Hero
-    {
+        -- LSP from Zero to Hero
         'VonHeikemen/lsp-zero.nvim',
         branch = 'v3.x',
         lazy = true,
@@ -89,8 +50,8 @@ require('lazy').setup({
         config = true,
     },
 
-    -- Autocompletion
     {
+        -- Autocompletion
         'hrsh7th/nvim-cmp',
         event = 'InsertEnter',
         dependencies = {
@@ -118,8 +79,8 @@ require('lazy').setup({
         end
     },
 
-    -- LSP
     {
+        -- LSP setup
         'neovim/nvim-lspconfig',
         cmd = {'LspInfo', 'LspInstall', 'LspStart'},
         event = {'BufReadPre', 'BufNewFile'},
@@ -153,39 +114,7 @@ require('lazy').setup({
     },
 
     {
-        -- Adds git related signs to the gutter, as well as utilities for managing changes
-        -- See `:help gitsigns.txt`
-        'lewis6991/gitsigns.nvim',
-        event = 'VeryLazy',
-        opts = {
-            signs = {
-                add = { text = '+' },
-                change = { text = '~' },
-                delete = { text = '_' },
-                topdelete = { text = '‾' },
-                changedelete = { text = '~' },
-            },
-            on_attach = function(bufnr)
-                vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'Preview git hunk' })
-
-                -- don't override the built-in and fugitive keymaps
-                local gs = package.loaded.gitsigns
-                vim.keymap.set({'n', 'v'}, ']c', function()
-                    if vim.wo.diff then return ']c' end
-                    vim.schedule(function() gs.next_hunk() end)
-                    return '<Ignore>'
-                end, {expr=true, buffer = bufnr, desc = "Jump to next hunk"})
-                vim.keymap.set({'n', 'v'}, '[c', function()
-                    if vim.wo.diff then return '[c' end
-                    vim.schedule(function() gs.prev_hunk() end)
-                    return '<Ignore>'
-                end, {expr=true, buffer = bufnr, desc = "Jump to previous hunk"})
-            end,
-        },
-    },
-
-    {
-        -- Set lualine as statusline
+        -- lualine as statusline
         -- See `:help lualine.txt`
         'nvim-lualine/lualine.nvim',
         event = 'VeryLazy',
@@ -241,6 +170,8 @@ require('lazy').setup({
         dependencies = {
             'nvim-treesitter/nvim-treesitter-textobjects',
             'nvim-treesitter/nvim-treesitter-context',
+            -- setting the commentstring option based on cursor location, via treesitter queries.
+            'JoosepAlviste/nvim-ts-context-commentstring',
         },
         build = ':TSUpdate',
         opts = {
@@ -249,11 +180,15 @@ require('lazy').setup({
             -- Automatically install missing parsers when entering buffer
             -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
             auto_install = true,
+
+            context_commentstring = {
+                enable = true,
+            },
         },
     },
 
-    -- Fuzzy Finder (files, lsp, etc)
     {
+        -- Fuzzy Finder (files, lsp, etc)
         'nvim-telescope/telescope.nvim',
         dependencies = {
             'nvim-lua/plenary.nvim',
@@ -273,6 +208,25 @@ require('lazy').setup({
         event = 'VeryLazy',
         config = function()
             require('telescope').setup {
+                defaults = {
+                    -- layout_strategy = 'vertical',
+                    layout_config = { height = 0.99, width = 0.99 },
+                    mappings = {
+                        i = {
+                            -- map actions.which_key to <C-h> (default: <C-/>)
+                            -- actions.which_key shows the mappings for your picker,
+                            -- e.g. git_{create, delete, ...}_branch for the git_branches picker
+                            ["<C-l>"] = "select_default",
+                            ["<C-->"] = "which_key",
+                        },
+                    },
+                },
+                pickers = {
+                    buffers = {
+                        sort_lastused = true,
+                        sort_mru = true,
+                    },
+                },
                 extensions = {
                     file_browser = {
                         theme = "ivy",
@@ -292,7 +246,8 @@ require('lazy').setup({
 
             -- See `:help telescope.builtin`
             vim.keymap.set('n', '<Leader>b', "<Cmd>Telescope buffers<Cr>", { silent = true, desc = 'List open [B]uffers' })
-            vim.keymap.set('n', '<Leader>fb', "<Cmd>Telescope current_buffer_fuzzy_find<Cr>", { silent = true, desc = 'Find in current buffer' })
+            vim.keymap.set('n', '<Leader>fb', "<Cmd>Telescope current_buffer_fuzzy_find<Cr>", { silent = true, desc = '[F]ind in current [b]uffer' })
+            vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { desc = '[F]ind [f]iles' })
             -- vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
             -- vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
             -- vim.keymap.set('n', '<leader>/', function()
@@ -304,7 +259,6 @@ require('lazy').setup({
             -- end, { desc = '[/] Fuzzily search in current buffer' })
 
             -- vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
-            -- vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
             -- vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
             -- vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
             -- vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
@@ -314,11 +268,149 @@ require('lazy').setup({
             require('telescope').load_extension('file_browser')
         end,
     },
+    {
+        'nvim-telescope/telescope-file-browser.nvim',
+        lazy = true,
+        dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
+        keys = {
+            { '<leader>e', '<CMD>Telescope file_browser<CR>', desc = 'Telescope file browser from root' },
+            { '<leader>E', '<CMD>Telescope file_browser path=%:p:h select_buffer=true<CR>', desc = 'Telescope file browser from current file' },
+        },
+    },
+
+    -- Illegal git plugin
+    {'tpope/vim-fugitive', cmd = 'G'},
+    -- Support bitbucket url for Gbrowse
+    {'tommcdo/vim-fubitive', cmd = 'GBrowse'},
+    -- Detect tabstop and shiftwidth automatically
+    {'tpope/vim-sleuth', event = 'VeryLazy'},
+    -- Add indent text object to vim. <count>ai ii aI iI
+    {'michaeljsmith/vim-indent-object', event = 'VeryLazy'},
+    -- Vim "inner line" text object. Ignore leading and trailing whitespace. v_ y_ d_
+    {'bruno-/vim-line', event = 'VeryLazy'},
+    -- "gc" to comment visual regions/lines
+    {'numToStr/Comment.nvim', event = 'VeryLazy', opts = {}},
+    -- Useful plugin to show you pending keybinds.
+    {'folke/which-key.nvim', event = 'VeryLazy', opts = {}},
 
     {
-        "nvim-telescope/telescope-file-browser.nvim",
-        lazy = true,
-        dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+        -- See :help nvim-surround.usage
+        "kylechui/nvim-surround",
+        version = "*", -- Use for stability; omit to use `main` branch for the latest features
+        event = "VeryLazy",
+        config = true,
+    },
+
+    {
+        -- Splitting/joining blocks of code like arrays, hashes, statements, objects, dictionaries, etc with tree-sitter
+        'Wansmer/treesj',
+        keys = {
+            { 'J', '<cmd>TSJToggle<cr>', desc = 'Join Toggle' },
+        },
+        opts = { use_default_keymaps = false, max_join_length = 150 },
+    },
+
+    {
+        -- Add indentation guides even on blank lines
+        -- See `:help indent_blankline.txt`
+        'lukas-reineke/indent-blankline.nvim',
+        event = 'VeryLazy',
+        main = 'ibl',
+        opts = {
+            char = '┊',
+            show_trailing_blankline_indent = false,
+        },
+    },
+
+    {
+        -- Smooth scrolling
+        'declancm/cinnamon.nvim',
+        event = 'VeryLazy',
+        opts = {
+            extra_keymaps = true,
+            max_length = 500,
+        },
+    },
+
+    {
+        -- Adds git related signs to the gutter, as well as utilities for managing changes
+        -- See `:help gitsigns.txt`
+        'lewis6991/gitsigns.nvim',
+        event = 'VeryLazy',
+        opts = {
+            signs = {
+                add = { text = '+' },
+                change = { text = '~' },
+                delete = { text = '_' },
+                topdelete = { text = '‾' },
+                changedelete = { text = '~' },
+            },
+            on_attach = function(bufnr)
+                vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'Preview git hunk' })
+
+                -- don't override the built-in and fugitive keymaps
+                local gs = package.loaded.gitsigns
+                vim.keymap.set({'n', 'v'}, ']c', function()
+                    if vim.wo.diff then return ']c' end
+                    vim.schedule(function() gs.next_hunk() end)
+                    return '<Ignore>'
+                end, {expr=true, buffer = bufnr, desc = "Jump to next hunk"})
+                vim.keymap.set({'n', 'v'}, '[c', function()
+                    if vim.wo.diff then return '[c' end
+                    vim.schedule(function() gs.prev_hunk() end)
+                    return '<Ignore>'
+                end, {expr=true, buffer = bufnr, desc = "Jump to previous hunk"})
+            end,
+        },
+    },
+
+    {
+        -- Session management
+        "jedrzejboczar/possession.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        event = "VeryLazy",
+        -- cmd = {"SSave", "SLoad", "SList", "SDelete"},
+        config = function ()
+            require("possession").setup {
+                autosave = {
+                    current = true,
+                    tmp = true,
+                },
+                plugins = {
+                    delete_hidden_buffers = false, -- Keep hidden buffers in session
+                    delete_buffers = true, -- Delete all buffers before loading another session
+                },
+                commands = {
+                    save = "SSave",
+                    load = "SLoad",
+                    list = "SList",
+                    delete = "SDelete",
+                },
+            }
+            require("telescope").load_extension("possession")
+        end
+    },
+
+    {
+        -- navigate with search labels, enhanced character motions, and Treesitter integration
+        "folke/flash.nvim",
+        event = "VeryLazy",
+        opts = {},
+        keys = {
+            { "s", mode = { "n", "x", "o" }, function() require("flash").jump({search = {
+                mode = "fuzzy"
+            },}) end, desc = "Flash" },
+            -- Search only start of word
+            -- { "s", mode = { "n", "x", "o" }, function() require("flash").jump({search = {
+            --     mode = function(str)
+            --         return "\\<" .. str
+            --     end,
+            -- },}) end, desc = "Flash" },
+            { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+            { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+            { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+            { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+        },
     },
 
     {
@@ -404,6 +496,14 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
     group = highlight_group,
     pattern = '*',
+})
+
+-- Restore cursor position
+vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+    pattern = { "*" },
+    callback = function()
+        vim.api.nvim_exec('silent! normal! g`"zv', false)
+    end,
 })
 
 require('options')
