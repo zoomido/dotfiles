@@ -347,6 +347,8 @@ require('lazy').setup({
             },
             on_attach = function(bufnr)
                 vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'Preview git hunk' })
+                vim.keymap.set('n', '<leader>hbf', function() require('gitsigns').blame_line{full=true} end, { desc = 'Git blame full' })
+                vim.keymap.set('n', '<leader>hbl', require('gitsigns').blame_line, { desc = 'Git blame line' })
 
                 -- don't override the built-in and fugitive keymaps
                 local gs = package.loaded.gitsigns
@@ -394,7 +396,7 @@ require('lazy').setup({
     {
         -- navigate with search labels, enhanced character motions, and Treesitter integration
         "folke/flash.nvim",
-        event = "VeryLazy",
+        -- event = "VeryLazy",
         opts = {},
         keys = {
             { "s", mode = { "n", "x", "o" }, function() require("flash").jump({search = {
