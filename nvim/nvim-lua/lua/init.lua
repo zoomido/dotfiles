@@ -42,14 +42,14 @@ require('lazy').setup({
     {'bruno-/vim-line', event = 'VeryLazy'},
 
     -- Useful plugin to show you pending keybinds.
-    { 'folke/which-key.nvim', event = 'VeryLazy', opts = {} },
+    {'folke/which-key.nvim', event = 'VeryLazy', opts = {}},
     -- "gc" to comment visual regions/lines
-    { 'numToStr/Comment.nvim', event = 'VeryLazy', opts = {} },
+    {'numToStr/Comment.nvim', event = 'VeryLazy', opts = {}},
 
     {
         -- Smooth scrolling
         'declancm/cinnamon.nvim',
-	event = 'VeryLazy',
+        event = 'VeryLazy',
         opts = {
             extra_keymaps = true,
             max_length = 500,
@@ -62,6 +62,7 @@ require('lazy').setup({
         -- See `:help indent_blankline.txt`
         'lukas-reineke/indent-blankline.nvim',
         event = 'VeryLazy',
+        main = 'ibl',
         opts = {
             char = '┊',
             show_trailing_blankline_indent = false,
@@ -71,30 +72,31 @@ require('lazy').setup({
     {
         -- LSP from zero to hero
         'VonHeikemen/lsp-zero.nvim',
-        -- branch = 'v2.x',
-	event = 'VeryLazy',
+        branch = 'v3.x',
+        lazy = true,
+        config = false,
         dependencies = {
             -- LSP Support
-            {'neovim/nvim-lspconfig'},             -- Required
-            {'williamboman/mason.nvim'},           -- Optional
-            {'williamboman/mason-lspconfig.nvim'}, -- Optional
-
+            {'neovim/nvim-lspconfig'}, -- Required
             -- Autocompletion
             {'hrsh7th/nvim-cmp'},     -- Required
             {'hrsh7th/cmp-nvim-lsp'}, -- Required
             {'L3MON4D3/LuaSnip'},     -- Required
-
             -- Additional lua configuration, makes nvim stuff amazing!
             'folke/neodev.nvim',
         },
     },
 
+    -- Manage LSP servers from nvim
+    {'williamboman/mason.nvim', event = 'VeryLazy'},
+    {'williamboman/mason-lspconfig.nvim', event = 'VeryLazy'},
+
     {
         -- Adds git related signs to the gutter, as well as utilities for managing changes
+        -- See `:help gitsigns.txt`
         'lewis6991/gitsigns.nvim',
-	event = 'VeryLazy',
+        event = 'VeryLazy',
         opts = {
-            -- See `:help gitsigns.txt`
             signs = {
                 add = { text = '+' },
                 change = { text = '~' },
@@ -125,7 +127,7 @@ require('lazy').setup({
         -- Set lualine as statusline
         -- See `:help lualine.txt`
         'nvim-lualine/lualine.nvim',
-	event = 'VeryLazy',
+        event = 'VeryLazy',
         opts = {
             options = {
                 icons_enabled = false,
@@ -142,7 +144,7 @@ require('lazy').setup({
     {
         -- tabline plugin
         'romgrk/barbar.nvim',
-	event = 'VeryLazy',
+        event = 'VeryLazy',
         dependencies = {
             'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
             'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
@@ -210,7 +212,23 @@ require('lazy').setup({
         event = 'VeryLazy',
         config = function()
             require('telescope').setup {
+                extensions = {
+                    file_browser = {
+                        theme = "ivy",
+                        -- disables netrw and use telescope-file-browser in its place
+                        hijack_netrw = true,
+                        mappings = {
+                            ["i"] = {
+                                -- your custom insert mode mappings
+                            },
+                            ["n"] = {
+                                -- your custom normal mode mappings
+                            },
+                        },
+                    },
+                },
             }
+
             -- See `:help telescope.builtin`
             vim.keymap.set('n', '<Leader>b', "<Cmd>Telescope buffers<Cr>", { silent = true, desc = 'List open [B]uffers' })
             vim.keymap.set('n', '<Leader>fb', "<Cmd>Telescope current_buffer_fuzzy_find<Cr>", { silent = true, desc = 'Find in current buffer' })
@@ -231,7 +249,15 @@ require('lazy').setup({
             -- vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
             -- vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
             -- vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]resume' })
+
+            require('telescope').load_extension('file_browser')
         end,
+    },
+
+    {
+        "nvim-telescope/telescope-file-browser.nvim",
+        lazy = true,
+        dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
     },
 
     {
@@ -259,15 +285,35 @@ require('lazy').setup({
 --
 -- LSP Zero setup
 --
-local lsp = require('lsp-zero').preset({})
-lsp.on_attach(function(client, bufnr)
+local lsp_zero = require('lsp-zero')
+lsp_zero.on_attach(function(client, bufnr)
     -- see :help lsp-zero-keybindings
     -- to learn the available actions
-    lsp.default_keymaps({buffer = bufnr})
+    lsp_zero.default_keymaps({buffer = bufnr})
 end)
+
+-- Setup default options for lua_ls. Used for fixing issue with neovim config
+require('lspconfig').lua_ls.setup(lsp_zero.nvim_lua_ls())
+
+-- Setup Mason with lspconfig integration
+require('mason').setup({})
+require('mason-lspconfig').setup({
+    handlers = {
+        lsp_zero.default_setup,
+    },
+})
+
+-- old copy
+-- local lsp = require('lsp-zero').preset({})
+-- lsp.on_attach(function(client, bufnr)
+--    -- see :help lsp-zero-keybindings
+--    -- to learn the available actions
+--    lsp.default_keymaps({buffer = bufnr})
+-- end)
 -- (Optional) Configure lua language server for neovim
-require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
-lsp.setup()
+-- require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
+-- lsp.setup()
+-- end old copy
 
 
 
