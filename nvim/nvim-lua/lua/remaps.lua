@@ -9,6 +9,7 @@ vim.keymap.set({ 'n', 'v' }, '{', '[{', { silent = true, desc = 'Jump to parent 
 vim.keymap.set({ 'n', 'v' }, '}', ']}', { silent = true, desc = 'Jump to next outer bracket' })
 vim.keymap.set({ 'n', 'v' }, '-', '%', { silent = true, desc = 'Jump between matching pairs' })
 vim.keymap.set({ 'n' }, '<C-s>', '<Cmd>w<Cr>', { silent = true, desc = 'Save current buffer' })
+vim.keymap.set({ 'n' }, '<Leader><Leader>', '<Cmd>b#<Cr>', { silent = true, desc = 'Jump to previously edited buffer' })
 
 -- Traversing windows
 vim.keymap.set({ 'n' }, '<C-h>', '<C-w>h', { silent = true, desc = 'Jump to left window' })

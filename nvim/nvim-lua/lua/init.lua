@@ -216,6 +216,7 @@ require('lazy').setup({
                             -- map actions.which_key to <C-h> (default: <C-/>)
                             -- actions.which_key shows the mappings for your picker,
                             -- e.g. git_{create, delete, ...}_branch for the git_branches picker
+                            -- next / prev in list
                             ["<C-l>"] = "select_default",
                             ["<C-->"] = "which_key",
                         },
@@ -317,8 +318,14 @@ require('lazy').setup({
         event = 'VeryLazy',
         main = 'ibl',
         opts = {
-            char = '┊',
-            show_trailing_blankline_indent = false,
+            indent = {
+                char = '┊',
+                tab_char = { 'a', 'b', 'c' },
+                smart_indent_cap = false,
+            },
+            whitespace = {
+                remove_blankline_trail = false,
+            },
         },
     },
 
@@ -371,7 +378,6 @@ require('lazy').setup({
         "jedrzejboczar/possession.nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
         event = "VeryLazy",
-        -- cmd = {"SSave", "SLoad", "SList", "SDelete"},
         config = function ()
             require("possession").setup {
                 autosave = {
@@ -385,7 +391,6 @@ require('lazy').setup({
                 commands = {
                     save = "SSave",
                     load = "SLoad",
-                    list = "SList",
                     delete = "SDelete",
                 },
             }
@@ -425,13 +430,13 @@ require('lazy').setup({
         end,
     },
     -- {
-    --   'rose-pine/neovim',
-    --   name = 'rose-pine',
-    --   lazy = false,
-    --   priority = 1000,
-    --   config = function()
-    --     vim.cmd[[colorscheme rose-pine]]
-    --   end,
+    --     "catppuccin/nvim",
+    --     name = "catppuccin",
+    --     priority = 1000,
+    --     config = function()
+    --         -- vim.cmd.colorscheme 'onedark'
+    --         vim.cmd[[colorscheme catppuccin]]
+    --     end,
     -- },
 
 })
