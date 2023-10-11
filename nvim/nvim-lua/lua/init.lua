@@ -210,35 +210,64 @@ require('lazy').setup({
             require('telescope').setup {
                 defaults = {
                     -- layout_strategy = 'vertical',
-                    layout_config = { height = 0.99, width = 0.99 },
+                    sorting_strategy = "ascending", -- display results top->bottom
+                    layout_config = {
+                        -- height = 0.99,
+                        -- width = 0.99,
+                        width = { padding = 0 }, --set fullwidth
+                        height = { padding = 0 },
+                        horizontal = {
+                            prompt_position = 'top',
+                        },
+                        vertical = {
+                            prompt_position = 'top',
+                            mirror = true,
+                            preview_cutoff = 10,
+                            preview_height = 0.4,
+                        },
+                    },
                     mappings = {
                         i = {
                             -- map actions.which_key to <C-h> (default: <C-/>)
                             -- actions.which_key shows the mappings for your picker,
                             -- e.g. git_{create, delete, ...}_branch for the git_branches picker
-                            -- next / prev in list
-                            ["<C-l>"] = "select_default",
-                            ["<C-->"] = "which_key",
+                            ['<C-l>'] = 'select_default',
+                            ['<C-->'] = 'which_key',
+                            ['<C-a>'] = require('telescope.actions.layout').toggle_preview,
+                            ['<C-s>'] = require('telescope.actions.layout').cycle_layout_next,
+                            ['<C-j>'] = 'move_selection_next',
+                            ['<C-k>'] = 'move_selection_previous',
+                            ['<Esc>'] = 'close',
                         },
                     },
                 },
                 pickers = {
                     buffers = {
+                        layout_strategy = 'vertical',
+                        -- layout_config = { prompt_position = 'top', mirror = true, preview_height = 0.4 },
                         sort_lastused = true,
                         sort_mru = true,
                     },
                 },
                 extensions = {
                     file_browser = {
-                        theme = "ivy",
+                        -- theme = 'ivy',
                         -- disables netrw and use telescope-file-browser in its place
                         hijack_netrw = true,
+                        initial_mode = 'normal',
+                        grouped = true,
+                        depth = 2,
+                        respect_gitignore = false,
+                        hidden = { file_browser = true, folder_browser = true },
+                        prompt_path = true,
                         mappings = {
-                            ["i"] = {
+                            ['i'] = {
                                 -- your custom insert mode mappings
                             },
-                            ["n"] = {
-                                -- your custom normal mode mappings
+                            ['n'] = {
+                                ['h'] = require('telescope._extensions.file_browser.actions').goto_parent_dir,
+                                ['l'] = 'select_default',
+                                -- ['l'] = require('telescope._extensions.file_browser.actions').open,
                             },
                         },
                     },
@@ -246,8 +275,8 @@ require('lazy').setup({
             }
 
             -- See `:help telescope.builtin`
-            vim.keymap.set('n', '<Leader>b', "<Cmd>Telescope buffers<Cr>", { silent = true, desc = 'List open [B]uffers' })
-            vim.keymap.set('n', '<Leader>fb', "<Cmd>Telescope current_buffer_fuzzy_find<Cr>", { silent = true, desc = '[F]ind in current [b]uffer' })
+            vim.keymap.set('n', '<Leader>b', '<Cmd>Telescope buffers<Cr>', { silent = true, desc = 'List open [B]uffers' })
+            vim.keymap.set('n', '<Leader>fb', '<Cmd>Telescope current_buffer_fuzzy_find<Cr>', { silent = true, desc = '[F]ind in current [b]uffer' })
             vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { desc = '[F]ind [f]iles' })
             -- vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
             -- vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
