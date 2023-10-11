@@ -205,7 +205,7 @@ require('lazy').setup({
             --   end,
             -- },
         },
-        event = 'VeryLazy',
+        -- event = 'VeryLazy', -- No lazy loading when starting with nvim -c "Telescope <cmd>"
         config = function()
             require('telescope').setup {
                 defaults = {
