@@ -22,8 +22,11 @@ vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = tr
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Better yank/cut/paste
+vim.keymap.set({ 'n', 'v' }, 'd', '"_d', { silent = true, desc = 'Delete to black hole register' })
+vim.keymap.set({ 'n', 'v' }, 'p', '"0p', { silent = true, desc = 'Always paste latest yank' })
+vim.keymap.set({ 'n', 'v' }, 'P', '"0P', { silent = true, desc = 'Always paste latest yank' })
+vim.keymap.set({ 'n', 'v' }, '+', '"0d', { silent = true, desc = 'Cut to latest yank register' })
  --         ["+"] = { "\"0p", "Paste latest yank" },
-
 
 -- Search and replace
 -- " Replace word under cursor
