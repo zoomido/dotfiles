@@ -8,23 +8,25 @@
     excludesFile = ~/.gitignore_global
 
 [push]
-	autoSetupRemote = true
+    autoSetupRemote = true
 
 [diff]
     external = difft # Use difftastic for diffing
 
 [merge]
-	tool = diffconflicts
+    tool = diffconflicts
     # conflictstyle = diff3 # For vim_mergetool
+
+[mergetool]
     keepBackup = false
 
 [mergetool "diffconflicts"] # https://github.com/whiteinge/diffconflicts
-	cmd = nvim -c DiffConflicts "$MERGED" "$BASE" "$LOCAL" "$REMOTE"
-	trustExitCode = true
+    cmd = nvim -c DiffConflicts "$MERGED" "$BASE" "$LOCAL" "$REMOTE"
+    trustExitCode = true
 
 [mergetool "vim_mergetool"] # https://github.com/samoshkin/vim-mergetool
-	cmd = nvim -f -c "MergetoolStart" "$MERGED" "$BASE" "$LOCAL" "$REMOTE"
-	trustExitCode = true
+    cmd = nvim -f -c "MergetoolStart" "$MERGED" "$BASE" "$LOCAL" "$REMOTE"
+    trustExitCode = true
 
 [alias]
     parent = "!git show-branch | grep '*' | grep -v \"$(git rev-parse --abbrev-ref HEAD)\" | head -n1 | sed 's/.*\\[\\(.*\\)\\].*/\\1/' | sed 's/[\\^~].*//' #"
