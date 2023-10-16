@@ -142,13 +142,7 @@ require('lazy').setup({
         init = function() vim.g.barbar_auto_setup = false end,
         opts = {},
         config = function()
-            require('barbar').setup {
-                on_attach = function(bufnr)
-                    -- add your plugin keybindings in plugin setup (1)
-                    -- preferably here, if your keybindings need to be buffer-specific
-                end
-            }
-            -- OR add them here after setup (2)
+            require('barbar').setup {}
             local opts = { noremap = true, silent = true }
             -- Move to previous/next
             -- vim.keymap.set('n', '<tab>', '<Cmd>BufferNext<Cr>', opts)
@@ -303,8 +297,8 @@ require('lazy').setup({
         lazy = true,
         dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
         keys = {
-            { '<leader>e', '<CMD>Telescope file_browser<CR>', desc = 'Telescope file browser from root' },
-            { '<leader>E', '<CMD>Telescope file_browser path=%:p:h select_buffer=true<CR>', desc = 'Telescope file browser from current file' },
+            { '<Leader>e', '<Cmd>Telescope file_browser<Cr>', desc = 'Telescope file browser from root' },
+            { '<Leader>E', '<Cmd>Telescope file_browser path=%:p:h select_buffer=true<Cr>', desc = 'Telescope file browser from current file' },
         },
     },
 
@@ -333,9 +327,9 @@ require('lazy').setup({
                 changedelete = { text = '~' },
             },
             on_attach = function(bufnr)
-                vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'Preview git hunk' })
-                vim.keymap.set('n', '<leader>hbf', function() require('gitsigns').blame_line{full=true} end, { desc = 'Git blame full' })
-                vim.keymap.set('n', '<leader>hbl', require('gitsigns').blame_line, { desc = 'Git blame line' })
+                vim.keymap.set('n', '<Leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'Preview git hunk' })
+                vim.keymap.set('n', '<Leader>hbf', function() require('gitsigns').blame_line{full=true} end, { desc = 'Git blame full' })
+                vim.keymap.set('n', '<Leader>hbl', require('gitsigns').blame_line, { desc = 'Git blame line' })
 
                 -- don't override the built-in and fugitive keymaps
                 local gs = package.loaded.gitsigns
@@ -359,17 +353,19 @@ require('lazy').setup({
         version = "*",
         cmd = 'ToggleTerm',
         keys = {
-            { '<leader>t', '<cmd>ToggleTerm<cr>', desc = 'Open new terminal' },
+            { '<leader>t', '<Cmd>ToggleTerm size=50 direction=vertical<Cr>', desc = 'Open new vertical terminal' },
+            { '<leader>T', '<Cmd>ToggleTerm direction=horizontal<Cr>', desc = 'Open new horizontal terminal' },
         },
         config = function()
             require('toggleterm').setup {
-                open_mapping = '<leader>t',
+                -- open_mapping = '<leader>t',
                 insert_mappings = false,
             }
             function _G.set_terminal_keymaps()
                 local opts = {buffer = 0}
-                vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
-                vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+                vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], opts)
+                vim.keymap.set('t', '<Leader>t', [[<Cmd>ToggleTerm<Cr>]], opts)
+                vim.keymap.set('t', 'jk', [[<Cmd>TermExec cmd="exit"<Cr>]], opts)
                 vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
                 vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
                 vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
