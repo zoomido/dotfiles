@@ -318,61 +318,6 @@ require('lazy').setup({
     },
     -- 2 way git merge conflicts
     {'whiteinge/diffconflicts', cmd = 'DiffConflicts'},
-    -- Detect tabstop and shiftwidth automatically
-    -- {'tpope/vim-sleuth', event = 'VeryLazy'},
-    -- Add indent text object to vim. <count>ai ii aI iI
-    {'michaeljsmith/vim-indent-object', event = 'VeryLazy'},
-    -- Vim "inner line" text object. Ignore leading and trailing whitespace. v_ y_ d_
-    {'bruno-/vim-line', event = 'VeryLazy'},
-    -- "gc" to comment visual regions/lines
-    {'numToStr/Comment.nvim', event = 'VeryLazy', opts = {}},
-    -- Useful plugin to show you pending keybinds.
-    {'folke/which-key.nvim', event = 'VeryLazy', opts = {}},
-
-    {
-        -- See :help nvim-surround.usage
-        "kylechui/nvim-surround",
-        version = "*", -- Use for stability; omit to use `main` branch for the latest features
-        event = "VeryLazy",
-        config = true,
-    },
-
-    {
-        -- Splitting/joining blocks of code like arrays, hashes, statements, objects, dictionaries, etc with tree-sitter
-        'Wansmer/treesj',
-        keys = {
-            { 'J', '<cmd>TSJToggle<cr>', desc = 'Join Toggle' },
-        },
-        opts = { use_default_keymaps = false, max_join_length = 150 },
-    },
-
-    {
-        -- Add indentation guides even on blank lines
-        -- See `:help indent_blankline.txt`
-        'lukas-reineke/indent-blankline.nvim',
-        event = 'VeryLazy',
-        main = 'ibl',
-        opts = {
-            indent = {
-                char = '┊',
-                tab_char = { 'a', 'b', 'c' },
-                smart_indent_cap = false,
-            },
-            whitespace = {
-                remove_blankline_trail = false,
-            },
-        },
-    },
-
-    {
-        -- Smooth scrolling
-        'declancm/cinnamon.nvim',
-        event = 'VeryLazy',
-        opts = {
-            extra_keymaps = true,
-            max_length = 500,
-        },
-    },
 
     {
         -- Adds git related signs to the gutter, as well as utilities for managing changes
@@ -409,6 +354,37 @@ require('lazy').setup({
     },
 
     {
+        -- Wrapper for neovim terminal
+        'akinsho/toggleterm.nvim',
+        version = "*",
+        cmd = 'ToggleTerm',
+        keys = {
+            { '<leader>t', '<cmd>ToggleTerm<cr>', desc = 'Open new terminal' },
+        },
+        config = function()
+            require('toggleterm').setup {
+                open_mapping = '<leader>t',
+                insert_mappings = false,
+            }
+            function _G.set_terminal_keymaps()
+                local opts = {buffer = 0}
+                vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
+                vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+                vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+                vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+                vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+                vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+                vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
+            end
+            vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
+        end,
+    },
+    -- {
+    --     'voldikss/vim-floaterm',
+    --     cmd = 'FloatermToggle',
+    -- },
+
+    {
         -- Session management
         "jedrzejboczar/possession.nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
@@ -434,7 +410,7 @@ require('lazy').setup({
     },
 
     {
-        -- navigate with search labels, enhanced character motions, and Treesitter integration
+        -- Navigate with search labels, enhanced character motions, and Treesitter integration
         "folke/flash.nvim",
         -- event = "VeryLazy",
         opts = {},
@@ -453,6 +429,69 @@ require('lazy').setup({
             { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
             { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
         },
+    },
+
+    {
+        -- See :help nvim-surround.usage
+        "kylechui/nvim-surround",
+        version = "*", -- Use for stability; omit to use `main` branch for the latest features
+        event = "VeryLazy",
+        config = true,
+    },
+
+    {
+        -- Splitting/joining blocks of code like arrays, hashes, statements, objects, dictionaries, etc with tree-sitter
+        'Wansmer/treesj',
+        keys = {
+            { '<leader>j', '<cmd>TSJToggle<cr>', desc = 'Join Toggle' },
+        },
+        opts = { use_default_keymaps = false, max_join_length = 150 },
+    },
+
+    {
+        -- Add indentation guides even on blank lines
+        -- See `:help indent_blankline.txt`
+        'lukas-reineke/indent-blankline.nvim',
+        event = 'VeryLazy',
+        main = 'ibl',
+        opts = {
+            indent = {
+                char = '┊',
+                tab_char = { 'a', 'b', 'c' },
+                smart_indent_cap = false,
+            },
+            whitespace = {
+                remove_blankline_trail = false,
+            },
+        },
+    },
+
+    {
+        -- Smooth scrolling
+        'declancm/cinnamon.nvim',
+        event = 'VeryLazy',
+        opts = {
+            extra_keymaps = true,
+            max_length = 500,
+        },
+    },
+
+    -- Detect tabstop and shiftwidth automatically
+    -- {'tpope/vim-sleuth', event = 'VeryLazy'},
+    -- Add indent text object to vim. <count>ai ii aI iI
+    {'michaeljsmith/vim-indent-object', event = 'VeryLazy'},
+    -- Vim "inner line" text object. Ignore leading and trailing whitespace. v_ y_ d_
+    {'bruno-/vim-line', event = 'VeryLazy'},
+    -- "gc" to comment visual regions/lines
+    {'numToStr/Comment.nvim', event = 'VeryLazy', opts = {}},
+    -- Useful plugin to show you pending keybinds.
+    {'folke/which-key.nvim', event = 'VeryLazy', opts = {}},
+
+    {
+        -- Highlight active parts of the code
+        "folke/twilight.nvim",
+        cmd = 'Twilight',
+        opts = {},
     },
 
     {
@@ -478,56 +517,8 @@ require('lazy').setup({
 
 
 --
--- LSP Zero setup
+-- Customization
 --
--- local lsp_zero = require('lsp-zero')
--- lsp_zero.on_attach(function(client, bufnr)
---     -- see :help lsp-zero-keybindings
---     -- to learn the available actions
---     lsp_zero.default_keymaps({buffer = bufnr})
--- end)
-
--- Setup default options for lua_ls. Used for fixing issue with neovim config
--- require('lspconfig').lua_ls.setup(lsp_zero.nvim_lua_ls())
-
--- Setup Mason with lspconfig integration
--- require('mason').setup({})
--- require('mason-lspconfig').setup({
---     handlers = {
---         lsp_zero.default_setup,
---     },
--- })
-
--- old copy
--- local lsp = require('lsp-zero').preset({})
--- lsp.on_attach(function(client, bufnr)
---    -- see :help lsp-zero-keybindings
---    -- to learn the available actions
---    lsp.default_keymaps({buffer = bufnr})
--- end)
--- (Optional) Configure lua language server for neovim
--- require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
--- lsp.setup()
--- end old copy
-
-
-
-
--- [[ Configure Telescope ]]
--- See `:help telescope` and `:help telescope.setup()`
--- require('telescope').setup {
---   defaults = {
---     mappings = {
---       i = {
---         ['<C-u>'] = false,
---         ['<C-d>'] = false,
---       },
---     },
---   },
--- }
--- Enable telescope fzf native, if installed
--- pcall(require('telescope').load_extension, 'fzf')
-
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -547,6 +538,11 @@ vim.api.nvim_create_autocmd({ "BufReadPost" }, {
         vim.api.nvim_exec('silent! normal! g`"zv', false)
     end,
 })
+
+
+-- 
+-- Load more configs
+--
 
 require('options')
 require('remaps')
