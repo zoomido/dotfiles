@@ -311,11 +311,15 @@ require('lazy').setup({
     -- Illegal git plugin
     {'tpope/vim-fugitive', cmd = 'G'},
     -- Support bitbucket url for Gbrowse
-    {'tommcdo/vim-fubitive', cmd = 'GBrowse'},
+    {
+        'tommcdo/vim-fubitive',
+        cmd = 'GBrowse',
+        dependencies = { 'tpope/vim-fugitive' },
+    },
     -- 2 way git merge conflicts
     {'whiteinge/diffconflicts', cmd = 'DiffConflicts'},
     -- Detect tabstop and shiftwidth automatically
-    {'tpope/vim-sleuth', event = 'VeryLazy'},
+    -- {'tpope/vim-sleuth', event = 'VeryLazy'},
     -- Add indent text object to vim. <count>ai ii aI iI
     {'michaeljsmith/vim-indent-object', event = 'VeryLazy'},
     -- Vim "inner line" text object. Ignore leading and trailing whitespace. v_ y_ d_
