@@ -114,6 +114,29 @@ require('lazy').setup({
     },
 
     {
+        -- Highlight, edit, and navigate code
+        'nvim-treesitter/nvim-treesitter',
+        dependencies = {
+            'nvim-treesitter/nvim-treesitter-textobjects',
+            'nvim-treesitter/nvim-treesitter-context',
+            -- setting the commentstring option based on cursor location, via treesitter queries.
+            'JoosepAlviste/nvim-ts-context-commentstring',
+        },
+        build = ':TSUpdate',
+        opts = {
+            -- Install parsers synchronously (only applied to `ensure_installed`)
+            sync_install = true,
+            -- Automatically install missing parsers when entering buffer
+            -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+            auto_install = true,
+
+            context_commentstring = {
+                enable = true,
+            },
+        },
+    },
+
+    {
         -- lualine as statusline
         -- See `:help lualine.txt`
         'nvim-lualine/lualine.nvim',
@@ -156,29 +179,6 @@ require('lazy').setup({
             -- Magic buffer-picking mode
             vim.keymap.set('n', '<C-b>', '<Cmd>BufferPick<Cr>', opts)
         end,
-    },
-
-    {
-        -- Highlight, edit, and navigate code
-        'nvim-treesitter/nvim-treesitter',
-        dependencies = {
-            'nvim-treesitter/nvim-treesitter-textobjects',
-            'nvim-treesitter/nvim-treesitter-context',
-            -- setting the commentstring option based on cursor location, via treesitter queries.
-            'JoosepAlviste/nvim-ts-context-commentstring',
-        },
-        build = ':TSUpdate',
-        opts = {
-            -- Install parsers synchronously (only applied to `ensure_installed`)
-            sync_install = true,
-            -- Automatically install missing parsers when entering buffer
-            -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-            auto_install = true,
-
-            context_commentstring = {
-                enable = true,
-            },
-        },
     },
 
     {
