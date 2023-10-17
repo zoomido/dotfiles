@@ -290,6 +290,7 @@ require('lazy').setup({
             -- vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]resume' })
 
             require('telescope').load_extension('file_browser')
+            require('telescope').load_extension('zf-native')
         end,
     },
     {
@@ -300,6 +301,12 @@ require('lazy').setup({
             { '<Leader>e', '<Cmd>Telescope file_browser<Cr>', desc = 'Telescope file browser from root' },
             { '<Leader>E', '<Cmd>Telescope file_browser path=%:p:h select_buffer=true<Cr>', desc = 'Telescope file browser from current file' },
         },
+    },
+    {
+        -- Match on filename prioritized over match on full path
+        -- Search including path separators enables "strict path matching" (eg: src/)
+        -- Search query is space-separated to make narrowing down results easier
+        'natecraddock/telescope-zf-native.nvim',
     },
 
     -- Illegal git plugin
@@ -312,6 +319,14 @@ require('lazy').setup({
     },
     -- 2 way git merge conflicts
     {'whiteinge/diffconflicts', cmd = 'DiffConflicts'},
+
+    {
+        -- List diff for current repo
+        -- The current branch: :DiffviewFileHistory
+        -- The current file: :DiffviewFileHistory %
+        'sindrets/diffview.nvim',
+        cmd = 'DiffviewOpen',
+    },
 
     {
         -- Adds git related signs to the gutter, as well as utilities for managing changes
