@@ -186,20 +186,9 @@ require('lazy').setup({
         'nvim-telescope/telescope.nvim',
         dependencies = {
             'nvim-lua/plenary.nvim',
-            -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-            -- Only load if `make` is available. Make sure you have the system
-            -- requirements installed.
-            -- {
-            --   'nvim-telescope/telescope-fzf-native.nvim',
-            --   -- NOTE: If you are having trouble with this installation,
-            --   --       refer to the README for telescope-fzf-native for more instructions.
-            --   build = 'make',
-            --   cond = function()
-            --     return vim.fn.executable 'make' == 1
-            --   end,
-            -- },
         },
-        -- event = 'VeryLazy', -- No lazy loading when starting with nvim -c "Telescope <cmd>"
+        -- event = 'VeryLazy', -- Use nvim +"lua require('telescope.builtin').find_files()"
+        cmd = 'Telescope',
         config = function()
             require('telescope').setup {
                 defaults = {
@@ -269,9 +258,11 @@ require('lazy').setup({
             }
 
             -- See `:help telescope.builtin`
-            vim.keymap.set('n', '<Leader>b', '<Cmd>Telescope buffers<Cr>', { silent = true, desc = 'List open [B]uffers' })
-            vim.keymap.set('n', '<Leader>fb', '<Cmd>Telescope current_buffer_fuzzy_find<Cr>', { silent = true, desc = '[F]ind in current [b]uffer' })
-            vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { desc = '[F]ind [f]iles' })
+            -- ------------------------------ These are mappped in KEYS section instead
+            -- vim.keymap.set('n', '<Leader>b', '<Cmd>Telescope buffers<Cr>', { silent = true, desc = 'List open [B]uffers' })
+            -- vim.keymap.set('n', '<Leader>fb', '<Cmd>Telescope current_buffer_fuzzy_find<Cr>', { silent = true, desc = '[F]ind in current [b]uffer' })
+            -- vim.keymap.set('n', '<leader>ff', function() require('telescope.builtin').find_files() end, { desc = '[F]ind [f]iles' })
+
             -- vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
             -- vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
             -- vim.keymap.set('n', '<leader>/', function()
@@ -292,6 +283,12 @@ require('lazy').setup({
             require('telescope').load_extension('file_browser')
             require('telescope').load_extension('zf-native')
         end,
+        keys = {
+            { '<Leader>b', '<Cmd>Telescope buffers<Cr>', desc = 'List open [B]uffers'},
+            { '<Leader>fb', '<Cmd>Telescope current_buffer_fuzzy_find<Cr>', desc = '[F]ind in current [b]uffer' },
+            { '<leader>ff', function() require('telescope.builtin').find_files() end, desc = '[F]ind [f]iles' },
+            { '<leader>fg', function() require('telescope.builtin').find_files() end, desc = '[F]ind [f]iles' },
+        },
     },
     {
         'nvim-telescope/telescope-file-browser.nvim',
@@ -366,7 +363,7 @@ require('lazy').setup({
         -- Wrapper for neovim terminal
         'akinsho/toggleterm.nvim',
         version = "*",
-        cmd = 'ToggleTerm',
+        cmd = { 'ToggleTerm' , 'Lg' },
         keys = {
             { '<leader>t', '<Cmd>ToggleTerm size=50 direction=vertical<Cr>', desc = 'Open new vertical terminal' },
             { '<leader>T', '<Cmd>ToggleTerm direction=horizontal<Cr>', desc = 'Open new horizontal terminal' },
@@ -380,7 +377,6 @@ require('lazy').setup({
                 local opts = {buffer = 0}
                 vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], opts)
                 vim.keymap.set('t', '<Leader>t', [[<Cmd>ToggleTerm<Cr>]], opts)
-                vim.keymap.set('t', 'jk', [[<Cmd>TermExec cmd="exit"<Cr>]], opts)
                 vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
                 vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
                 vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
@@ -388,6 +384,30 @@ require('lazy').setup({
                 vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
             end
             vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
+
+            local Terminal  = require('toggleterm.terminal').Terminal
+            local lazygit = Terminal:new({
+                cmd = 'lazygit',
+                -- dir = 'git_dir',
+                direction = 'tab',
+                -- float_opts = {
+                --     border = 'double',
+                -- },
+                -- function to run on opening the terminal
+                on_open = function(term)
+                    vim.cmd('startinsert!')
+                    vim.keymap.set('n', 'q', '<cmd>close<CR>', {buffer = term.bufnr, noremap = true, silent = true})
+                end,
+                -- function to run on closing the terminal
+                on_close = function(term)
+                    vim.cmd('startinsert!')
+                end,
+            })
+            function _lazygit_toggle()
+                lazygit:toggle()
+            end
+            -- vim.keymap.set('n', '<leader>g', '<cmd>lua _lazygit_toggle()<CR>', {noremap = true, silent = true})
+            vim.api.nvim_create_user_command('Lg', 'lua _lazygit_toggle()', {})
         end,
     },
     -- {
@@ -399,7 +419,8 @@ require('lazy').setup({
         -- Session management
         "jedrzejboczar/possession.nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
-        event = "VeryLazy",
+        -- event = "VeryLazy",
+        cmd = {'SSave', 'SLoad', 'SDelete'},
         config = function ()
             require("possession").setup {
                 autosave = {
@@ -510,8 +531,12 @@ require('lazy').setup({
         lazy = false,
         priority = 1000,
         config = function()
-            -- vim.cmd.colorscheme 'onedark'
-            vim.cmd[[colorscheme tokyonight]]
+            require("tokyonight").setup({
+                -- transparent = true, -- Enable this to disable setting the background color
+                day_brightness = 0.4, -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
+            })
+            -- vim.cmd[[colorscheme tokyonight]]
+            vim.cmd('colorscheme tokyonight')
         end,
     },
     -- {
