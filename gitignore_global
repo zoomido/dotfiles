@@ -3,3 +3,4 @@
 deploy.sh
 .env
 warden-env.yml
+custom-scripts.sh
