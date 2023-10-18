@@ -35,9 +35,9 @@ if status --is-interactive
     # abbr --add --global ...  'cd ../../..'
     abbr --add --global c    clear
     abbr --add --global v    nvim
-    abbr --add --global vp   nvim -c "\"Telescope possession list\""
-    abbr --add --global vz   nvim -c "\"Telescope zoxide list\""
-    abbr --add --global vf   nvim -c "\"Telescope find_files\""
+    abbr --add --global vp   nvim +"\"lua require('telescope').extensions.possession.list()"\"
+    abbr --add --global vf   nvim +"\"lua require('telescope.builtin').find_files()"\"
+    # +"lua require('telescope.builtin').find_files()"
     abbr --add --global l    exa --icons --group-directories-first
     abbr --add --global ll   exa -a --icons --group-directories-first
     abbr --add --global lll  exa -la --icons --group-directories-first --git

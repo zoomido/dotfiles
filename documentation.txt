@@ -32,7 +32,6 @@ lg: list git repos
 
 # Nvim
 vp: Telescope possession list
-vz: Telescope zoxide list
 vf: Telescope find_files
 
 -------------------------------------
