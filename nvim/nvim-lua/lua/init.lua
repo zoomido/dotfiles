@@ -389,6 +389,7 @@ require('lazy').setup({
             local lazygit = Terminal:new({
                 cmd = 'lazygit',
                 -- dir = 'git_dir',
+                -- dir = vim.fn.expand('%:p'),
                 direction = 'tab',
                 -- float_opts = {
                 --     border = 'double',
@@ -404,6 +405,7 @@ require('lazy').setup({
                 end,
             })
             function _lazygit_toggle()
+                lazygit.dir = vim.fn.expand("%:p:h") -- current working directory for the active buffer
                 lazygit:toggle()
             end
             -- vim.keymap.set('n', '<leader>g', '<cmd>lua _lazygit_toggle()<CR>', {noremap = true, silent = true})
@@ -504,7 +506,7 @@ require('lazy').setup({
         event = 'VeryLazy',
         opts = {
             extra_keymaps = true,
-            max_length = 500,
+            -- max_length = 500,
         },
     },
 
