@@ -37,6 +37,7 @@ if status --is-interactive
     abbr --add --global v    nvim
     abbr --add --global vp   nvim +"\"lua require('telescope').extensions.possession.list()"\"
     abbr --add --global vf   nvim +"\"lua require('telescope.builtin').find_files()"\"
+    abbr --add --global vn   nvim +"\"lua require('telekasten').find_notes()"\"
     # +"lua require('telescope.builtin').find_files()"
     abbr --add --global l    exa --icons --group-directories-first
     abbr --add --global ll   exa -a --icons --group-directories-first

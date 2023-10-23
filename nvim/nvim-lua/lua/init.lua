@@ -390,6 +390,8 @@ require('lazy').setup({
                 cmd = 'lazygit',
                 -- dir = 'git_dir',
                 -- dir = vim.fn.expand('%:p'),
+                -- TODO open the git root of the current file
+                -- not the git root of the pwd of nvim
                 direction = 'tab',
                 -- float_opts = {
                 --     border = 'double',
@@ -419,12 +421,12 @@ require('lazy').setup({
 
     {
         -- Session management
-        "jedrzejboczar/possession.nvim",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        -- event = "VeryLazy",
+        'jedrzejboczar/possession.nvim',
+        dependencies = { 'nvim-lua/plenary.nvim' },
+        -- event = 'VeryLazy',
         cmd = {'SSave', 'SLoad', 'SDelete'},
         config = function ()
-            require("possession").setup {
+            require('possession').setup {
                 autosave = {
                     current = true,
                     tmp = true,
@@ -434,42 +436,51 @@ require('lazy').setup({
                     delete_buffers = true, -- Delete all buffers before loading another session
                 },
                 commands = {
-                    save = "SSave",
-                    load = "SLoad",
-                    delete = "SDelete",
+                    save = 'SSave',
+                    load = 'SLoad',
+                    delete = 'SDelete',
                 },
             }
-            require("telescope").load_extension("possession")
+            require('telescope').load_extension('possession')
         end
     },
 
     {
+        'renerocksai/telekasten.nvim',
+        cmd = 'Telekasten',
+        dependencies = {'nvim-telescope/telescope.nvim'},
+        opts = {
+            home = vim.fn.expand('~/notes/zettelkasten'), -- Name of notes directory
+        },
+    },
+
+    {
         -- Navigate with search labels, enhanced character motions, and Treesitter integration
-        "folke/flash.nvim",
-        -- event = "VeryLazy",
+        'folke/flash.nvim',
+        -- event = 'VeryLazy',
         opts = {},
         keys = {
-            { "s", mode = { "n", "x", "o" }, function() require("flash").jump({search = {
-                mode = "fuzzy"
-            },}) end, desc = "Flash" },
+            { 's', mode = { 'n', 'x', 'o' }, function() require('flash').jump({search = {
+                mode = 'fuzzy'
+            },}) end, desc = 'Flash' },
             -- Search only start of word
-            -- { "s", mode = { "n", "x", "o" }, function() require("flash").jump({search = {
+            -- { 's', mode = { 'n', 'x', 'o' }, function() require('flash').jump({search = {
             --     mode = function(str)
-            --         return "\\<" .. str
+            --         return '\\<' .. str
             --     end,
-            -- },}) end, desc = "Flash" },
-            { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-            { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-            { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-            { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+            -- },}) end, desc = 'Flash' },
+            { 'S', mode = { 'n', 'o', 'x' }, function() require('flash').treesitter() end, desc = 'Flash Treesitter' },
+            { 'r', mode = 'o', function() require('flash').remote() end, desc = 'Remote Flash' },
+            { 'R', mode = { 'o', 'x' }, function() require('flash').treesitter_search() end, desc = 'Treesitter Search' },
+            { '<c-s>', mode = { 'c' }, function() require('flash').toggle() end, desc = 'Toggle Flash Search' },
         },
     },
 
     {
         -- See :help nvim-surround.usage
-        "kylechui/nvim-surround",
-        version = "*", -- Use for stability; omit to use `main` branch for the latest features
-        event = "VeryLazy",
+        'kylechui/nvim-surround',
+        version = '*', -- Use for stability; omit to use `main` branch for the latest features
+        event = 'VeryLazy',
         config = true,
     },
 
