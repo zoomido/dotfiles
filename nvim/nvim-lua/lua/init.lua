@@ -139,7 +139,7 @@ require('lazy').setup({
                 -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
                 auto_install = true,
                 highlight = { enable = true },
-                indent = { enable = true },
+                -- indent = { enable = true }, -- Breaks indentation
                 incremental_selection = {
                     enable = true,
                     keymaps = {
