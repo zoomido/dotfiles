@@ -41,3 +41,9 @@ vim.keymap.set('v', ':p', "y:<C-r>\"<C-b>", { silent = true, desc = 'Paste visua
 vim.keymap.set('v', 'r', "\"hy:%s/<C-r>h//c<Left><Left><Left>", { silent = true, desc = 'Replace the visual selection everywhere' })
 vim.keymap.set('v', ':r', ":s/\\%V\\%V/<Left><Left><Left><Left>", { silent = true, desc = 'Replace inside visual selection' })
 
+
+--
+-- Abbreviations
+--
+vim.cmd('abb clog console.log( );<Left><Left><Left>')
+
