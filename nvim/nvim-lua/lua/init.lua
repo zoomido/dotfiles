@@ -118,22 +118,44 @@ require('lazy').setup({
         'nvim-treesitter/nvim-treesitter',
         dependencies = {
             'nvim-treesitter/nvim-treesitter-textobjects',
-            'nvim-treesitter/nvim-treesitter-context',
+            {
+                'nvim-treesitter/nvim-treesitter-context',
+                opts = {
+                    max_lines = 5,
+                    min_window_height = 20,
+                    multiline_threshold = 3,
+                    -- separator = '—',
+                },
+            },
             -- setting the commentstring option based on cursor location, via treesitter queries.
-            'JoosepAlviste/nvim-ts-context-commentstring',
+            { 'JoosepAlviste/nvim-ts-context-commentstring', config = true },
         },
         build = ':TSUpdate',
-        opts = {
-            -- Install parsers synchronously (only applied to `ensure_installed`)
-            sync_install = true,
-            -- Automatically install missing parsers when entering buffer
-            -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-            auto_install = true,
-
-            context_commentstring = {
-                enable = true,
-            },
-        },
+        config = function ()
+            local configs = require('nvim-treesitter.configs')
+            configs.setup({
+                -- ensure_installed = { 'lua', 'vim', 'vimdoc', 'javascript', 'html', 'less' },
+                -- Automatically install missing parsers when entering buffer
+                -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+                auto_install = true,
+                highlight = { enable = true },
+                indent = { enable = true },
+                incremental_selection = {
+                    enable = true,
+                    keymaps = {
+                        init_selection = 'gnn', -- set to `false` to disable one of the mappings
+                        node_incremental = 'grn',
+                        scope_incremental = 'grc',
+                        node_decremental = 'grm',
+                    },
+                },
+                -- Remove this when tree-sitter >1.0
+                -- https://github.com/JoosepAlviste/nvim-ts-context-commentstring
+                context_commentstring = {
+                    enable = true,
+                },
+            })
+        end,
     },
 
     {
@@ -414,10 +436,6 @@ require('lazy').setup({
             vim.api.nvim_create_user_command('Lg', 'lua _lazygit_toggle()', {})
         end,
     },
-    -- {
-    --     'voldikss/vim-floaterm',
-    --     cmd = 'FloatermToggle',
-    -- },
 
     {
         -- Session management
@@ -485,10 +503,17 @@ require('lazy').setup({
     },
 
     {
+        -- When pressing tab and the line to the left of the cursor isn't all whitespace, the cursor will jump to the end of the syntax tree's parent node.
+        'boltlessengineer/smart-tab.nvim',
+        event = 'VeryLazy',
+        config = true,
+    },
+
+    {
         -- Splitting/joining blocks of code like arrays, hashes, statements, objects, dictionaries, etc with tree-sitter
         'Wansmer/treesj',
         keys = {
-            { '<leader>j', '<cmd>TSJToggle<cr>', desc = 'Join Toggle' },
+            { '<Leader>j', '<Cmd>TSJToggle<cr>', desc = 'Join Toggle' },
         },
         opts = { use_default_keymaps = false, max_join_length = 150 },
     },
@@ -517,7 +542,8 @@ require('lazy').setup({
         event = 'VeryLazy',
         opts = {
             extra_keymaps = true,
-            -- max_length = 500,
+            override_keymaps = true,
+            -- scroll_limit = 150, -- default setting
         },
     },
 
