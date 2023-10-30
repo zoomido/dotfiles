@@ -7,8 +7,9 @@
 
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true }) -- Holding down space wont repeat
 vim.keymap.set({ 'n', 'v' }, '{', '[{', { silent = true, desc = 'Jump to parent bracket' })
+vim.keymap.set({ 'n', 'v' }, '<S-Tab>', '[{', { silent = true, desc = 'Jump to parent bracket' })
 vim.keymap.set({ 'n', 'v' }, '}', ']}', { silent = true, desc = 'Jump to next outer bracket' })
-vim.keymap.set({ 'n', 'v' }, '-', '%', { silent = true, desc = 'Jump between matching pairs' })
+vim.keymap.set({ 'n', 'v' }, '<tab>', '%', { silent = true, desc = 'Jump between matching pairs' })
 vim.keymap.set({ 'n' }, '<C-s>', '<Cmd>w<Cr>', { silent = true, desc = 'Save current buffer' })
 vim.keymap.set({ 'n' }, '<Leader><Leader>', '<Cmd>b#<Cr>', { silent = true, desc = 'Jump to previously edited buffer' })
 
