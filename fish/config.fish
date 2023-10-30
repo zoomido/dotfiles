@@ -82,6 +82,9 @@ end
 # External applications
 # ---------------------
 
+# Ripgrep config file dir
+set -x RIPGREP_CONFIG_PATH "$HOME/.ripgreprc"
+
 # Base16 Shell
 #if status --is-interactive
 #    set BASE16_SHELL "$HOME/.config/base16-shell"
