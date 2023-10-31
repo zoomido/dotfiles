@@ -144,9 +144,9 @@ require('lazy').setup({
                     enable = true,
                     keymaps = {
                         init_selection = 'gnn', -- set to `false` to disable one of the mappings
-                        node_incremental = 'grn',
+                        node_incremental = '<C-g>',
                         scope_incremental = 'grc',
-                        node_decremental = 'grm',
+                        node_decremental = '<C-f>',
                     },
                 },
                 -- Remove this when tree-sitter >1.0
@@ -242,7 +242,7 @@ require('lazy').setup({
                             ['<C-s>'] = require('telescope.actions.layout').cycle_layout_next,
                             ['<C-j>'] = 'move_selection_next',
                             ['<C-k>'] = 'move_selection_previous',
-                            ['<Esc>'] = 'close',
+                            -- ['<Esc>'] = 'close',
                         },
                     },
                 },
@@ -268,6 +268,7 @@ require('lazy').setup({
                         mappings = {
                             ['i'] = {
                                 -- your custom insert mode mappings
+                                ['<Esc>'] = { '<Esc>', type = 'command' },
                             },
                             ['n'] = {
                                 ['h'] = require('telescope._extensions.file_browser.actions').goto_parent_dir,
