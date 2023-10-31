@@ -307,6 +307,7 @@ require('lazy').setup({
             { '<leader>ff', function() require('telescope.builtin').find_files() end, desc = '[F]ind [f]iles' },
             { '<leader>fG', function() require('telescope.builtin').live_grep() end, desc = '[F]ind with builtin [G]rep' },
             { '<leader>fg', function() require('telescope').extensions.live_grep_args.live_grep_args() end, desc = '[F]ind with live [g]rep args' },
+            { '<leader>fg', function() require("telescope-live-grep-args.shortcuts").grep_visual_selection() end, mode = 'x', desc = '[F]ind word under cursor with live [g]rep args' },
         },
         dependencies = {
             'nvim-lua/plenary.nvim',
