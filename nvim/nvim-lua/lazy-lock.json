@@ -28,6 +28,7 @@
   "smart-tab.nvim": { "branch": "main", "commit": "a48462cf3b2ebceace0a239b3d50a7c4b50d9710" },
   "telekasten.nvim": { "branch": "main", "commit": "3fd50c62c1ed2f973ce8639c1218445e4e91a962" },
   "telescope-file-browser.nvim": { "branch": "master", "commit": "6e51d0cd6447cf2525412220ff0a2885eef9039c" },
+  "telescope-live-grep-args.nvim": { "branch": "master", "commit": "851c0997d55601f2afd7290db0f90dc364e29f58" },
   "telescope-zf-native.nvim": { "branch": "master", "commit": "beb34b6c48154ec117930180f257a5592606d48f" },
   "telescope.nvim": { "branch": "master", "commit": "4522d7e3ea75ffddabdc39957168a8a7060b5df0" },
   "toggleterm.nvim": { "branch": "main", "commit": "faee9d60428afc7857e0927fdc18daa6c409fa64" },

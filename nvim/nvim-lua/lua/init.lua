@@ -206,9 +206,6 @@ require('lazy').setup({
     {
         -- Fuzzy Finder (files, lsp, etc)
         'nvim-telescope/telescope.nvim',
-        dependencies = {
-            'nvim-lua/plenary.nvim',
-        },
         -- event = 'VeryLazy', -- Use nvim +"lua require('telescope.builtin').find_files()"
         cmd = 'Telescope',
         config = function()
@@ -273,21 +270,25 @@ require('lazy').setup({
                             ['n'] = {
                                 ['h'] = require('telescope._extensions.file_browser.actions').goto_parent_dir,
                                 ['l'] = 'select_default',
-                                -- ['l'] = require('telescope._extensions.file_browser.actions').open,
+                            },
+                        },
+                    },
+                    live_grep_args = {
+                        -- auto_quoting = true, -- enable/disable auto-quoting
+                        mappings = {
+                            i = {
+                                ['<C-t>'] = require('telescope-live-grep-args.actions').quote_prompt({ postfix = ' -t ' }),
                             },
                         },
                     },
                 },
             }
 
-            -- See `:help telescope.builtin`
-            -- ------------------------------ These are mappped in KEYS section instead
-            -- vim.keymap.set('n', '<Leader>b', '<Cmd>Telescope buffers<Cr>', { silent = true, desc = 'List open [B]uffers' })
-            -- vim.keymap.set('n', '<Leader>fb', '<Cmd>Telescope current_buffer_fuzzy_find<Cr>', { silent = true, desc = '[F]ind in current [b]uffer' })
-            -- vim.keymap.set('n', '<leader>ff', function() require('telescope.builtin').find_files() end, { desc = '[F]ind [f]iles' })
-
             -- vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-            -- vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
+            -- vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
+            -- vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
+            -- vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
+            -- vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]resume' })
             -- vim.keymap.set('n', '<leader>/', function()
             --  -- You can pass additional configuration to telescope to change theme, layout, etc.
             --  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
@@ -296,13 +297,7 @@ require('lazy').setup({
             --  })
             -- end, { desc = '[/] Fuzzily search in current buffer' })
 
-            -- vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
-            -- vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-            -- vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-            -- vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
-            -- vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
-            -- vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]resume' })
-
+            require('telescope').load_extension('live_grep_args')
             require('telescope').load_extension('file_browser')
             require('telescope').load_extension('zf-native')
         end,
@@ -310,23 +305,33 @@ require('lazy').setup({
             { '<Leader>b', '<Cmd>Telescope buffers<Cr>', desc = 'List open [B]uffers'},
             { '<Leader>fb', '<Cmd>Telescope current_buffer_fuzzy_find<Cr>', desc = '[F]ind in current [b]uffer' },
             { '<leader>ff', function() require('telescope.builtin').find_files() end, desc = '[F]ind [f]iles' },
-            { '<leader>fg', function() require('telescope.builtin').find_files() end, desc = '[F]ind [f]iles' },
+            { '<leader>fG', function() require('telescope.builtin').live_grep() end, desc = '[F]ind with builtin [G]rep' },
+            { '<leader>fg', function() require('telescope').extensions.live_grep_args.live_grep_args() end, desc = '[F]ind with live [g]rep args' },
         },
-    },
-    {
-        'nvim-telescope/telescope-file-browser.nvim',
-        lazy = true,
-        dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
-        keys = {
-            { '<Leader>e', '<Cmd>Telescope file_browser<Cr>', desc = 'Telescope file browser from root' },
-            { '<Leader>E', '<Cmd>Telescope file_browser path=%:p:h select_buffer=true<Cr>', desc = 'Telescope file browser from current file' },
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            {
+                "nvim-telescope/telescope-live-grep-args.nvim" ,
+                -- This will not install any breaking changes.
+                -- For major updates, this must be adjusted manually.
+                -- version = "^1.0.0",
+            },
+            {
+                'nvim-telescope/telescope-file-browser.nvim',
+                lazy = true,
+                -- dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
+                keys = {
+                    { '<Leader>e', '<Cmd>Telescope file_browser<Cr>', desc = 'Telescope file browser from root' },
+                    { '<Leader>E', '<Cmd>Telescope file_browser path=%:p:h select_buffer=true<Cr>', desc = 'Telescope file browser from current file' },
+                },
+            },
+            {
+                -- Match on filename prioritized over match on full path
+                -- Search including path separators enables "strict path matching" (eg: src/)
+                -- Search query is space-separated to make narrowing down results easier
+                'natecraddock/telescope-zf-native.nvim',
+            },
         },
-    },
-    {
-        -- Match on filename prioritized over match on full path
-        -- Search including path separators enables "strict path matching" (eg: src/)
-        -- Search query is space-separated to make narrowing down results easier
-        'natecraddock/telescope-zf-native.nvim',
     },
 
     -- Illegal git plugin
