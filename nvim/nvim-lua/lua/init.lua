@@ -117,7 +117,7 @@ require('lazy').setup({
         -- Highlight, edit, and navigate code
         'nvim-treesitter/nvim-treesitter',
         dependencies = {
-            'nvim-treesitter/nvim-treesitter-textobjects',
+            'nvim-treesitter/nvim-treesitter-textobjects', -- recommended with nvim-surround
             {
                 'nvim-treesitter/nvim-treesitter-context',
                 opts = {
@@ -510,7 +510,16 @@ require('lazy').setup({
     },
 
     {
+        -- Help for working with paired characters "" () {} etc
+        'echasnovski/mini.pairs',
+        event = 'VeryLazy',
+        version = false, -- Use main branch (latest)
+        config = true,
+    },
+
+    {
         -- When pressing tab and the line to the left of the cursor isn't all whitespace, the cursor will jump to the end of the syntax tree's parent node.
+        -- This is awesome with mini.pairs above
         'boltlessengineer/smart-tab.nvim',
         event = 'VeryLazy',
         config = true,
@@ -555,6 +564,7 @@ require('lazy').setup({
     },
 
     -- Detect tabstop and shiftwidth automatically
+    -- {'Darazaki/indent-o-matic', event = 'VeryLazy', config = true}
     -- {'tpope/vim-sleuth', event = 'VeryLazy'},
     -- Add indent text object to vim. <count>ai ii aI iI
     {'michaeljsmith/vim-indent-object', event = 'VeryLazy'},
