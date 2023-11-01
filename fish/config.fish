@@ -44,7 +44,7 @@ if status --is-interactive
     abbr --add --global lll  exa -la --icons --group-directories-first --git
     abbr --add --global diskusage   ncdu
     abbr --add --global del  trash
-    abbr --add --global rm   use del or rip instead
+    abbr --add --global rm   use del (or rip if installed)
 
     # Git
     abbr --add --global gs      git status
