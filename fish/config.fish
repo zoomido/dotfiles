@@ -159,6 +159,8 @@ end
 #    source $HOME/.config/fish/nnn.fish
 #end
 
+todo.sh list
+
 
 
 

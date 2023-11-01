@@ -277,7 +277,7 @@ require('lazy').setup({
                         -- auto_quoting = true, -- enable/disable auto-quoting
                         mappings = {
                             i = {
-                                ['<C-t>'] = require('telescope-live-grep-args.actions').quote_prompt({ postfix = ' -t ' }),
+                                ['<C-t>'] = require('telescope-live-grep-args.actions').quote_prompt({ postfix = ' -t' }),
                             },
                         },
                     },
@@ -300,17 +300,35 @@ require('lazy').setup({
             require('telescope').load_extension('live_grep_args')
             require('telescope').load_extension('file_browser')
             require('telescope').load_extension('zf-native')
+            -- require('telescope').load_extension('fzf')
         end,
         keys = {
             { '<Leader>b', '<Cmd>Telescope buffers<Cr>', desc = 'List open [B]uffers'},
-            { '<Leader>fb', '<Cmd>Telescope current_buffer_fuzzy_find<Cr>', desc = '[F]ind in current [b]uffer' },
+            { '<Leader>fb', function() require('telescope.builtin').current_buffer_fuzzy_find() end, desc = 'Fuzzy [f]ind in current [b]uffer' },
+            { '<Leader>fB', function() require('telescope.builtin').live_grep({grep_open_files=true}) end, desc = '[F]ind in all open [B]uffers' },
             { '<leader>ff', function() require('telescope.builtin').find_files() end, desc = '[F]ind [f]iles' },
             { '<leader>fG', function() require('telescope.builtin').live_grep() end, desc = '[F]ind with builtin [G]rep' },
             { '<leader>fg', function() require('telescope').extensions.live_grep_args.live_grep_args() end, desc = '[F]ind with live [g]rep args' },
+            -- { '<leader>fz', function() require('telescope.builtin').grep_string() end, mode = 'x', desc = '[F]ind with live [g]rep args' },
+            -- { '<leader>fz', function() require('telescope.builtin').grep_string({ shorten_path = true, word_match = "-w", only_sort_text = true, search = '' }) end, desc = '[F]ind with live [g]rep args' }, -- WAY TOO SLOW, must wait for all results before searching
             { '<leader>fg', function() require("telescope-live-grep-args.shortcuts").grep_visual_selection() end, mode = 'x', desc = '[F]ind word under cursor with live [g]rep args' },
         },
         dependencies = {
             'nvim-lua/plenary.nvim',
+            {
+                'renerocksai/telekasten.nvim',
+                cmd = 'Telekasten',
+                opts = {
+                    home = vim.fn.expand('~/notes/zettelkasten'), -- Name of notes directory
+                },
+            },
+            -- {
+            --     "Sharonex/edit-list.nvim",
+            --     config = true,
+            --     keys = {
+            --         { '<Leader>ll', '<Cmd>EditList<Cr>', desc = 'Telescope file browser from root' },
+            --     }
+            -- },
             {
                 "nvim-telescope/telescope-live-grep-args.nvim" ,
                 -- This will not install any breaking changes.
@@ -332,6 +350,7 @@ require('lazy').setup({
                 -- Search query is space-separated to make narrowing down results easier
                 'natecraddock/telescope-zf-native.nvim',
             },
+            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }, -- zf-native is used for all sorting 
         },
     },
 
@@ -471,15 +490,6 @@ require('lazy').setup({
     },
 
     {
-        'renerocksai/telekasten.nvim',
-        cmd = 'Telekasten',
-        dependencies = {'nvim-telescope/telescope.nvim'},
-        opts = {
-            home = vim.fn.expand('~/notes/zettelkasten'), -- Name of notes directory
-        },
-    },
-
-    {
         -- Navigate with search labels, enhanced character motions, and Treesitter integration
         'folke/flash.nvim',
         -- event = 'VeryLazy',
@@ -497,7 +507,7 @@ require('lazy').setup({
             { 'S', mode = { 'n', 'o', 'x' }, function() require('flash').treesitter() end, desc = 'Flash Treesitter' },
             { 'r', mode = 'o', function() require('flash').remote() end, desc = 'Remote Flash' },
             { 'R', mode = { 'o', 'x' }, function() require('flash').treesitter_search() end, desc = 'Treesitter Search' },
-            { '<c-s>', mode = { 'c' }, function() require('flash').toggle() end, desc = 'Toggle Flash Search' },
+            { '<C-s>', mode = { 'c' }, function() require('flash').toggle() end, desc = 'Toggle Flash Search' },
         },
     },
 
