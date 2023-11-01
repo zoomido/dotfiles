@@ -30,6 +30,7 @@ gpr: git pull --rebase
 gpf: git push --force-with-lease
 cdg: cd to current git repo root
 lg: list git repos
+lgs: list git repos and their statuses
 
 # Nvim
 vp: Telescope possession list
