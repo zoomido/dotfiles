@@ -354,8 +354,8 @@ require('lazy').setup({
                 lazy = true,
                 -- dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
                 keys = {
-                    { '<Leader>e', '<Cmd>Telescope file_browser<Cr>', desc = 'Telescope file browser from root' },
-                    { '<Leader>E', '<Cmd>Telescope file_browser path=%:p:h select_buffer=true<Cr>', desc = 'Telescope file browser from current file' },
+                    { '<Leader>E', '<Cmd>Telescope file_browser<Cr>', desc = 'Telescope file browser from root' },
+                    { '<Leader>e', '<Cmd>Telescope file_browser path=%:p:h select_buffer=true<Cr>', desc = 'Telescope file browser from current file' },
                 },
             },
             {
