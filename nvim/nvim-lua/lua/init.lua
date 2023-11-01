@@ -493,7 +493,25 @@ require('lazy').setup({
         -- Navigate with search labels, enhanced character motions, and Treesitter integration
         'folke/flash.nvim',
         -- event = 'VeryLazy',
-        opts = {},
+        opts = {
+            label = {
+                -- show the label after/before the match
+                after = false,
+                before = true,
+                -- position of the label extmark
+                -- style = "overlay", ---@type "eol" | "overlay" | "right_align" | "inline"
+                -- minimum pattern length to show labels
+                -- Ignored for custom labelers.
+                -- min_pattern_length = 2,
+                -- Enable this to use rainbow colors to highlight labels
+                -- Can be useful for visualizing Treesitter ranges.
+                rainbow = {
+                    enabled = true,
+                    -- number between 1 and 9
+                    -- shade = 5,
+                },
+            },
+        },
         keys = {
             { 's', mode = { 'n', 'x', 'o' }, function() require('flash').jump({search = {
                 mode = 'fuzzy'
