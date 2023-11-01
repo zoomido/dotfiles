@@ -304,6 +304,7 @@ require('lazy').setup({
             --  })
             -- end, { desc = '[/] Fuzzily search in current buffer' })
 
+            require('telescope').load_extension('undo')
             require('telescope').load_extension('live_grep_args')
             require('telescope').load_extension('file_browser')
             require('telescope').load_extension('zf-native')
@@ -320,6 +321,8 @@ require('lazy').setup({
             -- { '<leader>fz', function() require('telescope.builtin').grep_string({ shorten_path = true, word_match = "-w", only_sort_text = true, search = '' }) end, desc = '[F]ind with live [g]rep args' }, -- WAY TOO SLOW, must wait for all results before searching
             { '<leader>fg', function() require("telescope-live-grep-args.shortcuts").grep_visual_selection() end, mode = 'x', desc = '[F]ind word under cursor with live [g]rep args' },
             { '<leader>gb', function() require('telescope.builtin').git_branches() end, desc = '[g]it [b]ranches' },
+            { '<leader>u', function() require('telescope').extensions.undo.undo() end, desc = 'Fuzzy search [u]ndo list' },
+
         },
         dependencies = {
             'nvim-lua/plenary.nvim',
@@ -329,6 +332,9 @@ require('lazy').setup({
                 opts = {
                     home = vim.fn.expand('$HOME/notes/zettelkasten'), -- Name of notes directory
                 },
+            },
+            {
+                'debugloop/telescope-undo.nvim',
             },
             -- {
             --     "Sharonex/edit-list.nvim",
