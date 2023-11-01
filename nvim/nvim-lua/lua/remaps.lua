@@ -13,6 +13,10 @@ vim.keymap.set({ 'n', 'v' }, '<tab>', '%', { silent = true, desc = 'Jump between
 vim.keymap.set({ 'n' }, '<C-s>', '<Cmd>w<Cr>', { silent = true, desc = 'Save current buffer' })
 vim.keymap.set({ 'n' }, '<Leader><Leader>', '<Cmd>b#<Cr>', { silent = true, desc = 'Jump to previously edited buffer' })
 
+-- Left as a reminder, could use gj and gk for faster navigaton maybe but better to learn original binds?
+-- vim.keymap.set({ 'n' }, 'gj', ']c', { silent = true, desc = 'Jump to start of next change' })
+-- vim.keymap.set({ 'n' }, 'gk', '[c', { silent = true, desc = 'Jump to start of previous change' })
+
 -- Traversing windows
 vim.keymap.set({ 'n' }, '<C-h>', '<C-w>h', { silent = true, desc = 'Jump to left window' })
 vim.keymap.set({ 'n' }, '<C-j>', '<C-w>j', { silent = true, desc = 'Jump to window below' })

@@ -13,12 +13,14 @@ cs: search for code
 
 # Local tools
 ncdu (or use alias diskusage)
-lazydocker: open docker stats
-lazygit: git tui tool
+lazydocker - open docker stats
+lazygit - git tui tool
 mycli - Connect to mysql
 tldr "tldr ln" - Show examples for ln
 aichat "aichat <OPTIONS> <TEXT>" - Ask chatgpt for help
 m-cli "m help" - Control mac os from cli
+ranger - file browser
+yazi - file browser
 
 # Online tools
 weather: curl v2d.wttr.in

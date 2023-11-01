@@ -250,13 +250,19 @@ require('lazy').setup({
                         sort_lastused = true,
                         sort_mru = true,
                     },
+                    git_branches = {
+                        use_file_path = true,
+                    },
+                    git_status = {
+                        use_file_path = true,
+                    },
                 },
                 extensions = {
                     file_browser = {
                         -- theme = 'ivy',
                         -- disables netrw and use telescope-file-browser in its place
                         hijack_netrw = true,
-                        initial_mode = 'normal',
+                        -- initial_mode = 'normal',
                         grouped = true,
                         depth = 2,
                         respect_gitignore = false,
@@ -265,6 +271,7 @@ require('lazy').setup({
                         mappings = {
                             ['i'] = {
                                 -- your custom insert mode mappings
+                                ['<C-h>'] = require('telescope._extensions.file_browser.actions').goto_parent_dir,
                                 ['<Esc>'] = { '<Esc>', type = 'command' },
                             },
                             ['n'] = {
@@ -312,6 +319,7 @@ require('lazy').setup({
             -- { '<leader>fz', function() require('telescope.builtin').grep_string() end, mode = 'x', desc = '[F]ind with live [g]rep args' },
             -- { '<leader>fz', function() require('telescope.builtin').grep_string({ shorten_path = true, word_match = "-w", only_sort_text = true, search = '' }) end, desc = '[F]ind with live [g]rep args' }, -- WAY TOO SLOW, must wait for all results before searching
             { '<leader>fg', function() require("telescope-live-grep-args.shortcuts").grep_visual_selection() end, mode = 'x', desc = '[F]ind word under cursor with live [g]rep args' },
+            { '<leader>gb', function() require('telescope.builtin').git_branches() end, desc = '[g]it [b]ranches' },
         },
         dependencies = {
             'nvim-lua/plenary.nvim',
@@ -319,7 +327,7 @@ require('lazy').setup({
                 'renerocksai/telekasten.nvim',
                 cmd = 'Telekasten',
                 opts = {
-                    home = vim.fn.expand('~/notes/zettelkasten'), -- Name of notes directory
+                    home = vim.fn.expand('$HOME/notes/zettelkasten'), -- Name of notes directory
                 },
             },
             -- {
@@ -371,6 +379,21 @@ require('lazy').setup({
         -- The current file: :DiffviewFileHistory %
         'sindrets/diffview.nvim',
         cmd = 'DiffviewOpen',
+        keys = {
+            { '<leader>gs', '<Cmd>DiffviewOpen<Cr>', desc = 'Open Diffview for [g]it [s]tatus' },
+        },
+        opts = {
+            enhanced_diff_hl = true,
+            view = {
+                default = {
+                    layout = 'diff2_vertical',
+                    winbar = true,
+                },
+            },
+            file_panel = {
+                listing_style = 'list',
+            },
+        },
     },
 
     {
