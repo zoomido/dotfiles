@@ -14,8 +14,8 @@
     external = difft # Use difftastic for diffing
 
 [merge]
-    tool = diffconflicts
-    # conflictstyle = diff3 # For vim_mergetool
+    tool = vim_mergetool
+    conflictstyle = diff3 # For vim_mergetool
 
 [mergetool]
     keepBackup = false
@@ -29,5 +29,8 @@
     trustExitCode = true
 
 [alias]
+    # Show parent branch
     parent = "!git show-branch | grep '*' | grep -v \"$(git rev-parse --abbrev-ref HEAD)\" | head -n1 | sed 's/.*\\[\\(.*\\)\\].*/\\1/' | sed 's/[\\^~].*//' #"
+    # Checkout a branch from partial name
+    sw = !sh -c \"git branch -a | grep -v remotes | grep $1 | xargs git switch\"
 

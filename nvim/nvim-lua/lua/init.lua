@@ -377,7 +377,9 @@ require('lazy').setup({
         dependencies = { 'tpope/vim-fugitive' },
     },
     -- 2 way git merge conflicts
-    {'whiteinge/diffconflicts', cmd = 'DiffConflicts'},
+    -- {'whiteinge/diffconflicts', cmd = 'DiffConflicts'},
+    {'samoshkin/vim-mergetool', cmd = 'MergetoolStart'},
+
 
     {
         -- List diff for current repo

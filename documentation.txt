@@ -33,6 +33,7 @@ gpf: git push --force-with-lease
 cdg: cd to current git repo root
 lg: list git repos
 lgs: list git repos and their statuses
+mgs: switch to branch and fetch latest changes
 
 # Nvim
 vp: Telescope possession list

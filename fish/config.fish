@@ -55,6 +55,7 @@ if status --is-interactive
     abbr --add --global cdg     "cd (git rev-parse --show-toplevel)"
     abbr --add --global lg      find . -type d -name \'.git\' -exec echo {} \\\; -exec git -C {} branch --show-current \\\;
     abbr --add --global lgs     find . -type d -name .git -print -execdir git status \\\;
+    abbr --add --global mgs     find . -type d -name .git -print -execdir git sw XXX \\\; -execdir git pull --rebase \\\;
 
     # Fzf
     #abbr --add --global dot  'nvim (find ~/.dotfiles -path ~/.dotfiles/.git -prune -o -print -type f | fzf)' # Search in .dotfiles folder
