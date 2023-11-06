@@ -32,5 +32,6 @@
     # Show parent branch
     parent = "!git show-branch | grep '*' | grep -v \"$(git rev-parse --abbrev-ref HEAD)\" | head -n1 | sed 's/.*\\[\\(.*\\)\\].*/\\1/' | sed 's/[\\^~].*//' #"
     # Checkout a branch from partial name
-    sw = !sh -c \"git branch -a | grep -v remotes | grep $1 | xargs git switch\"
+    sw = !sh -c \"git branch -a --format='%(refname:short)' | sed 's/origin\\///g' | grep $1 | head -1 | xargs git switch\"
+    swlocal = !sh -c \"git branch -a | grep -v remotes | grep $1 | xargs git switch\"
 
