@@ -41,7 +41,7 @@ require('lazy').setup({
             vim.g.lsp_zero_extend_lspconfig = 0
         end,
         dependencies = {
-            {'folke/neodev.nvim', opts = {}}
+            { 'folke/neodev.nvim', opts = {} }
         }
     },
     {
@@ -55,7 +55,7 @@ require('lazy').setup({
         'hrsh7th/nvim-cmp',
         event = 'InsertEnter',
         dependencies = {
-            {'L3MON4D3/LuaSnip'},
+            { 'L3MON4D3/LuaSnip' },
         },
         config = function()
             -- Here is where you configure the autocompletion settings.
@@ -82,11 +82,11 @@ require('lazy').setup({
     {
         -- LSP setup
         'neovim/nvim-lspconfig',
-        cmd = {'LspInfo', 'LspInstall', 'LspStart'},
-        event = {'BufReadPre', 'BufNewFile'},
+        cmd = { 'LspInfo', 'LspInstall', 'LspStart' },
+        event = { 'BufReadPre', 'BufNewFile' },
         dependencies = {
-            {'hrsh7th/cmp-nvim-lsp'},
-            {'williamboman/mason-lspconfig.nvim'},
+            { 'hrsh7th/cmp-nvim-lsp' },
+            { 'williamboman/mason-lspconfig.nvim' },
         },
         config = function()
             -- This is where all the LSP shenanigans will live
@@ -96,7 +96,22 @@ require('lazy').setup({
             lsp_zero.on_attach(function(client, bufnr)
                 -- see :help lsp-zero-keybindings
                 -- to learn the available actions
-                lsp_zero.default_keymaps({buffer = bufnr})
+                -- lsp_zero.default_keymaps({buffer = bufnr}) aa
+
+                vim.keymap.set('n', '<Leader>lsi', function() vim.lsp.buf.hover() end, {buffer = bufnr, desc = 'LSP [s]ymbol floating [i]nfo'})
+                vim.keymap.set('n', '<Leader>lsr', function() vim.lsp.buf.rename() end, {buffer = bufnr, desc = 'LSP [s]ymbol [r]ename all references'})
+                vim.keymap.set('n', '<Leader>lca', function() vim.lsp.buf.code_action() end, {buffer = bufnr, desc = 'LSP list [c]ode [a]ctions'})
+                vim.keymap.set('i', '<C-s>', function() vim.lsp.buf.signature_help() end, {buffer = bufnr, desc = 'LSP Signature Help'})
+                vim.keymap.set('n', '<Leader>lgd', function() vim.lsp.buf.definition() end, {buffer = bufnr, desc = 'LSP [g]o to [d]efinition of symbol'})
+                vim.keymap.set('n', '<Leader>lgD', function() vim.lsp.buf.declaration() end, {buffer = bufnr, desc = 'LSP [g]o to [D]eclaration of symbol'})
+                vim.keymap.set('n', '<Leader>lgt', function() vim.lsp.buf.type_definition() end, {buffer = bufnr, desc = 'LSP [g]o to definition for [t]ype'})
+                vim.keymap.set('n', '<Leader>lli', function() vim.lsp.buf.implementation() end, {buffer = bufnr, desc = 'LSP [l]ist all [i]mplementations in quickfix'})
+                vim.keymap.set('n', '<Leader>llr', function() vim.lsp.buf.references() end, {buffer = bufnr, desc = 'LSP [l]ist all [r]eferences in quickfix'})
+                -- -- vim.keymap.set('n', '<Leader>lws', function() vim.lsp.buf.workspace_symbol() end, {buffer = bufnr, desc = 'LSP Workspace Symbol'})
+                vim.keymap.set('n', '<Leader>ld', function() vim.diagnostic.open_float() end, {buffer = bufnr, desc = 'LSP [d]agnostics'})
+                vim.keymap.set('n', '[d', function() vim.diagnostic.goto_next() end, {buffer = bufnr, desc = 'LSP Previous diagnostics'})
+                vim.keymap.set('n', ']d', function() vim.diagnostic.goto_prev() end, {buffer = bufnr, desc = 'LSP Next diagnostics'})
+                vim.keymap.set('n', '<Leader>lfb', function() vim.lsp.buf.format() end, {buffer = bufnr, desc = 'LSP Format code in Buffer'})
             end)
 
             require('mason-lspconfig').setup({
@@ -131,7 +146,7 @@ require('lazy').setup({
             { 'JoosepAlviste/nvim-ts-context-commentstring', config = true },
         },
         build = ':TSUpdate',
-        config = function ()
+        config = function()
             local configs = require('nvim-treesitter.configs')
             configs.setup({
                 -- ensure_installed = { 'lua', 'vim', 'vimdoc', 'javascript', 'html', 'less' },
@@ -168,8 +183,8 @@ require('lazy').setup({
                 icons_enabled = false,
                 -- theme = 'tokyonight',
                 theme = 'auto',
-                component_separators = { left = '', right = ''},
-                section_separators = { left = '', right = ''},
+                component_separators = { left = '', right = '' },
+                section_separators = { left = '', right = '' },
                 -- component_separators = '|',
                 -- section_separators = '',
             },
@@ -181,7 +196,7 @@ require('lazy').setup({
         'romgrk/barbar.nvim',
         event = 'VeryLazy',
         dependencies = {
-            'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
+            'lewis6991/gitsigns.nvim',     -- OPTIONAL: for git status
             'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
         },
         init = function() vim.g.barbar_auto_setup = false end,
@@ -344,7 +359,7 @@ require('lazy').setup({
             --     }
             -- },
             {
-                "nvim-telescope/telescope-live-grep-args.nvim" ,
+                "nvim-telescope/telescope-live-grep-args.nvim",
                 -- This will not install any breaking changes.
                 -- For major updates, this must be adjusted manually.
                 -- version = "^1.0.0",
@@ -364,12 +379,12 @@ require('lazy').setup({
                 -- Search query is space-separated to make narrowing down results easier
                 'natecraddock/telescope-zf-native.nvim',
             },
-            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }, -- zf-native is used for all sorting 
+            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }, -- zf-native is used for all sorting
         },
     },
 
     -- Illegal git plugin
-    {'tpope/vim-fugitive', cmd = 'G'},
+    { 'tpope/vim-fugitive',      cmd = 'G' },
     -- Support bitbucket url for Gbrowse
     {
         'tommcdo/vim-fubitive',
@@ -378,7 +393,7 @@ require('lazy').setup({
     },
     -- 2 way git merge conflicts
     -- {'whiteinge/diffconflicts', cmd = 'DiffConflicts'},
-    {'samoshkin/vim-mergetool', cmd = 'MergetoolStart'},
+    { 'samoshkin/vim-mergetool', cmd = 'MergetoolStart' },
 
 
     {
@@ -442,10 +457,10 @@ require('lazy').setup({
         -- Wrapper for neovim terminal
         'akinsho/toggleterm.nvim',
         version = "*",
-        cmd = { 'ToggleTerm' , 'Lg' },
+        cmd = { 'ToggleTerm', 'Lg' },
         keys = {
             { '<leader>t', '<Cmd>ToggleTerm size=50 direction=vertical<Cr>', desc = 'Open new vertical terminal' },
-            { '<leader>T', '<Cmd>ToggleTerm direction=horizontal<Cr>', desc = 'Open new horizontal terminal' },
+            { '<leader>T', '<Cmd>ToggleTerm direction=horizontal<Cr>',       desc = 'Open new horizontal terminal' },
         },
         config = function()
             require('toggleterm').setup {
@@ -453,7 +468,7 @@ require('lazy').setup({
                 insert_mappings = false,
             }
             function _G.set_terminal_keymaps()
-                local opts = {buffer = 0}
+                local opts = { buffer = 0 }
                 vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], opts)
                 vim.keymap.set('t', '<Leader>t', [[<Cmd>ToggleTerm<Cr>]], opts)
                 vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
@@ -462,10 +477,11 @@ require('lazy').setup({
                 vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
                 vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
             end
+
             vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
 
-            local Terminal  = require('toggleterm.terminal').Terminal
-            local lazygit = Terminal:new({
+            local Terminal = require('toggleterm.terminal').Terminal
+            local lazygit  = Terminal:new({
                 cmd = 'lazygit',
                 -- dir = 'git_dir',
                 -- dir = vim.fn.expand('%:p'),
@@ -478,7 +494,7 @@ require('lazy').setup({
                 -- function to run on opening the terminal
                 on_open = function(term)
                     vim.cmd('startinsert!')
-                    vim.keymap.set('n', 'q', '<cmd>close<CR>', {buffer = term.bufnr, noremap = true, silent = true})
+                    vim.keymap.set('n', 'q', '<cmd>close<CR>', { buffer = term.bufnr, noremap = true, silent = true })
                 end,
                 -- function to run on closing the terminal
                 on_close = function(term)
@@ -499,8 +515,8 @@ require('lazy').setup({
         'jedrzejboczar/possession.nvim',
         dependencies = { 'nvim-lua/plenary.nvim' },
         -- event = 'VeryLazy',
-        cmd = {'SSave', 'SLoad', 'SDelete'},
-        config = function ()
+        cmd = { 'SSave', 'SLoad', 'SDelete' },
+        config = function()
             require('possession').setup {
                 autosave = {
                     current = true,
@@ -508,7 +524,7 @@ require('lazy').setup({
                 },
                 plugins = {
                     delete_hidden_buffers = false, -- Keep hidden buffers in session
-                    delete_buffers = true, -- Delete all buffers before loading another session
+                    delete_buffers = true,         -- Delete all buffers before loading another session
                 },
                 commands = {
                     save = 'SSave',
@@ -544,9 +560,18 @@ require('lazy').setup({
             },
         },
         keys = {
-            { 's', mode = { 'n', 'x', 'o' }, function() require('flash').jump({search = {
-                mode = 'fuzzy'
-            },}) end, desc = 'Flash' },
+            {
+                's',
+                mode = { 'n', 'x', 'o' },
+                function()
+                    require('flash').jump({
+                        search = {
+                            mode = 'fuzzy'
+                        },
+                    })
+                end,
+                desc = 'Flash'
+            },
             -- Search only start of word
             -- { 's', mode = { 'n', 'x', 'o' }, function() require('flash').jump({search = {
             --     mode = function(str)
@@ -626,13 +651,13 @@ require('lazy').setup({
     -- {'Darazaki/indent-o-matic', event = 'VeryLazy', config = true}
     -- {'tpope/vim-sleuth', event = 'VeryLazy'},
     -- Add indent text object to vim. <count>ai ii aI iI
-    {'michaeljsmith/vim-indent-object', event = 'VeryLazy'},
+    { 'michaeljsmith/vim-indent-object', event = 'VeryLazy' },
     -- Vim "inner line" text object. Ignore leading and trailing whitespace. v_ y_ d_
-    {'bruno-/vim-line', event = 'VeryLazy'},
+    { 'bruno-/vim-line',                 event = 'VeryLazy' },
     -- "gc" to comment visual regions/lines
-    {'numToStr/Comment.nvim', event = 'VeryLazy', opts = {}},
+    { 'numToStr/Comment.nvim',           event = 'VeryLazy', opts = {} },
     -- Useful plugin to show you pending keybinds.
-    {'folke/which-key.nvim', event = 'VeryLazy', opts = {}},
+    { 'folke/which-key.nvim',            event = 'VeryLazy', opts = {} },
 
     {
         -- Highlight active parts of the code
@@ -691,7 +716,7 @@ vim.api.nvim_create_autocmd({ "BufReadPost" }, {
 })
 
 
--- 
+--
 -- Load more configs
 --
 
