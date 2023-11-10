@@ -100,27 +100,43 @@ end)
 
 -- For center screen and make it almost fullscreen
 hs.window.animationDuration = 0
-units = {
+Units = {
   fullscreen        = { x = 0.0, y = 0.0, w = 1, h = 1 },
   almostFullscreen  = { x = 0.025, y = 0.04, w = 0.946, h = 0.930 },
   centerSmall       = { x = 0.1, y = 0.1, w = 0.8, h = 0.8 },
+  leftHalf       = { x = 0, y = 0, w = 0.495, h = 1 },
+  rightHalf       = { x = 0.501, y = 0, w = 0.5, h = 1 },
+  topHalf       = { x = 0, y = 0, w = 1, h = 0.495 },
+  bottomHalf       = { x = 0, y = 0.501, w = 1, h = 0.5 },
   smallMobile       = { x = 0.02, y = 0.02, w = 0.346, h = 0.975 },
   inspectorChrome   = { x = 0.366, y = 0.02, w = 0.61, h = 0.975 }
 }
 hs.hotkey.bind(mash, 'f', function()
-        hs.window.focusedWindow():move(units.fullscreen,  nil, true)
+        hs.window.focusedWindow():move(Units.fullscreen,  nil, true)
 end)
 hs.hotkey.bind(mash, 'a', function()
-        hs.window.focusedWindow():move(units.almostFullscreen,  nil, true)
+        hs.window.focusedWindow():move(Units.almostFullscreen,  nil, true)
 end)
 hs.hotkey.bind(mash, 'c', function()
-        hs.window.focusedWindow():move(units.centerSmall,  nil, true)
+        hs.window.focusedWindow():move(Units.centerSmall,  nil, true)
+end)
+hs.hotkey.bind(mash, 'left', function()
+        hs.window.focusedWindow():move(Units.leftHalf,  nil, true)
+end)
+hs.hotkey.bind(mash, 'right', function()
+        hs.window.focusedWindow():move(Units.rightHalf,  nil, true)
+end)
+hs.hotkey.bind(mash, 'up', function()
+        hs.window.focusedWindow():move(Units.topHalf,  nil, true)
+end)
+hs.hotkey.bind(mash, 'down', function()
+        hs.window.focusedWindow():move(Units.bottomHalf,  nil, true)
 end)
 hs.hotkey.bind(mash, 's', function()
-    hs.window.focusedWindow():move(units.smallMobile,  nil, true)
+    hs.window.focusedWindow():move(Units.smallMobile,  nil, true)
 end)
 hs.hotkey.bind(mash, 'i', function()
-    hs.window.focusedWindow():move(units.inspectorChrome,  nil, true)
+    hs.window.focusedWindow():move(Units.inspectorChrome,  nil, true)
 end)
 
 -- Send mouse away
