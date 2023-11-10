@@ -98,20 +98,20 @@ require('lazy').setup({
                 -- to learn the available actions
                 -- lsp_zero.default_keymaps({buffer = bufnr}) aa
 
-                vim.keymap.set('n', '<Leader>lsi', function() vim.lsp.buf.hover() end, {buffer = bufnr, desc = 'LSP [s]ymbol floating [i]nfo'})
-                vim.keymap.set('n', '<Leader>lsr', function() vim.lsp.buf.rename() end, {buffer = bufnr, desc = 'LSP [s]ymbol [r]ename all references'})
-                vim.keymap.set('n', '<Leader>lca', function() vim.lsp.buf.code_action() end, {buffer = bufnr, desc = 'LSP list [c]ode [a]ctions'})
-                vim.keymap.set('i', '<C-s>', function() vim.lsp.buf.signature_help() end, {buffer = bufnr, desc = 'LSP Signature Help'})
-                vim.keymap.set('n', '<Leader>lgd', function() vim.lsp.buf.definition() end, {buffer = bufnr, desc = 'LSP [g]o to [d]efinition of symbol'})
-                vim.keymap.set('n', '<Leader>lgD', function() vim.lsp.buf.declaration() end, {buffer = bufnr, desc = 'LSP [g]o to [D]eclaration of symbol'})
-                vim.keymap.set('n', '<Leader>lgt', function() vim.lsp.buf.type_definition() end, {buffer = bufnr, desc = 'LSP [g]o to definition for [t]ype'})
-                vim.keymap.set('n', '<Leader>lli', function() vim.lsp.buf.implementation() end, {buffer = bufnr, desc = 'LSP [l]ist all [i]mplementations in quickfix'})
-                vim.keymap.set('n', '<Leader>llr', function() vim.lsp.buf.references() end, {buffer = bufnr, desc = 'LSP [l]ist all [r]eferences in quickfix'})
+                vim.keymap.set('n', '<Leader>lsi', function() vim.lsp.buf.hover() end, { buffer = bufnr, desc = 'LSP [s]ymbol floating [i]nfo' })
+                vim.keymap.set('n', '<Leader>lsr', function() vim.lsp.buf.rename() end, { buffer = bufnr, desc = 'LSP [s]ymbol [r]ename all references' })
+                vim.keymap.set('n', '<Leader>lca', function() vim.lsp.buf.code_action() end, { buffer = bufnr, desc = 'LSP list [c]ode [a]ctions' })
+                vim.keymap.set('i', '<C-s>', function() vim.lsp.buf.signature_help() end, { buffer = bufnr, desc = 'LSP Signature Help' })
+                vim.keymap.set('n', '<Leader>lgd', function() vim.lsp.buf.definition() end, { buffer = bufnr, desc = 'LSP [g]o to [d]efinition of symbol' })
+                vim.keymap.set('n', '<Leader>lgD', function() vim.lsp.buf.declaration() end, { buffer = bufnr, desc = 'LSP [g]o to [D]eclaration of symbol' })
+                vim.keymap.set('n', '<Leader>lgt', function() vim.lsp.buf.type_definition() end, { buffer = bufnr, desc = 'LSP [g]o to definition for [t]ype' })
+                vim.keymap.set('n', '<Leader>lli', function() vim.lsp.buf.implementation() end, { buffer = bufnr, desc = 'LSP [l]ist all [i]mplementations in quickfix' })
+                vim.keymap.set('n', '<Leader>llr', function() vim.lsp.buf.references() end, { buffer = bufnr, desc = 'LSP [l]ist all [r]eferences in quickfix' })
                 -- -- vim.keymap.set('n', '<Leader>lws', function() vim.lsp.buf.workspace_symbol() end, {buffer = bufnr, desc = 'LSP Workspace Symbol'})
-                vim.keymap.set('n', '<Leader>ld', function() vim.diagnostic.open_float() end, {buffer = bufnr, desc = 'LSP [d]agnostics'})
-                vim.keymap.set('n', '[d', function() vim.diagnostic.goto_next() end, {buffer = bufnr, desc = 'LSP Previous diagnostics'})
-                vim.keymap.set('n', ']d', function() vim.diagnostic.goto_prev() end, {buffer = bufnr, desc = 'LSP Next diagnostics'})
-                vim.keymap.set('n', '<Leader>lfb', function() vim.lsp.buf.format() end, {buffer = bufnr, desc = 'LSP Format code in Buffer'})
+                vim.keymap.set('n', '<Leader>ld', function() vim.diagnostic.open_float() end, { buffer = bufnr, desc = 'LSP [d]agnostics' })
+                vim.keymap.set('n', '[d', function() vim.diagnostic.goto_next() end, { buffer = bufnr, desc = 'LSP Previous diagnostics' })
+                vim.keymap.set('n', ']d', function() vim.diagnostic.goto_prev() end, { buffer = bufnr, desc = 'LSP Next diagnostics' })
+                vim.keymap.set({'n', 'v'}, '<Leader>lfc', function() vim.lsp.buf.format() end, { buffer = bufnr, desc = 'LSP Format [c]ode in buffer' })
             end)
 
             require('mason-lspconfig').setup({
@@ -170,51 +170,6 @@ require('lazy').setup({
                     enable = true,
                 },
             })
-        end,
-    },
-
-    {
-        -- lualine as statusline
-        -- See `:help lualine.txt`
-        'nvim-lualine/lualine.nvim',
-        event = 'VeryLazy',
-        opts = {
-            options = {
-                icons_enabled = false,
-                -- theme = 'tokyonight',
-                theme = 'auto',
-                component_separators = { left = '', right = '' },
-                section_separators = { left = '', right = '' },
-                -- component_separators = '|',
-                -- section_separators = '',
-            },
-        },
-    },
-
-    {
-        -- tabline plugin
-        'romgrk/barbar.nvim',
-        event = 'VeryLazy',
-        dependencies = {
-            'lewis6991/gitsigns.nvim',     -- OPTIONAL: for git status
-            'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
-        },
-        init = function() vim.g.barbar_auto_setup = false end,
-        opts = {},
-        config = function()
-            require('barbar').setup {}
-            local opts = { noremap = true, silent = true }
-            -- Move to previous/next
-            -- vim.keymap.set('n', '<tab>', '<Cmd>BufferNext<Cr>', opts)
-            vim.keymap.set('n', '<C-p>', '<Cmd>BufferPrevious<Cr>', opts)
-            vim.keymap.set('n', '<C-n>', '<Cmd>BufferNext<Cr>', opts)
-            -- Re-order to previous/next
-            vim.keymap.set('n', '<Leader>>', '<Cmd>BufferMovePrevious<Cr>', opts)
-            vim.keymap.set('n', '<Leader><', '<Cmd>BufferMoveNext<Cr>', opts)
-            -- Close buffer
-            vim.keymap.set('n', '<C-x>', '<Cmd>BufferClose<Cr>', opts)
-            -- Magic buffer-picking mode
-            vim.keymap.set('n', '<C-b>', '<Cmd>BufferPick<Cr>', opts)
         end,
     },
 
@@ -324,17 +279,18 @@ require('lazy').setup({
             require('telescope').load_extension('file_browser')
             require('telescope').load_extension('zf-native')
             -- require('telescope').load_extension('fzf')
+            require('telescope').load_extension('neoclip')
         end,
         keys = {
-            { '<Leader>b', '<Cmd>Telescope buffers<Cr>', desc = 'List open [B]uffers'},
+            { '<Leader>b', '<Cmd>Telescope buffers<Cr>', desc = 'List open [B]uffers' },
             { '<Leader>fb', function() require('telescope.builtin').current_buffer_fuzzy_find() end, desc = 'Fuzzy [f]ind in current [b]uffer' },
-            { '<Leader>fB', function() require('telescope.builtin').live_grep({grep_open_files=true}) end, desc = '[F]ind in all open [B]uffers' },
+            { '<Leader>fB', function() require('telescope.builtin').live_grep({ grep_open_files = true }) end, desc = '[F]ind in all open [B]uffers' },
             { '<leader>ff', function() require('telescope.builtin').find_files() end, desc = '[F]ind [f]iles' },
             { '<leader>fG', function() require('telescope.builtin').live_grep() end, desc = '[F]ind with builtin [G]rep' },
             { '<leader>fg', function() require('telescope').extensions.live_grep_args.live_grep_args() end, desc = '[F]ind with live [g]rep args' },
             -- { '<leader>fz', function() require('telescope.builtin').grep_string() end, mode = 'x', desc = '[F]ind with live [g]rep args' },
             -- { '<leader>fz', function() require('telescope.builtin').grep_string({ shorten_path = true, word_match = "-w", only_sort_text = true, search = '' }) end, desc = '[F]ind with live [g]rep args' }, -- WAY TOO SLOW, must wait for all results before searching
-            { '<leader>fg', function() require("telescope-live-grep-args.shortcuts").grep_visual_selection() end, mode = 'x', desc = '[F]ind word under cursor with live [g]rep args' },
+            { '<leader>fg', function() require('telescope-live-grep-args.shortcuts').grep_visual_selection() end, mode = 'x', desc = '[F]ind word under cursor with live [g]rep args' },
             { '<leader>gb', function() require('telescope.builtin').git_branches() end, desc = '[g]it [b]ranches' },
             { '<leader>u', function() require('telescope').extensions.undo.undo() end, desc = 'Fuzzy search [u]ndo list' },
 
@@ -379,9 +335,58 @@ require('lazy').setup({
                 -- Search query is space-separated to make narrowing down results easier
                 'natecraddock/telescope-zf-native.nvim',
             },
-            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }, -- zf-native is used for all sorting
+            -- { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }, -- zf-native is used for all sorting
         },
     },
+
+    {
+        -- Statusline plugin
+        -- See `:help lualine.txt`
+        'nvim-lualine/lualine.nvim',
+        event = 'VeryLazy',
+        opts = {
+            options = {
+                icons_enabled = false,
+                -- theme = 'tokyonight',
+                theme = 'auto',
+                component_separators = { left = '', right = '' },
+                section_separators = { left = '', right = '' },
+                -- component_separators = '|',
+                -- section_separators = '',
+            },
+        },
+    },
+
+    {
+        -- Tabline plugin
+        'romgrk/barbar.nvim',
+        event = 'VeryLazy',
+        dependencies = {
+            'lewis6991/gitsigns.nvim',     -- OPTIONAL: for git status
+            'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
+        },
+        init = function() vim.g.barbar_auto_setup = false end,
+        opts = {},
+        config = function()
+            require('barbar').setup {}
+            local opts = { noremap = true, silent = true }
+            -- Move to previous/next
+            -- vim.keymap.set('n', '<tab>', '<Cmd>BufferNext<Cr>', opts)
+            vim.keymap.set('n', '<C-p>', '<Cmd>BufferPrevious<Cr>', opts)
+            vim.keymap.set('n', '<C-n>', '<Cmd>BufferNext<Cr>', opts)
+            -- Re-order to previous/next
+            vim.keymap.set('n', '<Leader>>', '<Cmd>BufferMovePrevious<Cr>', opts)
+            vim.keymap.set('n', '<Leader><', '<Cmd>BufferMoveNext<Cr>', opts)
+            -- Close buffer
+            vim.keymap.set('n', '<C-x>', '<Cmd>BufferClose<Cr>', opts)
+            -- Magic buffer-picking mode
+            vim.keymap.set('n', '<C-b>', '<Cmd>BufferPick<Cr>', opts)
+        end,
+    },
+
+    --
+    -- Git Plugins
+    --
 
     -- Illegal git plugin
     { 'tpope/vim-fugitive',      cmd = 'G' },
@@ -394,7 +399,6 @@ require('lazy').setup({
     -- 2 way git merge conflicts
     -- {'whiteinge/diffconflicts', cmd = 'DiffConflicts'},
     { 'samoshkin/vim-mergetool', cmd = 'MergetoolStart' },
-
 
     {
         -- List diff for current repo
@@ -434,24 +438,28 @@ require('lazy').setup({
             },
             on_attach = function(bufnr)
                 vim.keymap.set('n', '<Leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'Preview git hunk' })
-                vim.keymap.set('n', '<Leader>hbf', function() require('gitsigns').blame_line{full=true} end, { desc = 'Git blame full' })
+                vim.keymap.set('n', '<Leader>hbf', function() require('gitsigns').blame_line { full = true } end, { desc = 'Git blame full' })
                 vim.keymap.set('n', '<Leader>hbl', require('gitsigns').blame_line, { desc = 'Git blame line' })
 
                 -- don't override the built-in and fugitive keymaps
                 local gs = package.loaded.gitsigns
-                vim.keymap.set({'n', 'v'}, ']c', function()
+                vim.keymap.set({ 'n', 'v' }, ']c', function()
                     if vim.wo.diff then return ']c' end
                     vim.schedule(function() gs.next_hunk() end)
                     return '<Ignore>'
-                end, {expr=true, buffer = bufnr, desc = "Jump to next hunk"})
-                vim.keymap.set({'n', 'v'}, '[c', function()
+                end, { expr = true, buffer = bufnr, desc = 'Jump to next hunk' })
+                vim.keymap.set({ 'n', 'v' }, '[c', function()
                     if vim.wo.diff then return '[c' end
                     vim.schedule(function() gs.prev_hunk() end)
                     return '<Ignore>'
-                end, {expr=true, buffer = bufnr, desc = "Jump to previous hunk"})
+                end, { expr = true, buffer = bufnr, desc = 'Jump to previous hunk' })
             end,
         },
     },
+
+    --
+    -- Other plugins
+    --
 
     {
         -- Wrapper for neovim terminal
@@ -505,6 +513,7 @@ require('lazy').setup({
                 lazygit.dir = vim.fn.expand("%:p:h") -- current working directory for the active buffer
                 lazygit:toggle()
             end
+
             -- vim.keymap.set('n', '<leader>g', '<cmd>lua _lazygit_toggle()<CR>', {noremap = true, silent = true})
             vim.api.nvim_create_user_command('Lg', 'lua _lazygit_toggle()', {})
         end,
@@ -560,19 +569,7 @@ require('lazy').setup({
             },
         },
         keys = {
-            {
-                's',
-                mode = { 'n', 'x', 'o' },
-                function()
-                    require('flash').jump({
-                        search = {
-                            mode = 'exact',
-                            incremental = true,
-                        },
-                    })
-                end,
-                desc = 'Flash'
-            },
+            { 's', mode = { 'n', 'x', 'o' }, function() require('flash').jump({ search = { mode = 'exact', incremental = true } }) end, desc = 'Flash' },
             -- Search only start of word
             -- { 's', mode = { 'n', 'x', 'o' }, function() require('flash').jump({search = {
             --     mode = function(str)
@@ -584,6 +581,25 @@ require('lazy').setup({
             { 'R', mode = { 'o', 'x' }, function() require('flash').treesitter_search() end, desc = 'Treesitter Search' },
             { '<C-s>', mode = { 'c' }, function() require('flash').toggle() end, desc = 'Toggle Flash Search' },
         },
+    },
+
+    {
+        'AckslD/nvim-neoclip.lua',
+        opts = {
+            content_spec_column = true,
+            keys = {
+                telescope = {
+                    i = {
+                        -- select = '<cr>', // Select to a register
+                        paste = '<c-l>',
+                        paste_behind = '<c-ö>',
+                    },
+                },
+            },
+        },
+        keys = {
+            { '<leader>p', function() require('telescope').extensions.neoclip.default() end, desc = 'Fuzzy search yank history' },
+        }
     },
 
     {
@@ -619,6 +635,32 @@ require('lazy').setup({
         opts = { use_default_keymaps = false, max_join_length = 150 },
     },
 
+    -- Detect tabstop and shiftwidth automatically
+    -- {'Darazaki/indent-o-matic', event = 'VeryLazy', config = true}
+    -- {'tpope/vim-sleuth', event = 'VeryLazy'},
+    -- Add indent text object to vim. <count>ai ii aI iI
+    { 'michaeljsmith/vim-indent-object', event = 'VeryLazy' },
+    -- Vim "inner line" text object. Ignore leading and trailing whitespace. v_ y_ d_
+    { 'bruno-/vim-line',                 event = 'VeryLazy' },
+    -- "gc" to comment visual regions/lines
+    {
+        'numToStr/Comment.nvim',
+        -- event = 'VeryLazy',
+        opts = {},
+        keys = {
+            { 'gcc', mode = {'n', 'v'}, desc = 'Toggle line comment' },
+            { 'gcb', mode = {'n', 'v'}, desc = 'Toggle block comment' },
+        },
+    },
+
+    --
+    -- Aesthetics
+    -- "a set of principles concerned with the nature and appreciation of beauty."
+    -- 
+
+    -- Useful plugin to show you pending keybinds.
+    { 'folke/which-key.nvim', event = 'VeryLazy', opts = {} },
+
     {
         -- Add indentation guides even on blank lines
         -- See `:help indent_blankline.txt`
@@ -645,26 +687,6 @@ require('lazy').setup({
             extra_keymaps = true,
             override_keymaps = true,
             -- scroll_limit = 150, -- default setting
-        },
-    },
-
-    -- Detect tabstop and shiftwidth automatically
-    -- {'Darazaki/indent-o-matic', event = 'VeryLazy', config = true}
-    -- {'tpope/vim-sleuth', event = 'VeryLazy'},
-    -- Add indent text object to vim. <count>ai ii aI iI
-    { 'michaeljsmith/vim-indent-object', event = 'VeryLazy' },
-    -- Vim "inner line" text object. Ignore leading and trailing whitespace. v_ y_ d_
-    { 'bruno-/vim-line',                 event = 'VeryLazy' },
-    -- Useful plugin to show you pending keybinds.
-    { 'folke/which-key.nvim',            event = 'VeryLazy', opts = {} },
-    -- "gc" to comment visual regions/lines
-    {
-        'numToStr/Comment.nvim',
-        -- event = 'VeryLazy',
-        opts = {},
-        keys = {
-            { 'gcc', desc = 'Toggle line comment' },
-            { 'gcb', desc = 'Toggle block comment' },
         },
     },
 
