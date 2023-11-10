@@ -566,7 +566,8 @@ require('lazy').setup({
                 function()
                     require('flash').jump({
                         search = {
-                            mode = 'fuzzy'
+                            mode = 'exact',
+                            incremental = true,
                         },
                     })
                 end,
@@ -654,10 +655,18 @@ require('lazy').setup({
     { 'michaeljsmith/vim-indent-object', event = 'VeryLazy' },
     -- Vim "inner line" text object. Ignore leading and trailing whitespace. v_ y_ d_
     { 'bruno-/vim-line',                 event = 'VeryLazy' },
-    -- "gc" to comment visual regions/lines
-    { 'numToStr/Comment.nvim',           event = 'VeryLazy', opts = {} },
     -- Useful plugin to show you pending keybinds.
     { 'folke/which-key.nvim',            event = 'VeryLazy', opts = {} },
+    -- "gc" to comment visual regions/lines
+    {
+        'numToStr/Comment.nvim',
+        -- event = 'VeryLazy',
+        opts = {},
+        keys = {
+            { 'gcc', desc = 'Toggle line comment' },
+            { 'gcb', desc = 'Toggle block comment' },
+        },
+    },
 
     {
         -- Highlight active parts of the code
