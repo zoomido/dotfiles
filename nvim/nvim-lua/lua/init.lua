@@ -40,9 +40,6 @@ require('lazy').setup({
             vim.g.lsp_zero_extend_cmp = 0
             vim.g.lsp_zero_extend_lspconfig = 0
         end,
-        dependencies = {
-            { 'folke/neodev.nvim', opts = {} }
-        }
     },
     {
         'williamboman/mason.nvim',
@@ -126,6 +123,12 @@ require('lazy').setup({
                 }
             })
         end
+    },
+    {
+        -- Neovim setup for init.lua and plugin development
+        'folke/neodev.nvim',
+        ft = 'lua',
+        opts = {},
     },
 
     {
@@ -600,6 +603,18 @@ require('lazy').setup({
         keys = {
             { '<leader>p', function() require('telescope').extensions.neoclip.default() end, desc = 'Fuzzy search yank history' },
         }
+    },
+
+    {
+        'codota/tabnine-nvim',
+        event = 'InsertEnter',
+        build = './dl_binaries.sh',
+        config = function()
+            require('tabnine').setup({
+                accept_keymap = '<C-l>',
+                dismiss_keymap = '<C-ö>',
+            })
+        end,
     },
 
     {
