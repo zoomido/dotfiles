@@ -33,29 +33,28 @@ if status --is-interactive
     # System
     # abbr --add --global -- - 'cd -'
     # abbr --add --global ...  'cd ../../..'
-    abbr --add --global c    clear
-    abbr --add --global v    nvim
-    abbr --add --global vp   nvim +"\"lua require('telescope').extensions.possession.list()"\"
-    abbr --add --global vf   nvim +"\"lua require('telescope.builtin').find_files()"\"
-    abbr --add --global vn   nvim +"\"lua require('telekasten').find_notes()"\"
+    abbr --add c    clear
+    abbr --add v    nvim
+    abbr --add vp   nvim +"\"lua require('telescope').extensions.possession.list()"\"
+    abbr --add vf   nvim +"\"lua require('telescope.builtin').find_files()"\"
+    abbr --add vn   nvim +"\"lua require('telekasten').find_notes()"\"
     # +"lua require('telescope.builtin').find_files()"
-    abbr --add --global l    exa --icons --group-directories-first
-    abbr --add --global ll   exa -a --icons --group-directories-first
-    abbr --add --global lll  exa -la --icons --group-directories-first --git
-    abbr --add --global diskusage   ncdu
-    abbr --add --global del  trash
-    abbr --add --global rm   use del (or rip if installed)
+    abbr --add l    exa --icons --group-directories-first
+    abbr --add ll   exa -a --icons --group-directories-first
+    abbr --add lll  exa -la --icons --group-directories-first --git
+    abbr --add del  trash
+    abbr --add rm   use del (or rip if installed)
 
     # Git
-    abbr --add --global gs      git status
-    abbr --add --global gss     git switch
-    abbr --add --global gpr     git pull --rebase
-    abbr --add --global gpf     git push --force-with-lease
+    abbr --add gs      git status
+    abbr --add gss     git switch
+    abbr --add gpr     git pull --rebase
+    abbr --add gpf     git push --force-with-lease
     #abbr --add --global gtb    "git switch master && git pull --rebase && git switch -c"
-    abbr --add --global cdg     "cd (git rev-parse --show-toplevel)"
-    abbr --add --global lg      find . -type d -name \'.git\' -exec echo {} \\\; -exec git -C {} branch --show-current \\\;
-    abbr --add --global lgs     find . -type d -name .git -print -execdir git status \\\;
-    abbr --add --global mgs     find . -type d -name .git -print -execdir git sw XXX \\\; -execdir git pull --rebase \\\;
+    abbr --add cdg     "cd (git rev-parse --show-toplevel)"
+    abbr --add lg      find . -type d -name \'.git\' -exec echo {} \\\; -exec git -C {} branch --show-current \\\;
+    abbr --add lgs     find . -type d -name .git -print -execdir git status \\\;
+    abbr --add mgs     find . -type d -name .git -print -execdir git sw XXX \\\; -execdir git pull --rebase \\\;
 
     # Fzf
     #abbr --add --global dot  'nvim (find ~/.dotfiles -path ~/.dotfiles/.git -prune -o -print -type f | fzf)' # Search in .dotfiles folder
@@ -70,8 +69,10 @@ if status --is-interactive
     abbr --add m2csse   'warden env exec php-fpm bash -lc "/home/www-data/bin/m2css.sh" && exit'
 
     # Tools
+    abbr --add diskusage   ncdu
     abbr --add weather 'curl v2d.wttr.in'
-end
+    abbr --add explorer yazi
+en
 
 function hej
 	cat $HOME/dotfiles/documentation.txt
