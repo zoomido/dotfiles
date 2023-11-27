@@ -72,7 +72,7 @@ if status --is-interactive
     abbr --add diskusage   ncdu
     abbr --add weather 'curl v2d.wttr.in'
     abbr --add explorer yazi
-en
+end
 
 function hej
 	cat $HOME/dotfiles/documentation.txt

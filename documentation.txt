@@ -1,3 +1,7 @@
+# Kitty
+ctrl+shift+j scroll_line_down
+ctrl+shift+k scroll_line_up
+
 # System
 l: exa (filelist)
 ll: exa -a (filelist + hidden)
