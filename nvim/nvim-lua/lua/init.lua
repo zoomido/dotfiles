@@ -130,6 +130,17 @@ require('lazy').setup({
         ft = 'lua',
         opts = {},
     },
+    {
+        -- LSP helper: Show diagnostics, references, telescope results, quickfix and location lists
+        "folke/trouble.nvim",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        cmd = { 'Trouble' },
+        keys = {
+            { '<Leader>lt', function() require('trouble').toggle('') end, desc = 'Toggle [l]sp [t]rouble' },
+        },
+        opts = {
+        },
+    },
 
     {
         -- Highlight, edit, and navigate code
@@ -369,9 +380,23 @@ require('lazy').setup({
             'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
         },
         init = function() vim.g.barbar_auto_setup = false end,
-        opts = {},
         config = function()
-            require('barbar').setup {}
+            require('barbar').setup {
+                icons = {
+                    -- Enables / disables diagnostic symbols
+                    -- diagnostics = {
+                    --     [vim.diagnostic.severity.ERROR] = {enabled = true, icon = 'ﬀ'},
+                    --     [vim.diagnostic.severity.WARN] = {enabled = false},
+                    --     [vim.diagnostic.severity.INFO] = {enabled = false},
+                    --     [vim.diagnostic.severity.HINT] = {enabled = true},
+                    -- },
+                    gitsigns = {
+                        added = {enabled = true, icon = '+'},
+                        changed = {enabled = true, icon = '~'},
+                        deleted = {enabled = true, icon = '-'},
+                    },
+                },
+            }
             local opts = { noremap = true, silent = true }
             -- Move to previous/next
             -- vim.keymap.set('n', '<tab>', '<Cmd>BufferNext<Cr>', opts)
@@ -601,7 +626,7 @@ require('lazy').setup({
             },
         },
         keys = {
-            { '<leader>p', function() require('telescope').extensions.neoclip.default() end, desc = 'Fuzzy search yank history' },
+            { '<leader>p', function() require('telescope').extensions.neoclip.default() end, mode = {'n', 'v'}, desc = 'Fuzzy search yank history' },
         }
     },
 
