@@ -157,7 +157,7 @@ require('lazy').setup({
                 },
             },
             -- setting the commentstring option based on cursor location, via treesitter queries.
-            { 'JoosepAlviste/nvim-ts-context-commentstring', config = true },
+            { 'JoosepAlviste/nvim-ts-context-commentstring', opts = { enable_autocmd = false } },
         },
         build = ':TSUpdate',
         config = function()
@@ -177,11 +177,6 @@ require('lazy').setup({
                         scope_incremental = 'grc',
                         node_decremental = '<C-f>',
                     },
-                },
-                -- Remove this when tree-sitter >1.0
-                -- https://github.com/JoosepAlviste/nvim-ts-context-commentstring
-                context_commentstring = {
-                    enable = true,
                 },
             })
         end,
@@ -384,12 +379,12 @@ require('lazy').setup({
             require('barbar').setup {
                 icons = {
                     -- Enables / disables diagnostic symbols
-                    -- diagnostics = {
-                    --     [vim.diagnostic.severity.ERROR] = {enabled = true, icon = 'ﬀ'},
-                    --     [vim.diagnostic.severity.WARN] = {enabled = false},
-                    --     [vim.diagnostic.severity.INFO] = {enabled = false},
-                    --     [vim.diagnostic.severity.HINT] = {enabled = true},
-                    -- },
+                    diagnostics = {
+                        [vim.diagnostic.severity.ERROR] = {enabled = true},
+                        [vim.diagnostic.severity.WARN] = {enabled = true},
+                        [vim.diagnostic.severity.INFO] = {enabled = true},
+                        [vim.diagnostic.severity.HINT] = {enabled = true},
+                    },
                     gitsigns = {
                         added = {enabled = true, icon = '+'},
                         changed = {enabled = true, icon = '~'},
