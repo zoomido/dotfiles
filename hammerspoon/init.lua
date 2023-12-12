@@ -152,17 +152,32 @@ end)
 -- set up your windowfilter
 -- switcher = hs.window.switcher.new() -- default windowfilter: only visible windows, all Spaces
 -- switcher_browsers = hs.window.switcher.new{'Safari','Google Chrome'} -- specialized switcher for your dozens of browser windows :)
--- switcher_space = hs.window.switcher.new(hs.window.filter.new():setCurrentSpace(true):setDefaultFilter{}) -- include minimized/hidden windows, current Space only
--- switcher_space.ui.showTitles = false
--- switcher_space.ui.backgroundColor = {0.1,0.1,0.1,0.3}
--- switcher_space.ui.selectedThumbnailSize = 300
--- switcher_space.ui.showSelectedTitle = false
--- switcher_space.ui.fontName = 'Helvetica'
+switcher = hs.window.switcher.new(hs.window.filter.new():setCurrentSpace(true):setDefaultFilter{}) -- include minimized/hidden windows, current Space only
+switcher.ui.showTitles = false
+switcher.ui.backgroundColor = {0.1,0.1,0.1,0.3}
+switcher.ui.selectedThumbnailSize = 300
+switcher.ui.showSelectedTitle = false
+switcher.ui.fontName = 'Helvetica'
 -- hs.window.animationDuration = 0
 
--- bind to hotkeys; WARNING: at least one modifier key is required!
--- hs.hotkey.bind('alt', 'tab', nil, function()switcher_space:next()end)
--- hs.hotkey.bind('alt-shift', 'tab', nil, function()switcher_space:previous()end)
+-- -- bind to hotkeys; WARNING: at least one modifier key is required!
+-- hs.hotkey.bind('alt','tab','Next window',function()switcher:next()end)
+-- hs.hotkey.bind('alt-shift','tab','Prev window',function()switcher:previous()end)
+-- Override cmd-tab macos regular app switcher
+function mapCmdTab(event)
+    local flags = event:getFlags()
+    local chars = event:getCharacters()
+    if chars == "\t" and flags:containExactly{'cmd'} then
+        switcher:next()
+        return true
+    elseif chars == string.char(25) and flags:containExactly{'cmd','shift'} then
+        switcher:previous()
+        return true
+    end
+end
+tapCmdTab = hs.eventtap.new({hs.eventtap.event.types.keyDown}, mapCmdTab)
+tapCmdTab:start()
+
 
 
 --------------------------
