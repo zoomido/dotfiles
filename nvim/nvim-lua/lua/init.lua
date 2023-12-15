@@ -492,11 +492,13 @@ require('lazy').setup({
         keys = {
             { '<leader>t', '<Cmd>ToggleTerm size=50 direction=vertical<Cr>', desc = 'Open new vertical terminal' },
             { '<leader>T', '<Cmd>ToggleTerm direction=horizontal<Cr>',       desc = 'Open new horizontal terminal' },
+            { '<leader>mc', '<Cmd>TermExec size=50 cmd="mm"<Cr>', desc = 'Run alias mm (usually inside container)' },
         },
         config = function()
             require('toggleterm').setup {
                 -- open_mapping = '<leader>t',
                 insert_mappings = false,
+                direction = 'vertical',
             }
             function _G.set_terminal_keymaps()
                 local opts = { buffer = 0 }
