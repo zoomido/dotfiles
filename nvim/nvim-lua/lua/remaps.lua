@@ -49,5 +49,5 @@ vim.keymap.set('v', ':r', ":s/\\%V\\%V/<Left><Left><Left><Left>", { silent = tru
 --
 -- Abbreviations
 --
-vim.cmd('abb clog console.log( );<Left><Left><Left>')
+vim.cmd('abb clog; console.log( );<Left><Left><Left>')
 
