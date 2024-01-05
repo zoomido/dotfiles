@@ -412,13 +412,17 @@ require('lazy').setup({
     --
 
     -- Illegal git plugin
-    { 'tpope/vim-fugitive',      cmd = 'G' },
-    -- Support bitbucket url for Gbrowse
     {
-        'tommcdo/vim-fubitive',
-        cmd = 'GBrowse',
-        dependencies = { 'tpope/vim-fugitive' },
+        'tpope/vim-fugitive',
+        cmd = 'G',
+        -- Support bitbucket url for Gbrowse
+        dependencies = { 'tpope/vim-fubitive' },
     },
+    -- {
+    --     'tommcdo/vim-fubitive',
+    --     cmd = 'GBrowse',
+    --     dependencies = { 'tpope/vim-fugitive' },
+    -- },
     -- 2 way git merge conflicts
     -- {'whiteinge/diffconflicts', cmd = 'DiffConflicts'},
     { 'samoshkin/vim-mergetool', cmd = 'MergetoolStart' },
