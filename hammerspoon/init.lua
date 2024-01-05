@@ -325,77 +325,123 @@ inputDevice:watcherStart()
 
 
 -----------------------
--- Low battery warning
--- DOES NOT WORK RIGHT NOW
+-- Low battery warning < 33%
 -----------------------
--- local batWatcher = nil
--- local lastBatVal = hs.battery.percentage()
--- function batPercentageChangedCallback()
---     currentPercent = hs.battery.percentage()
---     isCharging = hs.battery.isCharging()
---     if isCharging == true then
---         hs.alert.closeSpecific(batteryInfoWindow, 0)
---         return
---     end
---     if currentPercent == 100 and lastBatVal == 99 then
---         hs.notify.new({
---             title = 'Battery at 100%',
---             subTitle = 'Fully charged',
---             alwaysPresent = 1,
---             autoWithdraw = 0,
---             withdrawAfter = 0
---         }):send()
---     elseif currentPercent == 30 and lastBatVal > 30 then
---         hs.notify.new({
---             title = 'Battery at 30%',
---             subTitle = 'Notice: Running on battery',
---             alwaysPresent = 1,
---             autoWithdraw = 0,
---             withdrawAfter = 0
---         }):send()
---     elseif currentPercent == 20 and lastBatVal > 20 then
---         hs.notify.new({
---             title = 'Battery at 20%',
---             subTitle = 'Dont sweat it just yet',
---             alwaysPresent = 1,
---             autoWithdraw = 0,
---             withdrawAfter = 0
---         }):send()
---     elseif currentPercent == 15 and lastBatVal > 15 then
---         hs.notify.new({
---             title = 'Battery at 15%',
---             subTitle = 'A slight sweat would be good now',
---             alwaysPresent = 1,
---             autoWithdraw = 0,
---             withdrawAfter = 0
---         }):send()
---     elseif currentPercent == 10 and lastBatVal > 10 then
---         hs.notify.new({
---             title = 'Low battery: 10%',
---             subTitle = 'Time to get serious with that charger',
---             alwaysPresent = 1,
---             autoWithdraw = 0,
---             withdrawAfter = 0
---         }):send()
---     elseif currentPercent < 6 and currentPercent ~= lastBatVal then
---         batteryInfoWindow = hs.alert.show('Live or let die: = ' .. currentPercent .. '%', {
---             strokeColor = hs.drawing.color.x11.goldenrod,
---             fillColor = hs.drawing.color.x11.red,
---             textColor = hs.drawing.color.x11.goldenrod,
---             strokeWidth = 10,
---             radius = 10,
---             textSize = 62,
---             fadeInDuration = 8,
---             atScreenEdge = 0
---         }, 40)
---     end
---     -- if currentPercent == 7 then
---     --     hs.alert.closeAll()
---     -- end
---     lastBatVal = currentPercent
--- end
--- batWatcher = hs.battery.watcher.new(batPercentageChangedCallback)
--- batWatcher:start()
+local batWatcher = nil
+local lastBatValue = hs.battery.percentage()
+function batPercentageChangedCallback()
+    currentBatValue = hs.battery.percentage()
+
+    if hs.battery.isCharging() == true then
+        if currentBatValue > 71 and currentBatValue > lastBatValue then
+            batteryInfoWindow = hs.alert.show('Battery charged up! (' .. math.floor(tonumber(currentBatValue)) .. '%)', {
+                strokeColor = hs.drawing.color.x11.cadetblue,
+                fillColor = {["red"]=0.100,["green"]=0.150,["blue"]=0.100,["alpha"]=0.6},
+                textColor = hs.drawing.color.x11.cadetblue,
+                strokeWidth = 10,
+                radius = 10,
+                textSize = 50,
+                fadeInDuration = 1,
+                fadeOutDuration = 1,
+                atScreenEdge = 0
+            }, 5)
+        end
+        return
+    end
+
+    if currentBatValue < 35 and currentBatValue < lastBatValue then
+        batteryInfoWindow = hs.alert.show('Live or let die: ' .. math.floor(tonumber(currentBatValue)) .. '%', {
+            strokeColor = hs.drawing.color.x11.goldenrod,
+            fillColor = {["red"]=0.400,["green"]=0.200,["blue"]=0.200,["alpha"]=0.7},
+            textColor = hs.drawing.color.x11.goldenrod,
+            strokeWidth = 10,
+            radius = 10,
+            textSize = 62,
+            fadeInDuration = 1,
+            fadeOutDuration = 1,
+            atScreenEdge = 0
+        }, 5)
+    end
+
+    -- For testing alert
+    -- if currentBatValue < 73 and currentBatValue <= lastBatValue then
+    --     batteryInfoWindow = hs.alert.show('battery is: ' .. math.floor(tonumber(currentBatValue)) .. '%', {
+    --         strokeColor = hs.drawing.color.x11.goldenrod,
+    --         fillColor = {["red"]=0.400,["green"]=0.200,["blue"]=0.200,["alpha"]=0.7},
+    --         textColor = hs.drawing.color.x11.goldenrod,
+    --         strokeWidth = 10,
+    --         radius = 10,
+    --         textSize = 62,
+    --         fadeInDuration = 1,
+    --         fadeOutDuration = 1,
+    --         atScreenEdge = 0
+    --     }, 5)
+    -- end
+
+    -- isCharging = hs.battery.isCharging()
+    -- if isCharging == true then
+    --     hs.alert.closeSpecific(batteryInfoWindow, 0)
+    --     return
+    -- end
+    -- if currentBatValue == 100 and lastBatValue == 99 then
+    --     hs.notify.new({
+    --         title = 'Battery at 100%',
+    --         subTitle = 'Fully charged',
+    --         alwaysPresent = 1,
+    --         autoWithdraw = 0,
+    --         withdrawAfter = 0
+    --     }):send()
+    -- elseif currentBatValue == 30 and lastBatValue > 30 then
+    --     hs.notify.new({
+    --         title = 'Battery at 30%',
+    --         subTitle = 'Notice: Running on battery',
+    --         alwaysPresent = 1,
+    --         autoWithdraw = 0,
+    --         withdrawAfter = 0
+    --     }):send()
+    -- elseif currentBatValue == 20 and lastBatValue > 20 then
+    --     hs.notify.new({
+    --         title = 'Battery at 20%',
+    --         subTitle = 'Dont sweat it just yet',
+    --         alwaysPresent = 1,
+    --         autoWithdraw = 0,
+    --         withdrawAfter = 0
+    --     }):send()
+    -- elseif currentBatValue == 15 and lastBatValue > 15 then
+    --     hs.notify.new({
+    --         title = 'Battery at 15%',
+    --         subTitle = 'A slight sweat would be good now',
+    --         alwaysPresent = 1,
+    --         autoWithdraw = 0,
+    --         withdrawAfter = 0
+    --     }):send()
+    -- elseif currentBatValue == 10 and lastBatValue > 10 then
+    --     hs.notify.new({
+    --         title = 'Low battery: 10%',
+    --         subTitle = 'Time to get serious with that charger',
+    --         alwaysPresent = 1,
+    --         autoWithdraw = 0,
+    --         withdrawAfter = 0
+    --     }):send()
+    -- elseif currentBatValue < 6 and currentBatValue ~= lastBatValue then
+    --     batteryInfoWindow = hs.alert.show('Live or let die: = ' .. currentBatValue .. '%', {
+    --         strokeColor = hs.drawing.color.x11.goldenrod,
+    --         fillColor = hs.drawing.color.x11.red,
+    --         textColor = hs.drawing.color.x11.goldenrod,
+    --         strokeWidth = 10,
+    --         radius = 10,
+    --         textSize = 62,
+    --         fadeInDuration = 8,
+    --         atScreenEdge = 0
+    --     }, 40)
+    -- end
+    -- if currentBatValue == 7 then
+    --     hs.alert.closeAll()
+    -- end
+    lastBatValue = currentBatValue
+end
+batWatcher = hs.battery.watcher.new(batPercentageChangedCallback)
+batWatcher:start()
 
 
 -- experiment
