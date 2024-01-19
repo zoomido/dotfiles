@@ -213,11 +213,13 @@ require('lazy').setup({
                             -- actions.which_key shows the mappings for your picker,
                             -- e.g. git_{create, delete, ...}_branch for the git_branches picker
                             ['<C-l>'] = 'select_default',
+                            ['<C-ö>'] = 'toggle_selection',
                             ['<C-->'] = 'which_key',
                             ['<C-a>'] = require('telescope.actions.layout').toggle_preview,
                             ['<C-s>'] = require('telescope.actions.layout').cycle_layout_next,
                             ['<C-j>'] = 'move_selection_next',
                             ['<C-k>'] = 'move_selection_previous',
+                            ['<C-o>'] = function(p_bufnr) require('telescope.actions').send_selected_to_qflist(p_bufnr) vim.cmd.cfdo('edit') end, -- Open all selected entries
                             -- ['<Esc>'] = 'close',
                         },
                     },
