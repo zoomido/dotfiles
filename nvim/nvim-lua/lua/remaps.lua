@@ -42,8 +42,8 @@ vim.keymap.set({ 'n', 'v' }, '+', '"1p', { silent = true, desc = '' })
 vim.keymap.set('v', 'J', ":m '>+1<Cr>gv=gv", { silent = true, desc = 'Move visual selection down' })
 vim.keymap.set('v', 'K', ":m '<-2<Cr>gv=gv", { silent = true, desc = 'Move visual selection up' })
 vim.keymap.set('v', ':p', "y:<C-r>\"<C-b>", { silent = true, desc = 'Paste visual selection in cmdline' })
-vim.keymap.set('v', 'r', "\"hy:%s/<C-r>h//c<Left><Left><Left>", { silent = true, desc = 'Replace the visual selection everywhere' })
-vim.keymap.set('v', ':r', ":s/\\%V\\%V/<Left><Left><Left><Left>", { silent = true, desc = 'Replace inside visual selection' })
+vim.keymap.set('v', ':re', "\"hy:%s/<C-r>h//c<Left><Left>", { silent = true, desc = 'Replace the visual selection elsewhere' })
+vim.keymap.set('v', ':ri', ":s/\\%V\\%V/<Left><Left><Left><Left>", { silent = true, desc = 'Replace inside visual selection' })
 
 
 --
