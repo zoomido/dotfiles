@@ -207,6 +207,17 @@ require('lazy').setup({
                             preview_height = 0.4,
                         },
                     },
+                    vimgrep_arguments = {
+                        -- This will trim indentation: https://github.com/nvim-telescope/telescope.nvim/wiki/Configuration-Recipes#ripgrep-remove-indentation
+                        'rg',
+                        '--color=never',
+                        '--no-heading',
+                        '--with-filename',
+                        '--line-number',
+                        '--column',
+                        '--smart-case',
+                        '--trim'
+                    },
                     mappings = {
                         i = {
                             -- map actions.which_key to <C-h> (default: <C-/>)
