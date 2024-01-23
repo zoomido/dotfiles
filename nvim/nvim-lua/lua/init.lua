@@ -216,21 +216,23 @@ require('lazy').setup({
                         '--line-number',
                         '--column',
                         '--smart-case',
-                        '--trim'
+                        '--trim' -- The secret sauce
                     },
                     mappings = {
                         i = {
                             -- map actions.which_key to <C-h> (default: <C-/>)
                             -- actions.which_key shows the mappings for your picker,
                             -- e.g. git_{create, delete, ...}_branch for the git_branches picker
-                            ['<C-l>'] = 'select_default',
-                            ['<C-ö>'] = 'toggle_selection',
                             ['<C-->'] = 'which_key',
+                            ['<C-l>'] = 'select_default',
                             ['<C-a>'] = require('telescope.actions.layout').toggle_preview,
                             ['<C-s>'] = require('telescope.actions.layout').cycle_layout_next,
                             ['<C-j>'] = 'move_selection_next',
                             ['<C-k>'] = 'move_selection_previous',
+                            ['<C-ö>'] = 'toggle_selection',
                             ['<C-o>'] = function(p_bufnr) require('telescope.actions').send_selected_to_qflist(p_bufnr) vim.cmd.cfdo('edit') end, -- Open all selected entries
+                            ['<C-n>'] = require('telescope.actions').cycle_history_next,
+                            ['<C-p>'] = require('telescope.actions').cycle_history_prev,
                             -- ['<Esc>'] = 'close',
                         },
                     },
