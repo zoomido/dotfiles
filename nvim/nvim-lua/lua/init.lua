@@ -282,6 +282,26 @@ require('lazy').setup({
                             },
                         },
                     },
+                    undo = {
+                        side_by_side = true,
+                        layout_strategy = "vertical",
+                        layout_config = {
+                            preview_height = 0.6,
+                        },
+                        mappings = {
+                            i = {
+                                ['<Cr>'] = require('telescope-undo.actions').restore,
+                                ['<C-l>'] = require('telescope-undo.actions').restore,
+                                -- alternative defaults, for users whose terminals do questionable things with modified <cr>
+                                ['<C-y>'] = require('telescope-undo.actions').yank_deletions,
+                            },
+                            n = {
+                                ['y'] = require('telescope-undo.actions').yank_deletions,
+                                ['Y'] = require('telescope-undo.actions').yank_additions,
+                                ['<Cr>'] = require('telescope-undo.actions').restore,
+                            },
+                        },
+                    },
                 },
             }
 
@@ -697,7 +717,7 @@ require('lazy').setup({
     -- Add indent text object to vim. <count>ai ii aI iI
     { 'michaeljsmith/vim-indent-object', event = 'VeryLazy' },
     -- Vim "inner line" text object. Ignore leading and trailing whitespace. v_ y_ d_
-    { 'bruno-/vim-line',                 event = 'VeryLazy' },
+    { 'bruno-/vim-line', event = 'VeryLazy' },
     -- "gc" to comment visual regions/lines
     {
         'numToStr/Comment.nvim',
@@ -746,12 +766,12 @@ require('lazy').setup({
         },
     },
 
-    {
-        -- Highlight active parts of the code
-        "folke/twilight.nvim",
-        cmd = 'Twilight',
-        opts = {},
-    },
+    -- {
+    --     -- Highlight active parts of the code
+    --     "folke/twilight.nvim",
+    --     cmd = 'Twilight',
+    --     opts = {},
+    -- },
 
     {
         "folke/tokyonight.nvim",
