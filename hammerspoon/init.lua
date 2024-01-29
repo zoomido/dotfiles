@@ -78,11 +78,11 @@ end)
 
 -- Start/switch/hide Obsidian
 hs.hotkey.bind({"shift"}, "§", function()
-    local app = hs.application.find('Obsidian')
+    local app = hs.application.find('Heynote')
     if ( app and app:isFrontmost() ) then
         app:hide()
     else
-        hs.application.open("Obsidian.app")
+        hs.application.open("Heynote.app")
     end
 end)
 
