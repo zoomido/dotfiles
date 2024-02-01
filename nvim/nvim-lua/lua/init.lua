@@ -229,8 +229,8 @@ require('lazy').setup({
                             ['<C-s>'] = require('telescope.actions.layout').cycle_layout_next,
                             ['<C-j>'] = 'move_selection_next',
                             ['<C-k>'] = 'move_selection_previous',
-                            ['<C-ö>'] = 'toggle_selection',
-                            ['<C-o>'] = function(p_bufnr) require('telescope.actions').send_selected_to_qflist(p_bufnr) vim.cmd.cfdo('edit') end, -- Open all selected entries
+                            ["<S-Tab>"] = require('telescope.actions').toggle_selection + require('telescope.actions').move_selection_next,
+                            ['<C-ö>'] = function(p_bufnr) require('telescope.actions').send_selected_to_qflist(p_bufnr) vim.cmd.cfdo('edit') end, -- Open all selected entries
                             ['<C-n>'] = require('telescope.actions').cycle_history_next,
                             ['<C-p>'] = require('telescope.actions').cycle_history_prev,
                             -- ['<Esc>'] = 'close',
