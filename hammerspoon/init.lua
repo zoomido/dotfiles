@@ -1,11 +1,38 @@
--- Needed until  https://github.com/Hammerspoon/hammerspoon/issues/2478 is fixed
--- hs.configdir = os.getenv('HOME') .. '/.hammerspoon'
--- package.path = hs.configdir .. '/?.lua;' .. hs.configdir .. '/?/init.lua;' .. hs.configdir .. '/Spoons/?.spoon/init.lua;' .. package.path
----------------------------------------------------------------------------------------------------------------------------------------
-
 -- Logger example
 -- local log = hs.logger.new('Userlog','debug')
 -- log.i('Initializing') -- will print "[mymodule] Initializing" to the console
+
+-- listenForKeyPress = hs.eventtap.new({hs.eventtap.event.types.keyDown, hs.eventtap.event.types.systemDefined}, function(event)
+--     print('--- hammerspoon console is listening for key presses ---')
+--     local type = event:getType()
+--     if type == hs.eventtap.event.types.keyDown then
+--         print(hs.keycodes.map[event:getKeyCode()])
+--     elseif type == hs.eventtap.event.types.systemDefined then
+--         local t = event:systemKey()
+--         if t.down then
+--             print("System key: " .. t.key)
+--         end
+--     end
+-- end)
+-- listenForKeyPress:start()
+
+-- the hamburger key sends the text
+-- hs.hotkey.bind({}, 110, function()
+--     hs.eventtap.keyStrokes("hejsan")
+-- end)
+
+-- Doesnt work, holding down they key sends multiple keystrokes
+-- local events = hs.eventtap.event.types
+-- keyboardTracker = hs.eventtap.new({ events.keyDown }, function (e)
+--   local keyCode = e:getKeyCode()
+--   if keyCode == 110 then
+--       print("key pressed 110 ")
+--       hs.eventtap.event.newKeyEvent(hs.keycodes.map.alt,true):post()
+--     -- hs.eventtap.event.newKeyEvent(hs.keycodes.map.alt,true):post()
+--     return true
+--   end
+-- end)
+-- keyboardTracker:start()
 
 
 ---------------------------
@@ -76,13 +103,13 @@ hs.hotkey.bind({"cmd", "shift"}, "return", function()
 end)
 
 
--- Start/switch/hide Obsidian
+-- Start/switch/hide note application
 hs.hotkey.bind({"shift"}, "§", function()
-    local app = hs.application.find('Heynote')
+    local app = hs.application.find('Wezterm')
     if ( app and app:isFrontmost() ) then
         app:hide()
     else
-        hs.application.open("Heynote.app")
+        hs.application.open("Wezterm.app")
     end
 end)
 
