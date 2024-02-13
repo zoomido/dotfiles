@@ -29,11 +29,14 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 
 -- Better yank/cut/paste
 -- Use capital P, it will paste in insert mode without overriding yank register (")
-vim.keymap.set({ 'n', 'v' }, 'x', '"_x', { silent = true, desc = 'Delete to black hole register' }) -- Deletes go to register 1-9
--- vim.keymap.set({ 'n', 'v' }, 'd', '"_d', { silent = true, desc = 'Delete to black hole register' }) -- Deletes go to register 1-9
--- vim.keymap.set('', 'p', '"0p', { silent = true, desc = 'Always paste latest yank' }) -- blank
--- vim.keymap.set({ 'n', 'v' }, 'P', '"0P', { silent = true, desc = 'Always paste latest yank' })
--- vim.keymap.set({ 'n', 'v' }, '+', '"0p', { silent = true, desc = '' })
+vim.keymap.set({ 'n', 'v' }, 'x', '"_x', { silent = true, desc = 'Dont put deleted text into yank register' }) -- Deletes go to register 1-9
+vim.keymap.set({ 'n', 'v' }, 'X', '"_X', { silent = true, desc = 'Dont put deleted text into yank register' }) -- Deletes go to register 1-9
+vim.keymap.set({ 'n', 'v' }, 'd', '"_d', { silent = true, desc = 'Dont put deleted text into yank register' }) -- Deletes go to register 1-9
+vim.keymap.set({ 'n', 'v' }, 'D', '"_D', { silent = true, desc = 'Dont put deleted text into yank register' }) -- Deletes go to register 1-9
+vim.keymap.set({ 'n', 'v' }, 'c', '"_c', { silent = true, desc = 'Dont put changed text into yank register' }) -- Deletes go to register 1-9
+vim.keymap.set({ 'n', 'v' }, 'C', '"_C', { silent = true, desc = 'Dont put changed text into yank register' }) -- Deletes go to register 1-9
+vim.keymap.set({ 'v' }, 'p', '"0p', { silent = true, desc = '[p]aste latest yank in visual mode' })
+vim.keymap.set({ 'v' }, 'p', '"0P', { silent = true, desc = '[P]aste latest yank in visual mode' })
  --         ["+"] = { "\"0p", "Paste latest yank" },
 
 -- Search and replace
