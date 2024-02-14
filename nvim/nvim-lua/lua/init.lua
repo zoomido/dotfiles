@@ -383,65 +383,6 @@ require('lazy').setup({
         },
     },
 
-    {
-        -- Statusline plugin
-        -- See `:help lualine.txt`
-        'nvim-lualine/lualine.nvim',
-        event = 'VeryLazy',
-        opts = {
-            options = {
-                icons_enabled = false,
-                -- theme = 'tokyonight',
-                theme = 'auto',
-                component_separators = { left = '', right = '' },
-                section_separators = { left = '', right = '' },
-                -- component_separators = '|',
-                -- section_separators = '',
-            },
-        },
-    },
-
-    {
-        -- Tabline plugin
-        'romgrk/barbar.nvim',
-        event = 'VeryLazy',
-        dependencies = {
-            'lewis6991/gitsigns.nvim',     -- OPTIONAL: for git status
-            'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
-        },
-        init = function() vim.g.barbar_auto_setup = false end,
-        config = function()
-            require('barbar').setup {
-                icons = {
-                    -- Enables / disables diagnostic symbols
-                    diagnostics = {
-                        [vim.diagnostic.severity.ERROR] = {enabled = true},
-                        [vim.diagnostic.severity.WARN] = {enabled = true},
-                        [vim.diagnostic.severity.INFO] = {enabled = true},
-                        [vim.diagnostic.severity.HINT] = {enabled = true},
-                    },
-                    gitsigns = {
-                        added = {enabled = true, icon = '+'},
-                        changed = {enabled = true, icon = '~'},
-                        deleted = {enabled = true, icon = '-'},
-                    },
-                },
-            }
-            local opts = { noremap = true, silent = true }
-            -- Move to previous/next
-            -- vim.keymap.set('n', '<tab>', '<Cmd>BufferNext<Cr>', opts)
-            vim.keymap.set('n', '<C-p>', '<Cmd>BufferPrevious<Cr>', opts)
-            vim.keymap.set('n', '<C-n>', '<Cmd>BufferNext<Cr>', opts)
-            -- Re-order to previous/next
-            vim.keymap.set('n', '<Leader>>', '<Cmd>BufferMovePrevious<Cr>', opts)
-            vim.keymap.set('n', '<Leader><', '<Cmd>BufferMoveNext<Cr>', opts)
-            -- Close buffer
-            vim.keymap.set('n', '<C-x>', '<Cmd>BufferClose<Cr>', opts)
-            -- Magic buffer-picking mode
-            vim.keymap.set('n', '<C-b>', '<Cmd>BufferPick<Cr>', opts)
-        end,
-    },
-
     --
     -- Git Plugins
     --
@@ -451,7 +392,7 @@ require('lazy').setup({
         'tpope/vim-fugitive',
         cmd = 'G',
         -- Support bitbucket url for Gbrowse
-        dependencies = { 'tpope/vim-fubitive' },
+        dependencies = { 'tommcdo/vim-fubitive' },
     },
     -- {
     --     'tommcdo/vim-fubitive',
@@ -714,12 +655,20 @@ require('lazy').setup({
     -- Detect tabstop and shiftwidth automatically
     -- {'Darazaki/indent-o-matic', event = 'VeryLazy', config = true}
     -- {'tpope/vim-sleuth', event = 'VeryLazy'},
-    -- Add indent text object to vim. <count>ai ii aI iI
-    { 'michaeljsmith/vim-indent-object', event = 'VeryLazy' },
-    -- Vim "inner line" text object. Ignore leading and trailing whitespace. v_ y_ d_
-    { 'bruno-/vim-line', event = 'VeryLazy' },
-    -- "gc" to comment visual regions/lines
     {
+        -- Add indent text object to vim. <count>ai ii aI iI
+        'michaeljsmith/vim-indent-object',
+        event = 'VeryLazy'
+    },
+
+    {
+        -- Vim "inner line" text object. Ignore leading and trailing whitespace. v_ y_ d_
+        'bruno-/vim-line',
+        event = 'VeryLazy'
+    },
+
+    {
+        -- "gc" to comment visual regions/lines
         'numToStr/Comment.nvim',
         -- event = 'VeryLazy',
         opts = {},
@@ -729,10 +678,158 @@ require('lazy').setup({
         },
     },
 
+    {
+        -- Debug Adapter Protocol client implementation (xdebug)
+        'mfussenegger/nvim-dap',
+        event = 'VeryLazy',
+        dependencies = {
+            {
+                -- fancy UI for the debugger
+                'rcarriga/nvim-dap-ui',
+                -- stylua: ignore
+                keys = {
+                    { '<leader>du', function() require('dapui').toggle({ }) end, desc = 'Dap UI' },
+                    { '<leader>de', function() require('dapui').eval() end, desc = 'Eval', mode = {'n', 'v'} },
+                },
+                opts = {},
+                config = function(_, opts)
+                    -- setup dap config by VsCode launch.json file
+                    local dap = require('dap')
+                    local dapui = require('dapui')
+                    dapui.setup(opts)
+                    dap.listeners.after.event_initialized['dapui_config'] = function()
+                        dapui.open({})
+                    end
+                    dap.listeners.before.event_terminated['dapui_config'] = function()
+                        dapui.close({})
+                    end
+                    dap.listeners.before.event_exited['dapui_config'] = function()
+                        dapui.close({})
+                    end
+
+                    dap.adapters.php = {
+                        type = 'executable',
+                        command = 'node',
+                        args = {
+                            vim.loop.os_homedir() .. '/.local/share/nvim/mason/packages/php-debug-adapter/extension/out/phpDebug.js',
+                        },
+                    }
+                    dap.configurations.php = {
+                        {
+                            type = 'php',
+                            request = 'launch',
+                            name = 'Listen for xdebug nvim',
+                            port = '9003',
+                            log = false,
+                            pathMappings = {
+                                ['/var/www/html'] = '${workspaceFolder}'
+                            },
+                        },
+                    }
+                end,
+            },
+            {
+                -- virtual text for the debugger
+                'theHamsta/nvim-dap-virtual-text',
+                opts = {},
+            },
+            {
+                -- which key integration
+                'folke/which-key.nvim',
+                optional = true,
+                opts = {
+                    defaults = {
+                        ['<leader>d'] = { name = '+debug' },
+                    },
+                },
+            },
+        },
+
+        -- stylua: ignore
+        keys = {
+            { '<leader>dB', function() require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = 'Breakpoint Condition' },
+            { '<leader>db', function() require('dap').toggle_breakpoint() end, desc = 'Toggle Breakpoint' },
+            { '<leader>dc', function() require('dap').continue() end, desc = 'Continue' },
+            { '<leader>da', function() require('dap').continue({ before = get_args }) end, desc = 'Run with Args' },
+            { '<leader>dC', function() require('dap').run_to_cursor() end, desc = 'Run to Cursor' },
+            { '<leader>dg', function() require('dap').goto_() end, desc = 'Go to line (no execute)' },
+            { '<leader>di', function() require('dap').step_into() end, desc = 'Step Into' },
+            { '<leader>dj', function() require('dap').down() end, desc = 'Down' },
+            { '<leader>dk', function() require('dap').up() end, desc = 'Up' },
+            { '<leader>dl', function() require('dap').run_last() end, desc = 'Run Last' },
+            { '<leader>do', function() require('dap').step_out() end, desc = 'Step Out' },
+            { '<leader>dO', function() require('dap').step_over() end, desc = 'Step Over' },
+            { '<leader>dp', function() require('dap').pause() end, desc = 'Pause' },
+            { '<leader>dr', function() require('dap').repl.toggle() end, desc = 'Toggle REPL' },
+            { '<leader>ds', function() require('dap').session() end, desc = 'Session' },
+            { '<leader>dt', function() require('dap').terminate() end, desc = 'Terminate' },
+            { '<leader>dw', function() require('dap.ui.widgets').hover() end, desc = 'Widgets' },
+        },
+    },
+
     --
     -- Aesthetics
     -- "a set of principles concerned with the nature and appreciation of beauty."
     -- 
+
+    {
+        -- Statusline plugin
+        -- See `:help lualine.txt`
+        'nvim-lualine/lualine.nvim',
+        event = 'VeryLazy',
+        opts = {
+            options = {
+                icons_enabled = false,
+                -- theme = 'tokyonight',
+                theme = 'auto',
+                component_separators = { left = '', right = '' },
+                section_separators = { left = '', right = '' },
+                -- component_separators = '|',
+                -- section_separators = '',
+            },
+        },
+    },
+
+    {
+        -- Tabline plugin
+        'romgrk/barbar.nvim',
+        event = 'VeryLazy',
+        dependencies = {
+            'lewis6991/gitsigns.nvim',     -- OPTIONAL: for git status
+            'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
+        },
+        init = function() vim.g.barbar_auto_setup = false end,
+        config = function()
+            require('barbar').setup {
+                icons = {
+                    -- Enables / disables diagnostic symbols
+                    diagnostics = {
+                        [vim.diagnostic.severity.ERROR] = {enabled = true},
+                        [vim.diagnostic.severity.WARN] = {enabled = true},
+                        [vim.diagnostic.severity.INFO] = {enabled = true},
+                        [vim.diagnostic.severity.HINT] = {enabled = true},
+                    },
+                    gitsigns = {
+                        added = {enabled = true, icon = '+'},
+                        changed = {enabled = true, icon = '~'},
+                        deleted = {enabled = true, icon = '-'},
+                    },
+                },
+            }
+            local opts = { noremap = true, silent = true }
+            -- Move to previous/next
+            -- vim.keymap.set('n', '<tab>', '<Cmd>BufferNext<Cr>', opts)
+            vim.keymap.set('n', '<C-p>', '<Cmd>BufferPrevious<Cr>', opts)
+            vim.keymap.set('n', '<C-n>', '<Cmd>BufferNext<Cr>', opts)
+            -- Re-order to previous/next
+            vim.keymap.set('n', '<Leader>>', '<Cmd>BufferMovePrevious<Cr>', opts)
+            vim.keymap.set('n', '<Leader><', '<Cmd>BufferMoveNext<Cr>', opts)
+            -- Close buffer
+            vim.keymap.set('n', '<C-x>', '<Cmd>BufferClose<Cr>', opts)
+            -- Magic buffer-picking mode
+            vim.keymap.set('n', '<C-b>', '<Cmd>BufferPick<Cr>', opts)
+        end,
+    },
 
     -- Useful plugin to show you pending keybinds.
     { 'folke/which-key.nvim', event = 'VeryLazy', opts = {} },
