@@ -691,11 +691,38 @@ require('lazy').setup({
                     { '<leader>du', function() require('dapui').toggle({ }) end, desc = 'Dap UI' },
                     { '<leader>de', function() require('dapui').eval() end, desc = 'Eval', mode = {'n', 'v'} },
                 },
-                opts = {},
+                opts = {
+                    layouts = {
+                        {
+                            elements = {
+                                "scopes",
+                            },
+                            size = 0.3,
+                            position = "right"
+                        },
+                        {
+                            elements = {
+                                "repl",
+                                "breakpoints"
+                            },
+                            size = 0.3,
+                            position = "bottom",
+                        },
+                    },
+                    floating = {
+                        max_height = nil,
+                        max_width = nil,
+                        border = "single",
+                        mappings = {
+                            close = { "q", "<Esc>" },
+                        },
+                    },
+                },
                 config = function(_, opts)
                     -- setup dap config by VsCode launch.json file
                     local dap = require('dap')
                     local dapui = require('dapui')
+                    -- Launch dap ui automatically when debug session is started/stopped
                     dapui.setup(opts)
                     dap.listeners.after.event_initialized['dapui_config'] = function()
                         dapui.open({})
@@ -706,6 +733,9 @@ require('lazy').setup({
                     dap.listeners.before.event_exited['dapui_config'] = function()
                         dapui.close({})
                     end
+                    -- Nicer icons
+                    vim.fn.sign_define('DapBreakpoint',{ text ='🟥', texthl ='', linehl ='', numhl =''})
+                    vim.fn.sign_define('DapStopped',{ text ='▶️', texthl ='', linehl ='', numhl =''})
 
                     dap.adapters.php = {
                         type = 'executable',
