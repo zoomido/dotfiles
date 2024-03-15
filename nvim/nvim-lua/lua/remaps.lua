@@ -37,6 +37,7 @@ vim.keymap.set({ 'n', 'v' }, 'c', '"_c', { silent = true, desc = 'Dont put chang
 vim.keymap.set({ 'n', 'v' }, 'C', '"_C', { silent = true, desc = 'Dont put changed text into yank register' }) -- Deletes go to register 1-9
 vim.keymap.set({ 'v' }, 'p', '"0p', { silent = true, desc = '[p]aste latest yank in visual mode' })
 vim.keymap.set({ 'v' }, 'p', '"0P', { silent = true, desc = '[P]aste latest yank in visual mode' })
+vim.keymap.set({ 'v' }, '+', '"0ygvd"', { silent = true, desc = 'Cut to yank register' }) -- Deletes go to register 1-9
  --         ["+"] = { "\"0p", "Paste latest yank" },
 
 -- Search and replace

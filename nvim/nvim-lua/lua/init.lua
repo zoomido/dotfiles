@@ -229,7 +229,7 @@ require('lazy').setup({
                             ['<C-s>'] = require('telescope.actions.layout').cycle_layout_next,
                             ['<C-j>'] = 'move_selection_next',
                             ['<C-k>'] = 'move_selection_previous',
-                            ["<S-Tab>"] = require('telescope.actions').toggle_selection + require('telescope.actions').move_selection_next,
+                            ['<S-Tab>'] = require('telescope.actions').toggle_selection + require('telescope.actions').move_selection_next,
                             ['<C-ö>'] = function(p_bufnr) require('telescope.actions').send_selected_to_qflist(p_bufnr) vim.cmd.cfdo('edit') end, -- Open all selected entries
                             ['<C-n>'] = require('telescope.actions').cycle_history_next,
                             ['<C-p>'] = require('telescope.actions').cycle_history_prev,
@@ -249,6 +249,79 @@ require('lazy').setup({
                     },
                     git_status = {
                         use_file_path = true,
+                    },
+                    find_files = {
+                        mappings = {
+                            i = {
+                                -- ['<C-h>'] = function(prompt_bufnr)
+                                --     local current_picker = require('telescope.actions.state').get_current_picker(prompt_bufnr)
+                                --     -- cwd is only set if passed as telescope option
+                                --     local cwd = current_picker.cwd and tostring(current_picker.cwd)
+                                --     or vim.loop.cwd()
+                                --     local parent_dir = vim.fs.dirname(cwd)
+                                --     local fb_utils = require "telescope._extensions.file_browser.utils"
+                                --     local finder = current_picker.finder
+                                --     finder.path = parent_dir
+                                --
+                                --     current_picker:refresh(
+                                --         finder,
+                                --         { new_prefix = parent_dir, reset_prompt = false, multi = current_picker._multi }
+                                --         -- { new_prefix = fb_utils.relative_path_prefix(finder), reset_prompt = false, multi = current_picker._multi }
+                                --     )
+                                --     -- require('telescope.actions').close(prompt_bufnr)
+                                --     -- require('telescope.builtin').find_files {
+                                --         --     prompt_title = vim.fs.basename(parent_dir),
+                                --         --     cwd = parent_dir,
+                                --         -- }
+                                --     end,
+                                ['<C-h>'] = function(prompt_bufnr)
+                                    local current_picker = require('telescope.actions.state').get_current_picker(prompt_bufnr)
+                                    -- cwd is only set if passed as telescope option
+                                    local cwd = current_picker.cwd and tostring(current_picker.cwd)
+                                    or vim.loop.cwd()
+                                    local parent_dir = vim.fs.dirname(cwd)
+
+                                    require('telescope.actions').close(prompt_bufnr)
+                                    require('telescope.builtin').find_files {
+                                        prompt_title = vim.fs.basename(parent_dir),
+                                        cwd = parent_dir,
+                                    }
+                                end,
+                                -- ['<C-h>'] = function(prompt_bufnr)
+                                --     -- local current_picker = action_state.get_current_picker(prompt_bufnr)
+                                --     local current_picker = require('telescope.actions.state').get_current_picker(prompt_bufnr)
+                                --     local finder = current_picker.finder
+                                --     local fb_utils = require "telescope._extensions.file_browser.utils"
+                                --     finder.path = vim.loop.os_homedir()
+                                --
+                                --     fb_utils.redraw_border_title(current_picker)
+                                --     current_picker:refresh(
+                                --         current_picker.finder,
+                                --         { new_prefix = fb_utils.relative_path_prefix(finder), reset_prompt = false, multi = current_picker._multi }
+                                --     )
+                                -- end,
+                            },
+                            n = {
+                                ['cc'] = function(prompt_bufnr)
+                                    local current_picker = action_state.get_current_picker(prompt_bufnr)
+                                    local finder = current_picker.finder
+                                    finder.path = vim.loop.os_homedir()
+
+                                    fb_utils.redraw_border_title(current_picker)
+                                    current_picker:refresh(
+                                    finder,
+                                    { new_prefix = fb_utils.relative_path_prefix(finder), reset_prompt = true, multi = current_picker._multi }
+                                    )
+                                end,
+                                ['cd'] = function(prompt_bufnr)
+                                    local selection = require('telescope.actions.state').get_selected_entry()
+                                    local dir = vim.fn.fnamemodify(selection.path, ':p:h')
+                                    require('telescope.actions').close(prompt_bufnr)
+                                    -- Depending on what you want put `cd`, `lcd`, `tcd`
+                                    vim.cmd(string.format('silent lcd %s', dir))
+                                end
+                            }
+                        }
                     },
                 },
                 extensions = {
@@ -461,6 +534,48 @@ require('lazy').setup({
     },
 
     --
+    -- AI plugins
+    --
+
+    {
+        'codota/tabnine-nvim',
+        event = 'InsertEnter',
+        build = './dl_binaries.sh',
+        config = function()
+            require('tabnine').setup({
+                accept_keymap = '<C-l>',
+                dismiss_keymap = '<C-ö>',
+            })
+        end,
+    },
+
+    -- TEST these chatgpt plugins
+    -- {
+    --     'robitx/gp.nvim',
+    --     config = function()
+    --         require('gp').setup()
+    --
+    --         -- or setup with your own config (see Install > Configuration in Readme)
+    --         -- require('gp').setup(config)
+    --
+    --         -- shortcuts might be setup here (see Usage > Shortcuts in Readme)
+    --     end,
+    -- }
+    -- {
+    --     'jackMort/ChatGPT.nvim',
+    --     event = 'VeryLazy',
+    --     config = function()
+    --         require('chatgpt').setup()
+    --     end,
+    --     dependencies = {
+    --         'MunifTanjim/nui.nvim',
+    --         'nvim-lua/plenary.nvim',
+    --         'folke/trouble.nvim',
+    --         'nvim-telescope/telescope.nvim'
+    --     }
+    -- },
+
+    --
     -- Other plugins
     --
 
@@ -608,18 +723,6 @@ require('lazy').setup({
     },
 
     {
-        'codota/tabnine-nvim',
-        event = 'InsertEnter',
-        build = './dl_binaries.sh',
-        config = function()
-            require('tabnine').setup({
-                accept_keymap = '<C-l>',
-                dismiss_keymap = '<C-ö>',
-            })
-        end,
-    },
-
-    {
         -- See :help nvim-surround.usage
         'kylechui/nvim-surround',
         version = '*', -- Use for stability; omit to use `main` branch for the latest features
@@ -681,7 +784,6 @@ require('lazy').setup({
     {
         -- Debug Adapter Protocol client implementation (xdebug)
         'mfussenegger/nvim-dap',
-        event = 'VeryLazy',
         dependencies = {
             {
                 -- fancy UI for the debugger
@@ -719,7 +821,6 @@ require('lazy').setup({
                     },
                 },
                 config = function(_, opts)
-                    -- setup dap config by VsCode launch.json file
                     local dap = require('dap')
                     local dapui = require('dapui')
                     -- Launch dap ui automatically when debug session is started/stopped
@@ -774,7 +875,6 @@ require('lazy').setup({
                 },
             },
         },
-
         -- stylua: ignore
         keys = {
             { '<leader>dB', function() require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = 'Breakpoint Condition' },
