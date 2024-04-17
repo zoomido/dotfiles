@@ -16,24 +16,6 @@
 -- end)
 -- listenForKeyPress:start()
 
--- the hamburger key sends the text
--- hs.hotkey.bind({}, 110, function()
---     hs.eventtap.keyStrokes("hejsan")
--- end)
-
--- Doesnt work, holding down they key sends multiple keystrokes
--- local events = hs.eventtap.event.types
--- keyboardTracker = hs.eventtap.new({ events.keyDown }, function (e)
---   local keyCode = e:getKeyCode()
---   if keyCode == 110 then
---       print("key pressed 110 ")
---       hs.eventtap.event.newKeyEvent(hs.keycodes.map.alt,true):post()
---     -- hs.eventtap.event.newKeyEvent(hs.keycodes.map.alt,true):post()
---     return true
---   end
--- end)
--- keyboardTracker:start()
-
 
 ---------------------------
 -- Load custom keybindings
@@ -165,11 +147,10 @@ end)
 hs.hotkey.bind(mash, 'i', function()
     hs.window.focusedWindow():move(Units.inspectorChrome,  nil, true)
 end)
-
 -- Send mouse away
--- hs.hotkey.bind(mash, "m", function()
---     hs.mouse.setRelativePosition({ x=3, y=500 })
--- end)
+hs.hotkey.bind(mash, "ö", function()
+    hs.mouse.setRelativePosition({ x=1400, y=90 })
+end)
 
 
 
@@ -207,34 +188,10 @@ tapCmdTab:start()
 
 
 
---------------------------
--- Load SpoonInstall plug
---------------------------
--- hs.loadSpoon("SpoonInstall")
-
-
 ---------------------------
 -- Load ControlEscape plug
 ---------------------------
--- spoon.SpoonInstall:andUse('ControlEscape', {
---     start = true
--- })
 hs.loadSpoon('ControlEscape'):start() -- Load Hammerspoon bits from https://github.com/jasonrudolph/ControlEscape.spoon
-
-
------------------
--- ClipboardTool
------------------
--- spoon.SpoonInstall:andUse('ClipboardTool', {
---    hotkeys = {
---        show_clipboard = { {"ctrl","cmd"},"v"}
---    },
---    config = {
---        menubar_title = "\u{2702}",
---        paste_on_select = true,
---    },
---    start = true
--- })
 
 
 ---------------------
@@ -282,82 +239,21 @@ inputDevice:watcherCallback(muteWatcher)
 inputDevice:watcherStart()
 
 
-----------------------------------------
--- Load Lunette (Spectacle keybindings)
-----------------------------------------
--- hs.loadSpoon("Lunette")
--- customBindings = {
---     center = false,
---     fullScreen = {
---         {mash, "f"}
---     },
---     leftHalf = {
---         {mash, "h"}
---     },
---     rightHalf = {
---         {mash, "l"}
---     },
---     topHalf = false,
---     bottomHalf = false,
---     topLeft = false,
---     bottomLeft = false,
---     topRight = false,
---     bottomRight = false,
---     nextDisplay = {
---         {mash, "d"}
---     },
---     prevDisplay = false,
---     nextThird = false,
---     prevThird = false,
---     enlarge = false,
---     shrink = false,
---     undo = false,
---     redo = false,
--- }
--- spoon.Lunette:bindHotkeys(customBindings)
-
-
------------
--- MicMute
------------
--- spoon.SpoonInstall:andUse('MicMute', {
---     hotkeys = {
---         toggle = { {"ctrl","cmd","shift"},"m"}
---     }
--- })
-
-
--------------------
--- Load MenuHammer
--------------------
--- menuHammer = hs.loadSpoon("MenuHammer")
--- Activate the root menu
--- menuHammer:enter()
-
-
--------------------
--- Expose for apps
--- https://www.hammerspoon.org/docs/hs.expose.html
--------------------
--- set up your instance(s)
--- expose = hs.expose.new(nil,{
---     showThumbnails = true,
---     includeNonVisible = true,
--- }) -- default windowfilter, no thumbnails
--- expose_app = hs.expose.new(nil,{onlyActiveApplication=true}) -- show windows for the current application
--- expose_space = hs.expose.new(nil,{includeOtherSpaces=false}) -- only windows in the current Mission Control Space
--- expose_browsers = hs.expose.new{'Safari','Google Chrome'} -- specialized expose using a custom windowfilter
--- then bind to a hotkey
--- hs.hotkey.bind({'cmd','ctrl'}, 'tab', 'Expose',function()expose:toggleShow()end)
-
-
------------------------
--- Low battery warning < 33%
------------------------
+----------------------------------------------------------
+-- Battery warnings and info with popup and menu bar icon
+----------------------------------------------------------
 local batWatcher = nil
 local lastBatValue = hs.battery.percentage()
+local batteryMenuBar = hs.menubar.new(true, 'batteryMenuBar')
 function batPercentageChangedCallback()
     currentBatValue = hs.battery.percentage()
+    -- local menuBatteryTitle = styledtext.new(math.floor(currentBatValue) .. '%', {
+    --         font = { name = "Menlo", size = 9 },
+    --         color = { blue = 1 },
+    --         paragraphStyle = { alignment = "center" },
+    --     })
+    menuBatteryTitle = hs.styledtext.new(math.floor(currentBatValue) .. '%')
+    batteryMenuBar:setTitle(menuBatteryTitle)
 
     if hs.battery.isCharging() == true then
         if currentBatValue > 71 and currentBatValue > lastBatValue then
@@ -373,6 +269,11 @@ function batPercentageChangedCallback()
                 atScreenEdge = 0
             }, 5)
         end
+        currentBatteryTitle = batteryMenuBar:title()
+        batteryMenuBar:setTitle(currentBatteryTitle .. '⚡️')
+        -- menuBatteryTitle = hs.styledtext.new(math.floor(currentBatValue) .. '% ⚡️', {
+        --     color = { red = 0.5, green = 1, blue = 0.5},
+        -- })
         return
     end
 
@@ -388,6 +289,9 @@ function batPercentageChangedCallback()
             fadeOutDuration = 1,
             atScreenEdge = 0
         }, 5)
+        menuBatteryTitle = hs.styledtext.new(math.floor(currentBatValue) .. '%', {
+            color = { red = 1, green = 0.5, blue = 0.5},
+        })
     end
 
     -- For testing alert
@@ -469,6 +373,7 @@ function batPercentageChangedCallback()
 end
 batWatcher = hs.battery.watcher.new(batPercentageChangedCallback)
 batWatcher:start()
+batPercentageChangedCallback()
 
 
 -- experiment
@@ -489,82 +394,3 @@ batWatcher:start()
 -- end)
 
 
-
-
--------------------------------------------------------------------
--- Launcher (copied from somewhere online)
---
--- This is the awesome. The other stuff is all cool, but this is the
--- thing I love the most because it reduces the amount of time I
--- spend with the mouse, and is far more deterministic than trying
--- to use cmd+tab.
---
--- The idea here is to have a MODE-BASED app launching and app
--- switching system. Traditional Mac philosophy (and Emacs :D)
--- would have us contort our hands into crazy combinations of keys
--- to manipulate the state of the machine, which is a serious pain
--- in the ass. Using Hammerspoon we can avoid that.
---
--- * ctrl+space gets us into "launch mode"
--- * In "launch mode" the keyboard changes so that each key can now
---   have a new meaning. For example, the 'v' key is now responsible
---   for either launching or switching to VimR
--- * You can then map whatever you like to whatever function you'd
---   like to invoke.
---
--- It's just a big pile of awesome.
--------------------------------------------------------------------
-
--- -- We need to store the reference to the alert window
--- appLauncherAlertWindow = nil
-
--- -- This is the key mode handle
--- launchMode = hs.hotkey.modal.new({}, nil, '')
-
--- -- Leaves the launch mode, returning the keyboard to its normal
--- -- state, and closes the alert window, if it's showing
--- function leaveMode()
---   if appLauncherAlertWindow ~= nil then
---     hs.alert.closeSpecific(appLauncherAlertWindow, 0)
---     appLauncherAlertWindow = nil
---   end
---   launchMode:exit()
--- end
-
--- -- So simple, so awesome.
--- function switchToApp(app)
---   hs.application.open(app)
---   leaveMode()
--- end
-
--- -- Enters launch mode. The bulk of this is geared toward
--- -- showing a big ugly window that can't be ignored; the
--- -- keyboard is now in launch mode.
--- hs.hotkey.bind({ 'ctrl' }, 'space', function()
---   launchMode:enter()
---   appLauncherAlertWindow = hs.alert.show('App Launcher Mode', {
---     strokeColor = hs.drawing.color.x11.gray,
---     fillColor = hs.drawing.color.x11.magenta,
---     textColor = hs.drawing.color.x11.black,
---     strokeWidth = 10,
---     radius = 50,
---     textSize = 64,
---     fadeInDuration = 5,
---     atScreenEdge = 2
---   }, 'infinite')
--- end)
-
--- -- When in launch mode, hitting ctrl+space again leaves it
--- launchMode:bind({ 'ctrl' }, 'space', function() leaveMode() end)
--- launchMode:bind({}, 'escape',  function() leaveMode() end)
-
--- -- Mapped keys
--- launchMode:bind({}, 'v',  function() switchToApp('Vivaldi.app') end)
--- launchMode:bind({}, 'i',  function() switchToApp('iTerm.app') end)
--- launchMode:bind({}, 'p',  function() switchToApp('PhpStorm.app') end)
-
--- -- launchMode:bind({}, 'd',  function() leaveMode(); deepwork() end)
--- -- launchMode:bind({"shift"}, 'd',  function() leaveMode(); interrogateDeepWorkTimer() end)
--- -- launchMode:bind({}, 'f',  function() switchToApp('Firefox.app') end)
--- -- launchMode:bind({}, 'o',  function() switchToApp('Microsoft Outlook.app') end)
--- -- launchMode:bind({}, '`',  function() hs.reload(); leaveMode() end)
