@@ -41,9 +41,9 @@ if status --is-interactive
     abbr --add vn   nvim +"\"lua require('telekasten').find_notes()"\"
     abbr --add todo nvim ~/notes/zettelkasten/todo.md
     # +"lua require('telescope.builtin').find_files()"
-    abbr --add l    exa --icons --group-directories-first
-    abbr --add ll   exa -a --icons --group-directories-first
-    abbr --add lll  exa -la --icons --group-directories-first --git
+    abbr --add l    eza --icons --group-directories-first
+    abbr --add ll   eza -a --icons --group-directories-first
+    abbr --add lll  eza -la --icons --group-directories-first --git
     abbr --add del  trash
     abbr --add rm   use del (or rip if installed)
 
@@ -164,7 +164,7 @@ end
 #    source $HOME/.config/fish/nnn.fish
 #end
 
-todo.sh list
+#todo.sh list
 
 
 
