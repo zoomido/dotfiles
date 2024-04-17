@@ -537,17 +537,17 @@ require('lazy').setup({
     -- AI plugins
     --
 
-    {
-        'codota/tabnine-nvim',
-        event = 'InsertEnter',
-        build = './dl_binaries.sh',
-        config = function()
-            require('tabnine').setup({
-                accept_keymap = '<C-l>',
-                dismiss_keymap = '<C-ö>',
-            })
-        end,
-    },
+    -- {
+    --     'codota/tabnine-nvim',
+    --     event = 'InsertEnter',
+    --     build = './dl_binaries.sh',
+    --     config = function()
+    --         require('tabnine').setup({
+    --             accept_keymap = '<C-l>',
+    --             dismiss_keymap = '<C-ö>',
+    --         })
+    --     end,
+    -- },
 
     -- TEST these chatgpt plugins
     -- {
