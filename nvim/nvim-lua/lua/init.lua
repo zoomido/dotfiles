@@ -394,7 +394,7 @@ require('lazy').setup({
             require('telescope').load_extension('undo')
             require('telescope').load_extension('live_grep_args')
             require('telescope').load_extension('file_browser')
-            require('telescope').load_extension('zf-native')
+            -- require('telescope').load_extension('zf-native')
             -- require('telescope').load_extension('fzf')
             require('telescope').load_extension('neoclip')
         end,
@@ -402,7 +402,8 @@ require('lazy').setup({
             { '<Leader>b', '<Cmd>Telescope buffers<Cr>', desc = 'List open [B]uffers' },
             { '<Leader>fb', function() require('telescope.builtin').current_buffer_fuzzy_find() end, desc = 'Fuzzy [f]ind in current [b]uffer' },
             { '<Leader>fB', function() require('telescope.builtin').live_grep({ grep_open_files = true }) end, desc = '[F]ind in all open [B]uffers' },
-            { '<leader>ff', function() require('telescope.builtin').find_files() end, desc = '[F]ind [f]iles' },
+            -- { '<leader>ff', function() require('telescope.builtin').find_files() end, desc = '[F]ind [f]iles' },
+            { '<leader>ff', function() require('telescope').extensions.smart_open.smart_open() end, desc = '[F]ind [f]iles with smart_open' },
             { '<leader>fG', function() require('telescope.builtin').live_grep() end, desc = '[F]ind with builtin [G]rep' },
             { '<leader>fg', function() require('telescope').extensions.live_grep_args.live_grep_args() end, desc = '[F]ind with live [g]rep args' },
             -- { '<leader>fz', function() require('telescope.builtin').grep_string() end, mode = 'x', desc = '[F]ind with live [g]rep args' },
@@ -450,9 +451,24 @@ require('lazy').setup({
                 -- Match on filename prioritized over match on full path
                 -- Search including path separators enables "strict path matching" (eg: src/)
                 -- Search query is space-separated to make narrowing down results easier
-                'natecraddock/telescope-zf-native.nvim',
+                -- 'natecraddock/telescope-zf-native.nvim',
             },
             -- { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }, -- zf-native is used for all sorting
+        },
+    },
+    -- Telescope plugins
+    {
+        "danielfalk/smart-open.nvim",
+        -- branch = "0.2.x",
+        config = function()
+            require('telescope').load_extension('smart_open')
+        end,
+        dependencies = {
+            'kkharji/sqlite.lua',
+            -- Only required if using match_algorithm fzf
+            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+            -- Optional.  If installed, native fzy will be used when match_algorithm is fzy
+            { 'nvim-telescope/telescope-fzy-native.nvim' },
         },
     },
 
@@ -537,30 +553,29 @@ require('lazy').setup({
     -- AI plugins
     --
 
-    -- {
-    --     'codota/tabnine-nvim',
-    --     event = 'InsertEnter',
-    --     build = './dl_binaries.sh',
-    --     config = function()
-    --         require('tabnine').setup({
-    --             accept_keymap = '<C-l>',
-    --             dismiss_keymap = '<C-ö>',
-    --         })
-    --     end,
-    -- },
-
+    {
+        'Exafunction/codeium.vim',
+        event = 'BufEnter',
+        -- config = function ()
+        --     -- Change '<C-g>' here to any keycode you like.
+        --     vim.keymap.set('i', '<C-g>', function () return vim.fn['codeium#Accept']() end, { expr = true, silent = true })
+        --     vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true, silent = true })
+        --     vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true, silent = true })
+        --     vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true, silent = true })
+        -- end
+    },
     -- TEST these chatgpt plugins
     -- {
-    --     'robitx/gp.nvim',
+    --     "robitx/gp.nvim",
+    --     event = 'VeryLazy',
     --     config = function()
-    --         require('gp').setup()
-    --
+    --         require("gp").setup()
     --         -- or setup with your own config (see Install > Configuration in Readme)
-    --         -- require('gp').setup(config)
-    --
+    --         -- require("gp").setup(config)
     --         -- shortcuts might be setup here (see Usage > Shortcuts in Readme)
     --     end,
-    -- }
+    -- },
+    --
     -- {
     --     'jackMort/ChatGPT.nvim',
     --     event = 'VeryLazy',
@@ -781,121 +796,121 @@ require('lazy').setup({
         },
     },
 
-    {
-        -- Debug Adapter Protocol client implementation (xdebug)
-        'mfussenegger/nvim-dap',
-        dependencies = {
-            {
-                -- fancy UI for the debugger
-                'rcarriga/nvim-dap-ui',
-                -- stylua: ignore
-                keys = {
-                    { '<leader>du', function() require('dapui').toggle({ }) end, desc = 'Dap UI' },
-                    { '<leader>de', function() require('dapui').eval() end, desc = 'Eval', mode = {'n', 'v'} },
-                },
-                opts = {
-                    layouts = {
-                        {
-                            elements = {
-                                "scopes",
-                            },
-                            size = 0.3,
-                            position = "right"
-                        },
-                        {
-                            elements = {
-                                "repl",
-                                "breakpoints"
-                            },
-                            size = 0.3,
-                            position = "bottom",
-                        },
-                    },
-                    floating = {
-                        max_height = nil,
-                        max_width = nil,
-                        border = "single",
-                        mappings = {
-                            close = { "q", "<Esc>" },
-                        },
-                    },
-                },
-                config = function(_, opts)
-                    local dap = require('dap')
-                    local dapui = require('dapui')
-                    -- Launch dap ui automatically when debug session is started/stopped
-                    dapui.setup(opts)
-                    dap.listeners.after.event_initialized['dapui_config'] = function()
-                        dapui.open({})
-                    end
-                    dap.listeners.before.event_terminated['dapui_config'] = function()
-                        dapui.close({})
-                    end
-                    dap.listeners.before.event_exited['dapui_config'] = function()
-                        dapui.close({})
-                    end
-                    -- Nicer icons
-                    vim.fn.sign_define('DapBreakpoint',{ text ='🟥', texthl ='', linehl ='', numhl =''})
-                    vim.fn.sign_define('DapStopped',{ text ='▶️', texthl ='', linehl ='', numhl =''})
-
-                    dap.adapters.php = {
-                        type = 'executable',
-                        command = 'node',
-                        args = {
-                            vim.loop.os_homedir() .. '/.local/share/nvim/mason/packages/php-debug-adapter/extension/out/phpDebug.js',
-                        },
-                    }
-                    dap.configurations.php = {
-                        {
-                            type = 'php',
-                            request = 'launch',
-                            name = 'Listen for xdebug nvim',
-                            port = '9003',
-                            log = false,
-                            pathMappings = {
-                                ['/var/www/html'] = '${workspaceFolder}'
-                            },
-                        },
-                    }
-                end,
-            },
-            {
-                -- virtual text for the debugger
-                'theHamsta/nvim-dap-virtual-text',
-                opts = {},
-            },
-            {
-                -- which key integration
-                'folke/which-key.nvim',
-                optional = true,
-                opts = {
-                    defaults = {
-                        ['<leader>d'] = { name = '+debug' },
-                    },
-                },
-            },
-        },
-        -- stylua: ignore
-        keys = {
-            { '<leader>dB', function() require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = 'Breakpoint Condition' },
-            { '<leader>db', function() require('dap').toggle_breakpoint() end, desc = 'Toggle Breakpoint' },
-            { '<leader>dc', function() require('dap').continue() end, desc = 'Continue' },
-            { '<leader>da', function() require('dap').continue({ before = get_args }) end, desc = 'Run with Args' },
-            { '<leader>dC', function() require('dap').run_to_cursor() end, desc = 'Run to Cursor' },
-            { '<leader>dg', function() require('dap').goto_() end, desc = 'Go to line (no execute)' },
-            { '<leader>di', function() require('dap').step_into() end, desc = 'Step Into' },
-            { '<leader>dj', function() require('dap').down() end, desc = 'Down' },
-            { '<leader>dk', function() require('dap').up() end, desc = 'Up' },
-            { '<leader>dl', function() require('dap').run_last() end, desc = 'Run Last' },
-            { '<leader>do', function() require('dap').step_out() end, desc = 'Step Out' },
-            { '<leader>dO', function() require('dap').step_over() end, desc = 'Step Over' },
-            { '<leader>dp', function() require('dap').pause() end, desc = 'Pause' },
-            { '<leader>dr', function() require('dap').repl.toggle() end, desc = 'Toggle REPL' },
-            { '<leader>ds', function() require('dap').session() end, desc = 'Session' },
-            { '<leader>dt', function() require('dap').terminate() end, desc = 'Terminate' },
-            { '<leader>dw', function() require('dap.ui.widgets').hover() end, desc = 'Widgets' },
-        },
-    },
+    -- {
+    --     -- Debug Adapter Protocol client implementation (xdebug)
+    --     'mfussenegger/nvim-dap',
+    --     dependencies = {
+    --         {
+    --             -- fancy UI for the debugger
+    --             'rcarriga/nvim-dap-ui',
+    --             -- stylua: ignore
+    --             keys = {
+    --                 { '<leader>du', function() require('dapui').toggle({ }) end, desc = 'Dap UI' },
+    --                 { '<leader>de', function() require('dapui').eval() end, desc = 'Eval', mode = {'n', 'v'} },
+    --             },
+    --             opts = {
+    --                 layouts = {
+    --                     {
+    --                         elements = {
+    --                             "scopes",
+    --                         },
+    --                         size = 0.3,
+    --                         position = "right"
+    --                     },
+    --                     {
+    --                         elements = {
+    --                             "repl",
+    --                             "breakpoints"
+    --                         },
+    --                         size = 0.3,
+    --                         position = "bottom",
+    --                     },
+    --                 },
+    --                 floating = {
+    --                     max_height = nil,
+    --                     max_width = nil,
+    --                     border = "single",
+    --                     mappings = {
+    --                         close = { "q", "<Esc>" },
+    --                     },
+    --                 },
+    --             },
+    --             config = function(_, opts)
+    --                 local dap = require('dap')
+    --                 local dapui = require('dapui')
+    --                 -- Launch dap ui automatically when debug session is started/stopped
+    --                 dapui.setup(opts)
+    --                 dap.listeners.after.event_initialized['dapui_config'] = function()
+    --                     dapui.open({})
+    --                 end
+    --                 dap.listeners.before.event_terminated['dapui_config'] = function()
+    --                     dapui.close({})
+    --                 end
+    --                 dap.listeners.before.event_exited['dapui_config'] = function()
+    --                     dapui.close({})
+    --                 end
+    --                 -- Nicer icons
+    --                 vim.fn.sign_define('DapBreakpoint',{ text ='🟥', texthl ='', linehl ='', numhl =''})
+    --                 vim.fn.sign_define('DapStopped',{ text ='▶️', texthl ='', linehl ='', numhl =''})
+    --
+    --                 dap.adapters.php = {
+    --                     type = 'executable',
+    --                     command = 'node',
+    --                     args = {
+    --                         vim.loop.os_homedir() .. '/.local/share/nvim/mason/packages/php-debug-adapter/extension/out/phpDebug.js',
+    --                     },
+    --                 }
+    --                 dap.configurations.php = {
+    --                     {
+    --                         type = 'php',
+    --                         request = 'launch',
+    --                         name = 'Listen for xdebug nvim',
+    --                         port = '9003',
+    --                         log = false,
+    --                         pathMappings = {
+    --                             ['/var/www/html'] = '${workspaceFolder}'
+    --                         },
+    --                     },
+    --                 }
+    --             end,
+    --         },
+    --         {
+    --             -- virtual text for the debugger
+    --             'theHamsta/nvim-dap-virtual-text',
+    --             opts = {},
+    --         },
+    --         {
+    --             -- which key integration
+    --             'folke/which-key.nvim',
+    --             optional = true,
+    --             opts = {
+    --                 defaults = {
+    --                     ['<leader>d'] = { name = '+debug' },
+    --                 },
+    --             },
+    --         },
+    --     },
+    --     -- stylua: ignore
+    --     keys = {
+    --         { '<leader>dB', function() require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = 'Breakpoint Condition' },
+    --         { '<leader>db', function() require('dap').toggle_breakpoint() end, desc = 'Toggle Breakpoint' },
+    --         { '<leader>dc', function() require('dap').continue() end, desc = 'Continue' },
+    --         { '<leader>da', function() require('dap').continue({ before = get_args }) end, desc = 'Run with Args' },
+    --         { '<leader>dC', function() require('dap').run_to_cursor() end, desc = 'Run to Cursor' },
+    --         { '<leader>dg', function() require('dap').goto_() end, desc = 'Go to line (no execute)' },
+    --         { '<leader>di', function() require('dap').step_into() end, desc = 'Step Into' },
+    --         { '<leader>dj', function() require('dap').down() end, desc = 'Down' },
+    --         { '<leader>dk', function() require('dap').up() end, desc = 'Up' },
+    --         { '<leader>dl', function() require('dap').run_last() end, desc = 'Run Last' },
+    --         { '<leader>do', function() require('dap').step_out() end, desc = 'Step Out' },
+    --         { '<leader>dO', function() require('dap').step_over() end, desc = 'Step Over' },
+    --         { '<leader>dp', function() require('dap').pause() end, desc = 'Pause' },
+    --         { '<leader>dr', function() require('dap').repl.toggle() end, desc = 'Toggle REPL' },
+    --         { '<leader>ds', function() require('dap').session() end, desc = 'Session' },
+    --         { '<leader>dt', function() require('dap').terminate() end, desc = 'Terminate' },
+    --         { '<leader>dw', function() require('dap.ui.widgets').hover() end, desc = 'Widgets' },
+    --     },
+    -- },
 
     --
     -- Aesthetics
@@ -987,8 +1002,12 @@ require('lazy').setup({
         'declancm/cinnamon.nvim',
         event = 'VeryLazy',
         opts = {
-            extra_keymaps = true,
-            override_keymaps = true,
+            keymaps = {
+                -- Enable the provided 'basic' keymaps
+                basic = false,
+                -- Enable the provided 'extra' keymaps
+                extra = false,
+            },
             -- scroll_limit = 150, -- default setting
         },
     },
@@ -1001,11 +1020,11 @@ require('lazy').setup({
     -- },
 
     {
-        "folke/tokyonight.nvim",
+        'folke/tokyonight.nvim',
         lazy = false,
         priority = 1000,
         config = function()
-            require("tokyonight").setup({
+            require('tokyonight').setup({
                 -- transparent = true, -- Enable this to disable setting the background color
                 day_brightness = 0.4, -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
             })
@@ -1013,15 +1032,13 @@ require('lazy').setup({
             vim.cmd('colorscheme tokyonight')
         end,
     },
-    -- {
-    --     "catppuccin/nvim",
-    --     name = "catppuccin",
-    --     priority = 1000,
-    --     config = function()
-    --         -- vim.cmd.colorscheme 'onedark'
-    --         vim.cmd[[colorscheme catppuccin]]
-    --     end,
-    -- },
+    {
+        -- Follows MacOS system theme
+        'f-person/auto-dark-mode.nvim',
+        opts = {
+            update_interval = 10000,
+        },
+    },
 
 })
 
