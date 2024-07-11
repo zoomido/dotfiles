@@ -52,17 +52,10 @@ hs.hotkey.bind({}, "§", function()
     else
         hs.application.open("kitty.app")
     end
-end)
--- Start/switch/hide Warp terminal
--- hs.hotkey.bind({}, "§", function()
---     local app = hs.application.find('Warp')
---     if ( app and app:isFrontmost() ) then
---         app:hide()
---     else
---         hs.application.open("warp.app")
---     end
--- end)
 
+    -- print( app:allWindows() );
+    -- print( app:title() );
+end)
 
 -- Start/switch/hide browser
 hs.hotkey.bind({"cmd"}, "§", function()
@@ -87,11 +80,11 @@ end)
 
 -- Start/switch/hide note application
 hs.hotkey.bind({"shift"}, "§", function()
-    local app = hs.application.find('Wezterm')
+    local app = hs.application.find('Alacritty')
     if ( app and app:isFrontmost() ) then
         app:hide()
     else
-        hs.application.open("Wezterm.app")
+        hs.application.open("Alacritty.app")
     end
 end)
 
@@ -242,18 +235,39 @@ inputDevice:watcherStart()
 ----------------------------------------------------------
 -- Battery warnings and info with popup and menu bar icon
 ----------------------------------------------------------
-local batWatcher = nil
-local lastBatValue = hs.battery.percentage()
-local batteryMenuBar = hs.menubar.new(true, 'batteryMenuBar')
-function batPercentageChangedCallback()
+lastBatValue = hs.battery.percentage()
+batteryMenuBar = hs.menubar.new(true, 'batteryMenuBar')
+batteryWatcher = hs.battery.watcher.new(function()
     currentBatValue = hs.battery.percentage()
-    -- local menuBatteryTitle = styledtext.new(math.floor(currentBatValue) .. '%', {
-    --         font = { name = "Menlo", size = 9 },
-    --         color = { blue = 1 },
-    --         paragraphStyle = { alignment = "center" },
-    --     })
     menuBatteryTitle = hs.styledtext.new(math.floor(currentBatValue) .. '%')
     batteryMenuBar:setTitle(menuBatteryTitle)
+
+    -- For testing
+    -- batteryInfoWindow = hs.alert.show('Battery TEST currentBatValue: ' .. currentBatValue .. ', lastBatValue: ' .. lastBatValue, {
+    --     strokeColor = hs.drawing.color.x11.cadetblue,
+    --     fillColor = {["red"]=0.100,["green"]=0.150,["blue"]=0.100,["alpha"]=0.6},
+    --     textColor = hs.drawing.color.x11.cadetblue,
+    --     strokeWidth = 10,
+    --     radius = 10,
+    --     textSize = 50,
+    --     fadeInDuration = 1,
+    --     fadeOutDuration = 1,
+    --     atScreenEdge = 0
+    -- }, 5)
+    -- if currentBatValue ~= lastBatValue then
+    --     batteryInfoWindow = hs.alert.show('Live or let die: ' .. math.floor(tonumber(currentBatValue)) .. '%', {
+    --         strokeColor = hs.drawing.color.x11.goldenrod,
+    --         fillColor = {["red"]=0.400,["green"]=0.200,["blue"]=0.200,["alpha"]=0.7},
+    --         textColor = hs.drawing.color.x11.goldenrod,
+    --         strokeWidth = 10,
+    --         radius = 10,
+    --         textSize = 62,
+    --         fadeInDuration = 1,
+    --         fadeOutDuration = 1,
+    --         atScreenEdge = 0
+    --     }, 5)
+    -- end
+    -- END TESTING
 
     if hs.battery.isCharging() == true then
         if currentBatValue > 71 and currentBatValue > lastBatValue then
@@ -271,14 +285,27 @@ function batPercentageChangedCallback()
         end
         currentBatteryTitle = batteryMenuBar:title()
         batteryMenuBar:setTitle(currentBatteryTitle .. '⚡️')
-        -- menuBatteryTitle = hs.styledtext.new(math.floor(currentBatValue) .. '% ⚡️', {
-        --     color = { red = 0.5, green = 1, blue = 0.5},
-        -- })
         return
     end
 
+    -- Will show popup first time battery hits specified values
+    if (currentBatValue == 50 or currentBatValue == 49 or currentBatValue == 40 or currentBatValue == 39) and currentBatValue < lastBatValue then
+        batteryInfoWindow = hs.alert.show('🔋 ' .. math.floor(tonumber(currentBatValue)) .. '%', {
+            strokeColor = hs.drawing.color.x11.silver,
+            fillColor = {["red"]=0.400,["green"]=0.350,["blue"]=0.350,["alpha"]=0.7},
+            textColor = hs.drawing.color.x11.silver,
+            strokeWidth = 10,
+            radius = 10,
+            textSize = 62,
+            fadeInDuration = 1,
+            fadeOutDuration = 1,
+            atScreenEdge = 0
+        }, 5)
+    end
+
+    -- Will show popup every time battery goes down by 1% and charge is less than 35%
     if currentBatValue < 35 and currentBatValue < lastBatValue then
-        batteryInfoWindow = hs.alert.show('Live or let die: ' .. math.floor(tonumber(currentBatValue)) .. '%', {
+        batteryInfoWindow = hs.alert.show('🪫 Live or let die: ' .. math.floor(tonumber(currentBatValue)) .. '%', {
             strokeColor = hs.drawing.color.x11.goldenrod,
             fillColor = {["red"]=0.400,["green"]=0.200,["blue"]=0.200,["alpha"]=0.7},
             textColor = hs.drawing.color.x11.goldenrod,
@@ -294,103 +321,38 @@ function batPercentageChangedCallback()
         })
     end
 
-    -- For testing alert
-    -- if currentBatValue < 73 and currentBatValue <= lastBatValue then
-    --     batteryInfoWindow = hs.alert.show('battery is: ' .. math.floor(tonumber(currentBatValue)) .. '%', {
-    --         strokeColor = hs.drawing.color.x11.goldenrod,
-    --         fillColor = {["red"]=0.400,["green"]=0.200,["blue"]=0.200,["alpha"]=0.7},
-    --         textColor = hs.drawing.color.x11.goldenrod,
-    --         strokeWidth = 10,
-    --         radius = 10,
-    --         textSize = 62,
-    --         fadeInDuration = 1,
-    --         fadeOutDuration = 1,
-    --         atScreenEdge = 0
-    --     }, 5)
-    -- end
-
-    -- isCharging = hs.battery.isCharging()
-    -- if isCharging == true then
-    --     hs.alert.closeSpecific(batteryInfoWindow, 0)
-    --     return
-    -- end
-    -- if currentBatValue == 100 and lastBatValue == 99 then
-    --     hs.notify.new({
-    --         title = 'Battery at 100%',
-    --         subTitle = 'Fully charged',
-    --         alwaysPresent = 1,
-    --         autoWithdraw = 0,
-    --         withdrawAfter = 0
-    --     }):send()
-    -- elseif currentBatValue == 30 and lastBatValue > 30 then
-    --     hs.notify.new({
-    --         title = 'Battery at 30%',
-    --         subTitle = 'Notice: Running on battery',
-    --         alwaysPresent = 1,
-    --         autoWithdraw = 0,
-    --         withdrawAfter = 0
-    --     }):send()
-    -- elseif currentBatValue == 20 and lastBatValue > 20 then
-    --     hs.notify.new({
-    --         title = 'Battery at 20%',
-    --         subTitle = 'Dont sweat it just yet',
-    --         alwaysPresent = 1,
-    --         autoWithdraw = 0,
-    --         withdrawAfter = 0
-    --     }):send()
-    -- elseif currentBatValue == 15 and lastBatValue > 15 then
-    --     hs.notify.new({
-    --         title = 'Battery at 15%',
-    --         subTitle = 'A slight sweat would be good now',
-    --         alwaysPresent = 1,
-    --         autoWithdraw = 0,
-    --         withdrawAfter = 0
-    --     }):send()
-    -- elseif currentBatValue == 10 and lastBatValue > 10 then
-    --     hs.notify.new({
-    --         title = 'Low battery: 10%',
-    --         subTitle = 'Time to get serious with that charger',
-    --         alwaysPresent = 1,
-    --         autoWithdraw = 0,
-    --         withdrawAfter = 0
-    --     }):send()
-    -- elseif currentBatValue < 6 and currentBatValue ~= lastBatValue then
-    --     batteryInfoWindow = hs.alert.show('Live or let die: = ' .. currentBatValue .. '%', {
-    --         strokeColor = hs.drawing.color.x11.goldenrod,
-    --         fillColor = hs.drawing.color.x11.red,
-    --         textColor = hs.drawing.color.x11.goldenrod,
-    --         strokeWidth = 10,
-    --         radius = 10,
-    --         textSize = 62,
-    --         fadeInDuration = 8,
-    --         atScreenEdge = 0
-    --     }, 40)
-    -- end
-    -- if currentBatValue == 7 then
-    --     hs.alert.closeAll()
-    -- end
     lastBatValue = currentBatValue
+end):start()
+
+
+-------------------------------------------------------
+-- Change Kitty colors based on Mac OS light/dark mode
+-------------------------------------------------------
+function isDarkModeEnabled()
+    local _, res = hs.osascript.javascript([[
+    Application("System Events").appearancePreferences.darkMode()
+    ]])
+
+    return res == true -- getting nil here sometimes
 end
-batWatcher = hs.battery.watcher.new(batPercentageChangedCallback)
-batWatcher:start()
-batPercentageChangedCallback()
 
+cb = function(observedNotificationName)
+    local isDarkMode = isDarkModeEnabled()
 
--- experiment
--- ----------
--- function closeBatteryWindow()
---     hs.alert.closeSpecific(batteryInfoWindow, 0)
--- end
--- hs.hotkey.bind({ 'cmd' }, 'a',  function() closeBatteryWindow() end)
+    print("theme changed. Dark mode: " .. tostring(isDarkMode))
 
--- hs.hotkey.bind({ 'ctrl' }, 'a', function()
---     hs.notify.new({
---         title = 'Battery at 20%',
---         subTitle = 'This is a subtitle',
---         alwaysPresent = 1,
---         autoWithdraw = 0,
---         withdrawAfter = 0
---     }):send()
--- end)
+    -- local command = "base16-humanoid-light"
+    local command = "base16-atelier-estuary-light"
+    if isDarkMode then
+        command = "base16-ashes"
+    else
+        -- command = "base16-humanoid-light"
+        -- remove this else statement if theme changing works
+    end
+    hs.execute(command, true)
+end
 
+notificationName = "AppleInterfaceThemeChangedNotification"
+appearanceWatcher = hs.distributednotifications.new(cb, notificationName, nil)
+appearanceWatcher:start()
 
