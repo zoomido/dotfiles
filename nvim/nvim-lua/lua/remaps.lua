@@ -12,6 +12,7 @@ vim.keymap.set({ 'n', 'v' }, '}', ']}', { silent = true, desc = 'Jump to next ou
 vim.keymap.set({ 'n', 'v' }, '<Tab>', '%', { silent = true, desc = 'Jump between matching pairs' })
 vim.keymap.set({ 'n' }, '<C-s>', '<Cmd>w<Cr>', { silent = true, desc = 'Save current buffer' })
 vim.keymap.set({ 'n' }, '<Leader><Leader>', '<Cmd>b#<Cr>', { silent = true, desc = 'Jump to previously edited buffer' })
+-- vim.keymap.set({ 'i' }, 'ii', '<Esc>', { silent = true, desc = 'Escape insert mode' })
 
 -- Left as a reminder, could use gj and gk for faster navigaton maybe but better to learn original binds?
 -- vim.keymap.set({ 'n' }, 'gj', ']c', { silent = true, desc = 'Jump to start of next change' })
