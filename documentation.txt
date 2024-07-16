@@ -24,7 +24,7 @@ tldr "tldr ln" - Show examples for ln
 aichat "aichat <OPTIONS> <TEXT>" - Ask chatgpt for help
 m-cli "m help" - Control mac os from cli
 ranger - file browser
-yazi - file browser
+yazi - file browser (preferred)
 
 # Online tools
 weather: curl v2d.wttr.in
