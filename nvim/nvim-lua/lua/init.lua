@@ -53,6 +53,8 @@ require('lazy').setup({
         event = 'InsertEnter',
         dependencies = {
             { 'L3MON4D3/LuaSnip' },
+            { 'hrsh7th/cmp-buffer' },
+            { 'kbwo/cmp-yank' },
         },
         config = function()
             -- Here is where you configure the autocompletion settings.
@@ -66,12 +68,25 @@ require('lazy').setup({
             cmp.setup({
                 formatting = lsp_zero.cmp_format(),
                 mapping = cmp.mapping.preset.insert({
-                    ['<C-Space>'] = cmp.mapping.complete(),
+                    -- confirm completion item
+                    -- ['<C-l>'] = cmp.mapping.confirm({ select = true }),
+                    ['<Enter>'] = cmp.mapping.confirm({ select = true }),
+                    -- trigger completion menu
+                    -- ['<C-l>'] = cmp.mapping.complete(),
+                    -- scroll up and down the documentation window
                     ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-                    ['<C-d>'] = cmp.mapping.scroll_docs(4),
+                    ['<C-d>'] = cmp.mapping.scroll_docs(4),   
+                    -- navigate between snippet placeholders
                     ['<C-f>'] = cmp_action.luasnip_jump_forward(),
                     ['<C-b>'] = cmp_action.luasnip_jump_backward(),
-                })
+                }),
+                sources = {
+                    { name = 'yank' },
+                    { name = 'nvim_lsp' },
+                    { name = 'luasnip',   keyword_length = 2 },
+                    { name = 'buffer',    keyword_length = 3 },
+                    { name = 'supermaven' },
+                },
             })
         end
     },
@@ -554,41 +569,52 @@ require('lazy').setup({
     --
 
     {
-        'Exafunction/codeium.vim',
-        event = 'BufEnter',
-        -- config = function ()
-        --     -- Change '<C-g>' here to any keycode you like.
-        --     vim.keymap.set('i', '<C-g>', function () return vim.fn['codeium#Accept']() end, { expr = true, silent = true })
-        --     vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true, silent = true })
-        --     vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true, silent = true })
-        --     vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true, silent = true })
-        -- end
+        'supermaven-inc/supermaven-nvim',
+        -- config = function()
+        --     require('supermaven-nvim').setup({})
+        -- end,
+        opts = {
+            keymaps = {
+                accept_suggestion = "<C-l>",
+                -- clear_suggestion = "<C-]>",
+                -- accept_word = "<C-j>",
+            },
+            -- disable_inline_completion = false, -- disables inline completion for use with cmp
+        },
     },
-    -- TEST these chatgpt plugins
-    -- {
-    --     "robitx/gp.nvim",
-    --     event = 'VeryLazy',
-    --     config = function()
-    --         require("gp").setup()
-    --         -- or setup with your own config (see Install > Configuration in Readme)
-    --         -- require("gp").setup(config)
-    --         -- shortcuts might be setup here (see Usage > Shortcuts in Readme)
-    --     end,
-    -- },
-    --
-    -- {
-    --     'jackMort/ChatGPT.nvim',
-    --     event = 'VeryLazy',
-    --     config = function()
-    --         require('chatgpt').setup()
-    --     end,
-    --     dependencies = {
-    --         'MunifTanjim/nui.nvim',
-    --         'nvim-lua/plenary.nvim',
-    --         'folke/trouble.nvim',
-    --         'nvim-telescope/telescope.nvim'
-    --     }
-    -- },
+
+    {
+        'frankroeder/parrot.nvim',
+        -- tag = "v0.3.4",
+        dependencies = { 'ibhagwan/fzf-lua', 'nvim-lua/plenary.nvim' },
+        config = function()
+            require('parrot').setup {
+                -- Providers must be explicitly added to make them available.
+                providers = {
+                    -- pplx = {
+                    --     api_key = os.getenv "PERPLEXITY_API_KEY",
+                    --     -- OPTIONAL
+                    --     -- gpg command
+                    --     -- api_key = { "gpg", "--decrypt", vim.fn.expand("$HOME") .. "/pplx_api_key.txt.gpg"  },
+                    --     -- macOS security tool
+                    --     -- api_key = { "/usr/bin/security", "find-generic-password", "-s pplx-api-key", "-w" },
+                    -- },
+                    openai = {
+                        api_key = os.getenv 'OPENAI_API_KEY',
+                    },
+                },
+            }
+        end,
+    },
+
+    {
+        'james1236/backseat.nvim',
+        opts = {
+            openai_api_key = os.getenv 'OPENAI_API_KEY',
+            openai_model_id = 'gpt-4', --gpt-4 (If you do not have access to a model, it says "The model does not exist")
+            -- split_threshold = 100,
+        },
+    },
 
     --
     -- Other plugins
@@ -745,21 +771,21 @@ require('lazy').setup({
         config = true,
     },
 
-    {
-        -- Help for working with paired characters "" () {} etc
-        'echasnovski/mini.pairs',
-        event = 'VeryLazy',
-        version = false, -- Use main branch (latest)
-        config = true,
-    },
+    -- {
+    --     -- Help for working with paired characters "" () {} etc
+    --     'echasnovski/mini.pairs',
+    --     event = 'VeryLazy',
+    --     version = false, -- Use main branch (latest)
+    --     config = true,
+    -- },
 
-    {
-        -- When pressing tab and the line to the left of the cursor isn't all whitespace, the cursor will jump to the end of the syntax tree's parent node.
-        -- This is awesome with mini.pairs above
-        'boltlessengineer/smart-tab.nvim',
-        event = 'VeryLazy',
-        config = true,
-    },
+    -- {
+    --     -- When pressing tab and the line to the left of the cursor isn't all whitespace, the cursor will jump to the end of the syntax tree's parent node.
+    --     -- This is awesome with mini.pairs above
+    --     'boltlessengineer/smart-tab.nvim',
+    --     event = 'VeryLazy',
+    --     config = true,
+    -- },
 
     {
         -- Splitting/joining blocks of code like arrays, hashes, statements, objects, dictionaries, etc with tree-sitter
@@ -1004,11 +1030,24 @@ require('lazy').setup({
         opts = {
             keymaps = {
                 -- Enable the provided 'basic' keymaps
-                basic = false,
+                basic = true,
                 -- Enable the provided 'extra' keymaps
-                extra = false,
+                extra = true,
             },
-            -- scroll_limit = 150, -- default setting
+            options = {
+                delay = 10,
+                mode = 'window',
+                max_delta = {
+                    -- Maximum distance for line movements before scroll
+                    -- animation is skipped. Set to `false` to disable
+                    line = 200,
+                    -- Maximum distance for column movements before scroll
+                    -- animation is skipped. Set to `false` to disable
+                    -- column = 1,
+                    -- Maximum duration for a movement (in ms). Automatically scales the delay and step size
+                    -- time = 1000,
+                },
+            }
         },
     },
 
