@@ -146,8 +146,7 @@ set -x RIPGREP_CONFIG_PATH "$HOME/.ripgreprc"
 # end
 
 # Start zoxide change dir tool
-#zoxide init fish | source
-#fisher install kidonng/zoxide.fish
+zoxide init fish | source
 
 
 

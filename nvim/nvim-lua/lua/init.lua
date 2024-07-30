@@ -5,9 +5,9 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
---
+----
 -- Lazy.nvim plugin manager
---
+----
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 local uv = vim.uv or vim.loop
 -- Auto-install lazy.nvim if not present
@@ -25,9 +25,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 
---
+----
 -- Plugins
---
+----
 require('lazy').setup({
 
     {
@@ -340,28 +340,28 @@ require('lazy').setup({
                     },
                 },
                 extensions = {
-                    file_browser = {
-                        -- theme = 'ivy',
-                        -- disables netrw and use telescope-file-browser in its place
-                        hijack_netrw = true,
-                        -- initial_mode = 'normal',
-                        grouped = true,
-                        depth = 2,
-                        respect_gitignore = false,
-                        hidden = { file_browser = true, folder_browser = true },
-                        prompt_path = true,
-                        mappings = {
-                            ['i'] = {
-                                -- your custom insert mode mappings
-                                ['<C-h>'] = require('telescope._extensions.file_browser.actions').goto_parent_dir,
-                                ['<Esc>'] = { '<Esc>', type = 'command' },
-                            },
-                            ['n'] = {
-                                ['h'] = require('telescope._extensions.file_browser.actions').goto_parent_dir,
-                                ['l'] = 'select_default',
-                            },
-                        },
-                    },
+                    -- file_browser = {
+                    --     -- theme = 'ivy',
+                    --     -- disables netrw and use telescope-file-browser in its place
+                    --     hijack_netrw = true,
+                    --     -- initial_mode = 'normal',
+                    --     grouped = true,
+                    --     depth = 1,
+                    --     respect_gitignore = false,
+                    --     hidden = { file_browser = true, folder_browser = true },
+                    --     prompt_path = true,
+                    --     mappings = {
+                    --         ['i'] = {
+                    --             -- your custom insert mode mappings
+                    --             ['<C-h>'] = require('telescope._extensions.file_browser.actions').goto_parent_dir,
+                    --             ['<Esc>'] = { '<Esc>', type = 'command' },
+                    --         },
+                    --         ['n'] = {
+                    --             ['h'] = require('telescope._extensions.file_browser.actions').goto_parent_dir,
+                    --             ['l'] = 'select_default',
+                    --         },
+                    --     },
+                    -- },
                     live_grep_args = {
                         -- auto_quoting = true, -- enable/disable auto-quoting
                         mappings = {
@@ -408,7 +408,7 @@ require('lazy').setup({
 
             require('telescope').load_extension('undo')
             require('telescope').load_extension('live_grep_args')
-            require('telescope').load_extension('file_browser')
+            -- require('telescope').load_extension('file_browser')
             -- require('telescope').load_extension('zf-native')
             -- require('telescope').load_extension('fzf')
             require('telescope').load_extension('neoclip')
@@ -453,15 +453,15 @@ require('lazy').setup({
                 -- For major updates, this must be adjusted manually.
                 -- version = "^1.0.0",
             },
-            {
-                'nvim-telescope/telescope-file-browser.nvim',
-                lazy = true,
-                -- dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
-                keys = {
-                    { '<Leader>E', '<Cmd>Telescope file_browser<Cr>', desc = 'Telescope file browser from root' },
-                    { '<Leader>e', '<Cmd>Telescope file_browser path=%:p:h select_buffer=true<Cr>', desc = 'Telescope file browser from current file' },
-                },
-            },
+            -- {
+            --     'nvim-telescope/telescope-file-browser.nvim',
+            --     lazy = true,
+            --     -- dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
+            --     keys = {
+            --         -- { '<Leader>E', '<Cmd>Telescope file_browser<Cr>', desc = 'Telescope file browser from root' },
+            --         -- { '<Leader>e', '<Cmd>Telescope file_browser path=%:p:h select_buffer=true<Cr>', desc = 'Telescope file browser from current file' },
+            --     },
+            -- },
             {
                 -- Match on filename prioritized over match on full path
                 -- Search including path separators enables "strict path matching" (eg: src/)
@@ -471,7 +471,7 @@ require('lazy').setup({
             -- { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }, -- zf-native is used for all sorting
         },
     },
-    -- Telescope plugins
+    ---- Telescope plugins
     {
         "danielfalk/smart-open.nvim",
         -- branch = "0.2.x",
@@ -487,9 +487,9 @@ require('lazy').setup({
         },
     },
 
-    --
+    ----
     -- Git Plugins
-    --
+    ----
 
     -- Illegal git plugin
     {
@@ -564,9 +564,9 @@ require('lazy').setup({
         },
     },
 
-    --
+    ----
     -- AI plugins
-    --
+    ----
 
     {
         'supermaven-inc/supermaven-nvim',
@@ -583,102 +583,42 @@ require('lazy').setup({
         },
     },
 
-    {
-        'frankroeder/parrot.nvim',
-        -- tag = "v0.3.4",
-        dependencies = { 'ibhagwan/fzf-lua', 'nvim-lua/plenary.nvim' },
-        config = function()
-            require('parrot').setup {
-                -- Providers must be explicitly added to make them available.
-                providers = {
-                    -- pplx = {
-                    --     api_key = os.getenv "PERPLEXITY_API_KEY",
-                    --     -- OPTIONAL
-                    --     -- gpg command
-                    --     -- api_key = { "gpg", "--decrypt", vim.fn.expand("$HOME") .. "/pplx_api_key.txt.gpg"  },
-                    --     -- macOS security tool
-                    --     -- api_key = { "/usr/bin/security", "find-generic-password", "-s pplx-api-key", "-w" },
-                    -- },
-                    openai = {
-                        api_key = os.getenv 'OPENAI_API_KEY',
-                    },
-                },
-            }
-        end,
-    },
+    -- {
+    --     'frankroeder/parrot.nvim',
+    --     -- tag = "v0.3.4",
+    --     dependencies = { 'ibhagwan/fzf-lua', 'nvim-lua/plenary.nvim' },
+    --     config = function()
+    --         require('parrot').setup {
+    --             -- Providers must be explicitly added to make them available.
+    --             providers = {
+    --                 -- pplx = {
+    --                 --     api_key = os.getenv "PERPLEXITY_API_KEY",
+    --                 --     -- OPTIONAL
+    --                 --     -- gpg command
+    --                 --     -- api_key = { "gpg", "--decrypt", vim.fn.expand("$HOME") .. "/pplx_api_key.txt.gpg"  },
+    --                 --     -- macOS security tool
+    --                 --     -- api_key = { "/usr/bin/security", "find-generic-password", "-s pplx-api-key", "-w" },
+    --                 -- },
+    --                 openai = {
+    --                     api_key = os.getenv 'OPENAI_API_KEY',
+    --                 },
+    --             },
+    --         }
+    --     end,
+    -- },
 
-    {
-        'james1236/backseat.nvim',
-        opts = {
-            openai_api_key = os.getenv 'OPENAI_API_KEY',
-            openai_model_id = 'gpt-4', --gpt-4 (If you do not have access to a model, it says "The model does not exist")
-            -- split_threshold = 100,
-        },
-    },
+    -- {
+    --     'james1236/backseat.nvim',
+    --     opts = {
+    --         openai_api_key = os.getenv 'OPENAI_API_KEY',
+    --         openai_model_id = 'gpt-4', --gpt-4 (If you do not have access to a model, it says "The model does not exist")
+    --         -- split_threshold = 100,
+    --     },
+    -- },
 
-    --
+    ----
     -- Other plugins
-    --
-
-    {
-        -- Wrapper for neovim terminal
-        'akinsho/toggleterm.nvim',
-        version = "*",
-        cmd = { 'ToggleTerm', 'Lg' },
-        keys = {
-            { '<leader>t', '<Cmd>ToggleTerm size=50 direction=vertical<Cr>', desc = 'Open new vertical terminal' },
-            { '<leader>T', '<Cmd>ToggleTerm direction=horizontal<Cr>',       desc = 'Open new horizontal terminal' },
-            { '<leader>mc', '<Cmd>TermExec size=50 cmd="mm"<Cr>', desc = 'Run alias mm (usually inside container)' },
-        },
-        config = function()
-            require('toggleterm').setup {
-                -- open_mapping = '<leader>t',
-                insert_mappings = false,
-                direction = 'vertical',
-            }
-            function _G.set_terminal_keymaps()
-                local opts = { buffer = 0 }
-                vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], opts)
-                vim.keymap.set('t', '<Leader>t', [[<Cmd>ToggleTerm<Cr>]], opts)
-                vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
-                vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
-                vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
-                vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
-                vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
-            end
-
-            vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
-
-            local Terminal = require('toggleterm.terminal').Terminal
-            local lazygit  = Terminal:new({
-                cmd = 'lazygit',
-                -- dir = 'git_dir',
-                -- dir = vim.fn.expand('%:p'),
-                -- TODO open the git root of the current file
-                -- not the git root of the pwd of nvim
-                direction = 'tab',
-                -- float_opts = {
-                --     border = 'double',
-                -- },
-                -- function to run on opening the terminal
-                on_open = function(term)
-                    vim.cmd('startinsert!')
-                    vim.keymap.set('n', 'q', '<cmd>close<CR>', { buffer = term.bufnr, noremap = true, silent = true })
-                end,
-                -- function to run on closing the terminal
-                on_close = function(term)
-                    vim.cmd('startinsert!')
-                end,
-            })
-            function _lazygit_toggle()
-                lazygit.dir = vim.fn.expand("%:p:h") -- current working directory for the active buffer
-                lazygit:toggle()
-            end
-
-            -- vim.keymap.set('n', '<leader>g', '<cmd>lua _lazygit_toggle()<CR>', {noremap = true, silent = true})
-            vim.api.nvim_create_user_command('Lg', 'lua _lazygit_toggle()', {})
-        end,
-    },
+    ----
 
     {
         -- Session management
@@ -938,10 +878,108 @@ require('lazy').setup({
     --     },
     -- },
 
-    --
+    ----
+    -- Integration with terminal applications
+    ----
+
+    {
+        -- Wrapper for neovim terminal
+        'akinsho/toggleterm.nvim',
+        version = "*",
+        cmd = { 'ToggleTerm', 'Lg' },
+        keys = {
+            { '<leader>t', '<Cmd>ToggleTerm size=50 direction=vertical<Cr>', desc = 'Open new vertical terminal' },
+            { '<leader>T', '<Cmd>ToggleTerm direction=horizontal<Cr>',       desc = 'Open new horizontal terminal' },
+            { '<leader>mc', '<Cmd>TermExec size=50 cmd="mm"<Cr>', desc = 'Run alias mm (usually inside container)' },
+        },
+        config = function()
+            require('toggleterm').setup {
+                -- open_mapping = '<leader>t',
+                insert_mappings = false,
+                direction = 'vertical',
+            }
+            function _G.set_terminal_keymaps()
+                local opts = { buffer = 0 }
+                vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], opts)
+                vim.keymap.set('t', '<Leader>t', [[<Cmd>ToggleTerm<Cr>]], opts)
+                vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+                vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+                vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+                vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+                vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
+            end
+
+            vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
+
+            local Terminal = require('toggleterm.terminal').Terminal
+            local lazygit  = Terminal:new({
+                cmd = 'lazygit',
+                -- dir = 'git_dir',
+                -- dir = vim.fn.expand('%:p'),
+                -- TODO open the git root of the current file
+                -- not the git root of the pwd of nvim
+                direction = 'tab',
+                -- float_opts = {
+                --     border = 'double',
+                -- },
+                -- function to run on opening the terminal
+                on_open = function(term)
+                    vim.cmd('startinsert!')
+                    vim.keymap.set('n', 'q', '<cmd>close<CR>', { buffer = term.bufnr, noremap = true, silent = true })
+                end,
+                -- function to run on closing the terminal
+                on_close = function(term)
+                    vim.cmd('startinsert!')
+                end,
+            })
+            function _lazygit_toggle()
+                lazygit.dir = vim.fn.expand("%:p:h") -- current working directory for the active buffer
+                lazygit:toggle()
+            end
+
+            -- vim.keymap.set('n', '<leader>g', '<cmd>lua _lazygit_toggle()<CR>', {noremap = true, silent = true})
+            vim.api.nvim_create_user_command('Lg', 'lua _lazygit_toggle()', {})
+        end,
+    },
+
+    {
+        'mikavilpas/yazi.nvim',
+        event = 'VeryLazy',
+        keys = {
+            {
+                '<leader>e',
+                function()
+                    require('yazi').yazi()
+                end,
+                desc = 'Open the file manager',
+            },
+            {
+                '<leader>E',
+                function()
+                    require('yazi').yazi(nil, vim.fn.getcwd())
+                end,
+                desc = 'Open the file manager in nvim\'s working directory' ,
+            },
+        },
+        ---@type YaziConfig
+        opts = {
+            -- if you want to open yazi instead of netrw, see below for more info
+            open_for_directories = true,
+
+            -- enable these if you are using the latest version of yazi
+            -- use_ya_for_events_reading = true,
+            -- use_yazi_client_id_flag = true,
+
+            keymaps = {
+                show_help = '<f1>',
+            },
+        },
+    },
+
+    ----
     -- Aesthetics
     -- "a set of principles concerned with the nature and appreciation of beauty."
-    -- 
+    ----
 
     {
         -- Statusline plugin
