@@ -583,29 +583,16 @@ require('lazy').setup({
         },
     },
 
-    -- {
-    --     'frankroeder/parrot.nvim',
-    --     -- tag = "v0.3.4",
-    --     dependencies = { 'ibhagwan/fzf-lua', 'nvim-lua/plenary.nvim' },
-    --     config = function()
-    --         require('parrot').setup {
-    --             -- Providers must be explicitly added to make them available.
-    --             providers = {
-    --                 -- pplx = {
-    --                 --     api_key = os.getenv "PERPLEXITY_API_KEY",
-    --                 --     -- OPTIONAL
-    --                 --     -- gpg command
-    --                 --     -- api_key = { "gpg", "--decrypt", vim.fn.expand("$HOME") .. "/pplx_api_key.txt.gpg"  },
-    --                 --     -- macOS security tool
-    --                 --     -- api_key = { "/usr/bin/security", "find-generic-password", "-s pplx-api-key", "-w" },
-    --                 -- },
-    --                 openai = {
-    --                     api_key = os.getenv 'OPENAI_API_KEY',
-    --                 },
-    --             },
-    --         }
-    --     end,
-    -- },
+    {
+        "dpayne/CodeGPT.nvim",
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            'MunifTanjim/nui.nvim',
+        },
+        config = function()
+            require("codegpt.config")
+        end
+    },
 
     -- {
     --     'james1236/backseat.nvim',
