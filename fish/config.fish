@@ -17,12 +17,6 @@ set fish_greeting
 # Set nvim as default editor
 set -x EDITOR nvim
 
-# Active VI keybindings
-# fish_vi_key_bindings
-
-# Fish extensions settings
-# https://github.com/b4b4r07/enhancd
-# set ENHANCD_COMMAND 'cde'
 
 
 
@@ -88,7 +82,7 @@ end
 # ---------------------
 
 # Ripgrep config file dir
-set -x RIPGREP_CONFIG_PATH "$HOME/.ripgreprc"
+# set -x RIPGREP_CONFIG_PATH "$HOME/.ripgreprc"
 
 # Base16 Shell
 #if status --is-interactive
@@ -159,12 +153,7 @@ if test -e ~/dotfiles-private/private.fish
     source ~/dotfiles-private/private.fish
 end
 
-# Source NNN config if nnn exists
-#if command -v nnn &> /dev/null
-#    source $HOME/.config/fish/nnn.fish
-#end
-
-#todo.sh list
+set -x OPENAI_API_KEY (head -1 $HOME/.openai_api_key)
 
 
 
