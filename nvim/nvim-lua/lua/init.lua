@@ -268,27 +268,6 @@ require('lazy').setup({
                     find_files = {
                         mappings = {
                             i = {
-                                -- ['<C-h>'] = function(prompt_bufnr)
-                                --     local current_picker = require('telescope.actions.state').get_current_picker(prompt_bufnr)
-                                --     -- cwd is only set if passed as telescope option
-                                --     local cwd = current_picker.cwd and tostring(current_picker.cwd)
-                                --     or vim.loop.cwd()
-                                --     local parent_dir = vim.fs.dirname(cwd)
-                                --     local fb_utils = require "telescope._extensions.file_browser.utils"
-                                --     local finder = current_picker.finder
-                                --     finder.path = parent_dir
-                                --
-                                --     current_picker:refresh(
-                                --         finder,
-                                --         { new_prefix = parent_dir, reset_prompt = false, multi = current_picker._multi }
-                                --         -- { new_prefix = fb_utils.relative_path_prefix(finder), reset_prompt = false, multi = current_picker._multi }
-                                --     )
-                                --     -- require('telescope.actions').close(prompt_bufnr)
-                                --     -- require('telescope.builtin').find_files {
-                                --         --     prompt_title = vim.fs.basename(parent_dir),
-                                --         --     cwd = parent_dir,
-                                --         -- }
-                                --     end,
                                 ['<C-h>'] = function(prompt_bufnr)
                                     local current_picker = require('telescope.actions.state').get_current_picker(prompt_bufnr)
                                     -- cwd is only set if passed as telescope option
@@ -302,19 +281,6 @@ require('lazy').setup({
                                         cwd = parent_dir,
                                     }
                                 end,
-                                -- ['<C-h>'] = function(prompt_bufnr)
-                                --     -- local current_picker = action_state.get_current_picker(prompt_bufnr)
-                                --     local current_picker = require('telescope.actions.state').get_current_picker(prompt_bufnr)
-                                --     local finder = current_picker.finder
-                                --     local fb_utils = require "telescope._extensions.file_browser.utils"
-                                --     finder.path = vim.loop.os_homedir()
-                                --
-                                --     fb_utils.redraw_border_title(current_picker)
-                                --     current_picker:refresh(
-                                --         current_picker.finder,
-                                --         { new_prefix = fb_utils.relative_path_prefix(finder), reset_prompt = false, multi = current_picker._multi }
-                                --     )
-                                -- end,
                             },
                             n = {
                                 ['cc'] = function(prompt_bufnr)
@@ -392,99 +358,93 @@ require('lazy').setup({
                     },
                 },
             }
-
-            -- vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-            -- vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
-            -- vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-            -- vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
-            -- vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]resume' })
-            -- vim.keymap.set('n', '<leader>/', function()
-            --  -- You can pass additional configuration to telescope to change theme, layout, etc.
-            --  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-            --   winblend = 10,
-            --   previewer = false,
-            --  })
-            -- end, { desc = '[/] Fuzzily search in current buffer' })
-
-            require('telescope').load_extension('undo')
-            require('telescope').load_extension('live_grep_args')
-            -- require('telescope').load_extension('file_browser')
-            -- require('telescope').load_extension('zf-native')
-            -- require('telescope').load_extension('fzf')
-            require('telescope').load_extension('neoclip')
         end,
         keys = {
+            -- Builtin keybindings
             { '<Leader>b', '<Cmd>Telescope buffers<Cr>', desc = 'List open [B]uffers' },
             { '<Leader>fb', function() require('telescope.builtin').current_buffer_fuzzy_find() end, desc = 'Fuzzy [f]ind in current [b]uffer' },
             { '<Leader>fB', function() require('telescope.builtin').live_grep({ grep_open_files = true }) end, desc = '[F]ind in all open [B]uffers' },
             -- { '<leader>ff', function() require('telescope.builtin').find_files() end, desc = '[F]ind [f]iles' },
-            { '<leader>ff', function() require('telescope').extensions.smart_open.smart_open() end, desc = '[F]ind [f]iles with smart_open' },
             { '<leader>fG', function() require('telescope.builtin').live_grep() end, desc = '[F]ind with builtin [G]rep' },
-            { '<leader>fg', function() require('telescope').extensions.live_grep_args.live_grep_args() end, desc = '[F]ind with live [g]rep args' },
             -- { '<leader>fz', function() require('telescope.builtin').grep_string() end, mode = 'x', desc = '[F]ind with live [g]rep args' },
             -- { '<leader>fz', function() require('telescope.builtin').grep_string({ shorten_path = true, word_match = "-w", only_sort_text = true, search = '' }) end, desc = '[F]ind with live [g]rep args' }, -- WAY TOO SLOW, must wait for all results before searching
-            { '<leader>fg', function() require('telescope-live-grep-args.shortcuts').grep_visual_selection() end, mode = 'x', desc = '[F]ind word under cursor with live [g]rep args' },
+            { '<leader>fj', function() require('telescope.builtin').jumplist() end, desc = '[f]ind in [j]umplist' },
             { '<leader>gb', function() require('telescope.builtin').git_branches() end, desc = '[g]it [b]ranches' },
-            { '<leader>u', function() require('telescope').extensions.undo.undo() end, desc = 'Fuzzy search [u]ndo list' },
 
+            -- Extension keybindings
+            { '<leader>fg', function() require('telescope-live-grep-args.shortcuts').grep_visual_selection() end, mode = 'x', desc = '[F]ind word under cursor with live [g]rep args' },
+            { '<leader>u', function() require('telescope').extensions.undo.undo() end, desc = 'Fuzzy search [u]ndo list' },
+            { '<leader>fg', function() require('telescope').extensions.live_grep_args.live_grep_args() end, desc = '[F]ind with live [g]rep args' },
+            { '<leader>ff', function() require('telescope').extensions.frecency.frecency() end, desc = '[F]ind [f]iles with frecency' },
         },
         dependencies = {
             'nvim-lua/plenary.nvim',
-            {
-                'renerocksai/telekasten.nvim',
-                cmd = 'Telekasten',
-                opts = {
-                    home = vim.fn.expand('$HOME/notes/zettelkasten'), -- Name of notes directory
-                },
-            },
-            {
-                'debugloop/telescope-undo.nvim',
-            },
-            -- {
-            --     "Sharonex/edit-list.nvim",
-            --     config = true,
-            --     keys = {
-            --         { '<Leader>ll', '<Cmd>EditList<Cr>', desc = 'Telescope file browser from root' },
-            --     }
-            -- },
-            {
-                "nvim-telescope/telescope-live-grep-args.nvim",
-                -- This will not install any breaking changes.
-                -- For major updates, this must be adjusted manually.
-                -- version = "^1.0.0",
-            },
-            -- {
-            --     'nvim-telescope/telescope-file-browser.nvim',
-            --     lazy = true,
-            --     -- dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
-            --     keys = {
-            --         -- { '<Leader>E', '<Cmd>Telescope file_browser<Cr>', desc = 'Telescope file browser from root' },
-            --         -- { '<Leader>e', '<Cmd>Telescope file_browser path=%:p:h select_buffer=true<Cr>', desc = 'Telescope file browser from current file' },
-            --     },
-            -- },
-            {
-                -- Match on filename prioritized over match on full path
-                -- Search including path separators enables "strict path matching" (eg: src/)
-                -- Search query is space-separated to make narrowing down results easier
-                -- 'natecraddock/telescope-zf-native.nvim',
-            },
-            -- { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }, -- zf-native is used for all sorting
         },
     },
     ---- Telescope plugins
     {
-        "danielfalk/smart-open.nvim",
-        -- branch = "0.2.x",
-        config = function()
-            require('telescope').load_extension('smart_open')
-        end,
-        dependencies = {
-            'kkharji/sqlite.lua',
-            -- Only required if using match_algorithm fzf
-            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
-            -- Optional.  If installed, native fzy will be used when match_algorithm is fzy
-            { 'nvim-telescope/telescope-fzy-native.nvim' },
+        'renerocksai/telekasten.nvim',
+        dependencies = { 'nvim-telescope/telescope.nvim' },
+        cmd = 'Telekasten',
+        opts = {
+            home = vim.fn.expand('$HOME/notes/zettelkasten'), -- Name of notes directory
         },
+    },
+    {
+        'debugloop/telescope-undo.nvim',
+        dependencies = { 'nvim-telescope/telescope.nvim' },
+        config = function()
+            require('telescope').load_extension('undo')
+        end,
+    },
+    -- {
+    --     "Sharonex/edit-list.nvim",
+    --     config = true,
+    --     keys = {
+    --         { '<Leader>ll', '<Cmd>EditList<Cr>', desc = 'Telescope file browser from root' },
+    --     }
+    -- },
+    {
+        'nvim-telescope/telescope-live-grep-args.nvim',
+        -- This will not install any breaking changes.
+        -- For major updates, this must be adjusted manually.
+        -- version = "^1.0.0",
+        dependencies = { 'nvim-telescope/telescope.nvim' },
+        config = function()
+            require('telescope').load_extension('live_grep_args')
+        end,
+    },
+    -- {
+    --     'nvim-telescope/telescope-file-browser.nvim',
+    --     config = function()
+    --         require('telescope').load_extension('file_browser')
+    --     end,
+    --     lazy = true,
+    --     dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
+    --     keys = {
+    --         -- { '<Leader>E', '<Cmd>Telescope file_browser<Cr>', desc = 'Telescope file browser from root' },
+    --         -- { '<Leader>e', '<Cmd>Telescope file_browser path=%:p:h select_buffer=true<Cr>', desc = 'Telescope file browser from current file' },
+    --     },
+    -- },
+    -- {
+    --     "danielfalk/smart-open.nvim",
+    --     -- branch = "0.2.x",
+    --     config = function()
+    --         require('telescope').load_extension('smart_open')
+    --     end,
+    --     dependencies = {
+    --         'kkharji/sqlite.lua',
+    --         -- Only required if using match_algorithm fzf
+    --         { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+    --         -- Optional.  If installed, native fzy will be used when match_algorithm is fzy
+    --         { 'nvim-telescope/telescope-fzy-native.nvim' },
+    --     },
+    -- },
+    {
+        'nvim-telescope/telescope-frecency.nvim',
+        config = function()
+            require('telescope').load_extension('frecency')
+        end,
     },
 
     ----
@@ -676,6 +636,9 @@ require('lazy').setup({
 
     {
         'AckslD/nvim-neoclip.lua',
+        config = function()
+            require('telescope').load_extension('neoclip')
+        end,
         opts = {
             content_spec_column = true,
             keys = {
@@ -1049,6 +1012,11 @@ require('lazy').setup({
                 remove_blankline_trail = false,
             },
         },
+    },
+
+    {
+        'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',
+        event = 'VeryLazy',
     },
 
     {
