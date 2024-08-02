@@ -84,12 +84,6 @@ end
 # Ripgrep config file dir
 # set -x RIPGREP_CONFIG_PATH "$HOME/.ripgreprc"
 
-# Base16 Shell
-#if status --is-interactive
-#    set BASE16_SHELL "$HOME/.config/base16-shell"
-#    source "$BASE16_SHELL/profile_helper.fish"
-#end
-
 # Bat global settings
 #set -x BAT_THEME 'base16'
 
@@ -98,46 +92,14 @@ end
 # set -x FZF_PREVIEW_LINES 80
 ##set -x FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --glob "!.git"'
 
-# Fzf fish settings
-##set fzf_fd_opts --hidden --no-ignore
-
-# Start FZF in explorer mode
-# function fzfexplorer
-#     # Store the STDOUT of fzf in a variable
-#     set SELECTION (find . -type d | fzf --multi --height=80% --border=sharp \
-#             --preview='tree -C --filelimit 100 --dirsfirst {}' --preview-window='45%,border-sharp' \
-#             --prompt='Dirs > ' \
-#             --bind='ctrl-x:execute(rip -i {+})' \
-#             --bind='ctrl-p:toggle-preview' \
-#             --bind='ctrl-d:change-prompt(Dirs > )' \
-#             --bind='ctrl-d:+reload(find . -type d)' \
-#             --bind='ctrl-d:+change-preview(tree -C {})' \
-#             --bind='ctrl-d:+refresh-preview' \
-#             --bind='ctrl-f:change-prompt(Files > )' \
-#             --bind='ctrl-f:+reload(find . -type f)' \
-#             --bind='ctrl-f:+change-preview(cat {})' \
-#             --bind='ctrl-f:+refresh-preview' \
-#             --bind='ctrl-l:accept' \
-#             --bind='ctrl-t:toggle-all' \
-#             --header '
-#             CTRL-D to display directories | CTRL-F to display files
-#             CTRL-T to select/deselect all
-#             CTRL-L to open | CTRL-X to delete
-#             CTRL-P to toggle preview
-#             '
-#     )
-#
-#     # Determine what to do depending on the selection
-#     if test -d "$SELECTION"
-#     echo "this should cd to $SELECTION"
-#         cd $SELECTION
-#         else if test -f "$SELECTION"
-#     echo "this should open vim with $SELECTION"
-#         eval "$EDITOR $SELECTION"
-#     else
-#         echo "No file or dir selected"
-#     end
-# end
+function yy
+    set tmp (mktemp -t "yazi-cwd.XXXXXX")
+    yazi $argv --cwd-file="$tmp"
+    if set cwd (cat -- "$tmp"); and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
+        cd -- "$cwd"
+    end
+    rm -f -- "$tmp"
+end
 
 # Start zoxide change dir tool
 zoxide init fish | source
