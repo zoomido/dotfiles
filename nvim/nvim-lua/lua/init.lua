@@ -1015,8 +1015,19 @@ require('lazy').setup({
     },
 
     {
+        -- Highlight delimiters in different colors
         'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',
         event = 'VeryLazy',
+        main = 'rainbow-delimiters.setup',
+        opts = {
+            highlight = {
+                'RainbowDelimiterYellow',
+                'RainbowDelimiterCyan',
+                'RainbowDelimiterGreen',
+                'RainbowDelimiterBlue',
+                'RainbowDelimiterViolet',
+            },
+        },
     },
 
     {
