@@ -33,6 +33,7 @@ if status --is-interactive
     abbr --add vf   nvim +"\"lua require('telescope.builtin').find_files()"\"
     abbr --add vg   nvim +"\"lua require('telescope').extensions.live_grep_args.live_grep_args()"\"
     abbr --add vn   nvim +"\"lua require('telekasten').find_notes()"\"
+    abbr --add vng  nvim +"\"lua require('telekasten').search_notes()"\"
     abbr --add todo nvim ~/notes/zettelkasten/todo.md
     # +"lua require('telescope.builtin').find_files()"
     abbr --add l    eza --icons --group-directories-first

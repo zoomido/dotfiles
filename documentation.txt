@@ -44,6 +44,7 @@ vp: Telescope possession list
 vf: Telescope find_files
 vg: Telescope live_grep_args
 vn: Telekasten find_notes
+vng: Telekasten search_notes
 todo: Open todo note
 
 -------------------------------------
