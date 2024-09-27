@@ -18,7 +18,8 @@ api.iunmap(":");
 api.map('<Space>', 'd');
 
 // Make $ work for visual selection
-api.vmapkey('<Alt-$>', '$');
+// Use this when vmapkey is fixed (broken after v3 manifest update)
+// api.vmapkey('<Alt-$>', '$');
 // Make 0 and $ scroll left and right
 api.unmap('0');
 api.map('0', 'h');
