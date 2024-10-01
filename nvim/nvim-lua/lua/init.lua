@@ -139,12 +139,12 @@ require('lazy').setup({
             })
         end
     },
-    {
-        -- Neovim setup for init.lua and plugin development
-        'folke/neodev.nvim',
-        ft = 'lua',
-        opts = {},
-    },
+    -- {
+    --     -- Neovim setup for init.lua and plugin development
+    --     'folke/neodev.nvim',
+    --     ft = 'lua',
+    --     opts = {},
+    -- },
     {
         -- LSP helper: Show diagnostics, references, telescope results, quickfix and location lists
         "folke/trouble.nvim",
