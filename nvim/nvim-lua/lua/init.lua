@@ -32,14 +32,11 @@ require('lazy').setup({
 
     {
         -- LSP from Zero to Hero
+        -- https://lsp-zero.netlify.app/docs/guide/lazy-loading-with-lazy-nvim
         'VonHeikemen/lsp-zero.nvim',
-        branch = 'v3.x',
+        branch = 'v4.x',
         lazy = true,
-        init = function()
-            -- Disable automatic setup, we are doing it manually
-            vim.g.lsp_zero_extend_cmp = 0
-            vim.g.lsp_zero_extend_lspconfig = 0
-        end,
+        config = false,
     },
     {
         'williamboman/mason.nvim',
@@ -57,16 +54,15 @@ require('lazy').setup({
             { 'kbwo/cmp-yank' },
         },
         config = function()
-            -- Here is where you configure the autocompletion settings.
-            local lsp_zero = require('lsp-zero')
-            lsp_zero.extend_cmp()
-
-            -- And you can configure cmp even more, if you want to.
             local cmp = require('cmp')
-            local cmp_action = lsp_zero.cmp_action()
 
             cmp.setup({
-                formatting = lsp_zero.cmp_format(),
+                -- REQUIRED - you must specify a snippet engine
+                snippet = {
+                    expand = function(args)
+                        vim.snippet.expand(args.body)
+                    end,
+                },
                 mapping = cmp.mapping.preset.insert({
                     -- confirm completion item
                     -- ['<C-l>'] = cmp.mapping.confirm({ select = true }),
@@ -75,10 +71,11 @@ require('lazy').setup({
                     -- ['<C-l>'] = cmp.mapping.complete(),
                     -- scroll up and down the documentation window
                     ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-                    ['<C-d>'] = cmp.mapping.scroll_docs(4),   
+                    ['<C-d>'] = cmp.mapping.scroll_docs(4),
                     -- navigate between snippet placeholders
-                    ['<C-f>'] = cmp_action.luasnip_jump_forward(),
-                    ['<C-b>'] = cmp_action.luasnip_jump_backward(),
+                    -- probably need to import cmp_action further up
+                    -- ['<C-f>'] = cmp_action.luasnip_jump_forward(),
+                    -- ['<C-b>'] = cmp_action.luasnip_jump_backward(),
                 }),
                 sources = {
                     { name = 'yank' },
@@ -98,17 +95,15 @@ require('lazy').setup({
         event = { 'BufReadPre', 'BufNewFile' },
         dependencies = {
             { 'hrsh7th/cmp-nvim-lsp' },
+            { 'williamboman/mason.nvim' },
             { 'williamboman/mason-lspconfig.nvim' },
         },
         config = function()
-            -- This is where all the LSP shenanigans will live
             local lsp_zero = require('lsp-zero')
-            lsp_zero.extend_lspconfig()
 
-            lsp_zero.on_attach(function(client, bufnr)
+            local lsp_attach = function(client, bufnr)
                 -- see :help lsp-zero-keybindings
                 -- to learn the available actions
-                -- lsp_zero.default_keymaps({buffer = bufnr}) aa
 
                 vim.keymap.set('n', '<Leader>lsi', function() vim.lsp.buf.hover() end, { buffer = bufnr, desc = 'LSP [s]ymbol floating [i]nfo' })
                 vim.keymap.set('n', '<Leader>lsr', function() vim.lsp.buf.rename() end, { buffer = bufnr, desc = 'LSP [s]ymbol [r]ename all references' })
@@ -124,16 +119,21 @@ require('lazy').setup({
                 vim.keymap.set('n', '[d', function() vim.diagnostic.goto_next() end, { buffer = bufnr, desc = 'LSP Previous diagnostics' })
                 vim.keymap.set('n', ']d', function() vim.diagnostic.goto_prev() end, { buffer = bufnr, desc = 'LSP Next diagnostics' })
                 vim.keymap.set({'n', 'v'}, '<Leader>lfc', function() vim.lsp.buf.format() end, { buffer = bufnr, desc = 'LSP Format [c]ode in buffer' })
-            end)
+            end
+
+            lsp_zero.extend_lspconfig({
+                sign_text = true,
+                lsp_attach = lsp_attach,
+                capabilities = require('cmp_nvim_lsp').default_capabilities()
+            })
 
             require('mason-lspconfig').setup({
                 ensure_installed = {},
                 handlers = {
-                    lsp_zero.default_setup,
-                    lua_ls = function()
-                        -- (Optional) Configure lua language server for neovim
-                        local lua_opts = lsp_zero.nvim_lua_ls()
-                        require('lspconfig').lua_ls.setup(lua_opts)
+                    -- this first function is the "default handler"
+                    -- it applies to every language server without a "custom handler"
+                    function(server_name)
+                        require('lspconfig')[server_name].setup({})
                     end,
                 }
             })
