@@ -145,17 +145,17 @@ require('lazy').setup({
     --     ft = 'lua',
     --     opts = {},
     -- },
-    {
-        -- LSP helper: Show diagnostics, references, telescope results, quickfix and location lists
-        "folke/trouble.nvim",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        cmd = { 'Trouble' },
-        keys = {
-            { '<Leader>lt', function() require('trouble').toggle('') end, desc = 'Toggle [l]sp [t]rouble' },
-        },
-        opts = {
-        },
-    },
+    -- {
+    --     -- LSP helper: Show diagnostics, references, telescope results, quickfix and location lists
+    --     "folke/trouble.nvim",
+    --     dependencies = { "nvim-tree/nvim-web-devicons" },
+    --     cmd = { 'Trouble' },
+    --     keys = {
+    --         { '<Leader>lt', function() require('trouble').toggle('') end, desc = 'Toggle [l]sp [t]rouble' },
+    --     },
+    --     opts = {
+    --     },
+    -- },
 
     {
         -- Highlight, edit, and navigate code
