@@ -164,7 +164,7 @@ end)
 -- set up your windowfilter
 -- switcher = hs.window.switcher.new() -- default windowfilter: only visible windows, all Spaces
 -- switcher_browsers = hs.window.switcher.new{'Safari','Google Chrome'} -- specialized switcher for your dozens of browser windows :)
-switcher = hs.window.switcher.new(hs.window.filter.new():setCurrentSpace(true):setDefaultFilter {}) -- include minimized/hidden windows, current Space only
+switcher = hs.window.switcher.new(hs.window.filter.new():setCurrentSpace(nil):setDefaultFilter {}) -- include minimized/hidden windows, current Space only
 switcher.ui.showTitles = false
 switcher.ui.backgroundColor = { 0.1, 0.1, 0.1, 0.3 }
 switcher.ui.selectedThumbnailSize = 300
