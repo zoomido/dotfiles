@@ -21,6 +21,8 @@ vim.o.scrolloff = 5
 vim.o.cursorline = true
 -- Enable break indent
 vim.o.breakindent = true
+-- Soft linebreaks to stop wrapping in the middle
+vim.o.linebreak = true
 -- Save undo history
 vim.o.undofile = true
 -- Case-insensitive searching UNLESS \C or capital in search
