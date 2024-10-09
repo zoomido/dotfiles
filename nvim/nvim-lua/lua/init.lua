@@ -1038,8 +1038,8 @@ require('lazy').setup({
             keymaps = {
                 -- Enable the provided 'basic' keymaps
                 basic = true,
-                -- Enable the provided 'extra' keymaps
-                extra = true,
+                -- Enable the provided 'extra' keymaps (j & k moving over wrapped lines broken when using this)
+                -- extra = true,
             },
             options = {
                 delay = 10,
