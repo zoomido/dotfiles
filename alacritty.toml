@@ -1,0 +1,21 @@
+[shell]
+# program = "/bin/zsh"
+# args = ["-l"]
+program = "/opt/homebrew/bin/fish"
+args = ['-c nvim +"lua require(\"telekasten\").find_notes()"']
+
+[window]
+decorations = "None" 
+padding = {x = 10, y = 10}
+opacity = 0.4
+blur = true
+# option_as_alt = "OnlyLeft" | "OnlyRight" | "Both" | "None" # (macos only)
+# Make Option key behave as Alt.
+# Default: "None"
+# Below does not seem to work with MacOS
+# dimensions = {columns = 100, lines = 20}
+# position = { x = 150, y = 150 }
+
+[font]
+normal = {family = "IosevkaTerm Nerd Font", style = "Regular"}
+size = 20
