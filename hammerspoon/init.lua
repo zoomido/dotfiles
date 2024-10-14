@@ -90,7 +90,7 @@ end)
 
 
 -- Start/switch/hide Messaging app
-hs.hotkey.bind(mash, "m", function()
+hs.hotkey.bind(mash, "r", function()
     local app = hs.application.find('Rambox')
     if (app and app:isFrontmost()) then
         app:hide()
