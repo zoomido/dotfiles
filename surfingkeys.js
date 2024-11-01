@@ -14,6 +14,9 @@ api.iunmap(":");
 // Custom mappings
 // ---------------
 
+// CTRL to close omnibar and link hints
+api.map('<Ctrl>', '<Esc>');
+
 // Space to jump down
 api.map('<Space>', 'd');
 
