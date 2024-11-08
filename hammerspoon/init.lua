@@ -78,6 +78,17 @@ hs.hotkey.bind({ "cmd", "shift" }, "return", function()
 end)
 
 
+-- Start/switch/hide alternative browser
+hs.hotkey.bind(mash, "l", function()
+    local app = hs.application.find('LibreWolf')
+    if (app and app:isFrontmost()) then
+        app:hide()
+    else
+        hs.application.open("LibreWolf.app")
+    end
+end)
+
+
 -- Start/switch/hide note application
 hs.hotkey.bind({ "shift" }, "§", function()
     local app = hs.application.find('Alacritty')
@@ -85,17 +96,6 @@ hs.hotkey.bind({ "shift" }, "§", function()
         app:hide()
     else
         hs.application.open("Alacritty.app")
-    end
-end)
-
-
--- Start/switch/hide Messaging app
-hs.hotkey.bind(mash, "r", function()
-    local app = hs.application.find('Rambox')
-    if (app and app:isFrontmost()) then
-        app:hide()
-    else
-        hs.application.open("Rambox.app")
     end
 end)
 
