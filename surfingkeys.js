@@ -63,6 +63,24 @@ api.cmap('<Ctrl-k>', '<Shift-Tab>');
 //api.unmap('<Ctrl-i>');
 
 
+// Search engines
+// --------------
+removeSearchAlias('w');
+removeSearchAlias('e');
+addSearchAlias('w', 'wikipedia', 'https://en.wikipedia.org/w/index.php?title=Special:Search&search={0}', 's', 'https://en.wikipedia.org/w/api.php?action=opensearch&search={0}', function(response) {
+    var res = JSON.parse(response.text);
+    return res.map(function(r){
+        return r.phrase;
+    });
+});
+addSearchAlias('d', 'duckduckgo', 'https://duckduckgo.com/?q=', 's', 'https://duckduckgo.com/ac/?q=', function(response) {
+    var res = JSON.parse(response.text);
+    return res.map(function(r){
+        return r.phrase;
+    });
+});
+
+
 // Appearance
 // -------------
 
