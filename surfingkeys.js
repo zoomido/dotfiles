@@ -65,20 +65,20 @@ api.cmap('<Ctrl-k>', '<Shift-Tab>');
 
 // Search engines
 // --------------
-removeSearchAlias('w');
-removeSearchAlias('e');
-addSearchAlias('w', 'wikipedia', 'https://en.wikipedia.org/w/index.php?title=Special:Search&search={0}', 's', 'https://en.wikipedia.org/w/api.php?action=opensearch&search={0}', function(response) {
+api.removeSearchAlias('b'); // baidu
+api.removeSearchAlias('e'); // original wikipedia
+api.removeSearchAlias('w'); // bing
+api.addSearchAlias('w', 'wikipedia', 'https://en.wikipedia.org/w/index.php?title=Special:Search&search={0}', 's', 'https://en.wikipedia.org/w/api.php?action=opensearch&search={0}', function(response) {
     var res = JSON.parse(response.text);
     return res.map(function(r){
         return r.phrase;
     });
 });
-addSearchAlias('d', 'duckduckgo', 'https://duckduckgo.com/?q=', 's', 'https://duckduckgo.com/ac/?q=', function(response) {
-    var res = JSON.parse(response.text);
-    return res.map(function(r){
-        return r.phrase;
-    });
+api.addSearchAlias('a', 'amazon', 'https://www.amazon.se/s?k={0}', 's');
+api.addSearchAlias('d', 'define word', 'https://en.wiktionary.org/w/index.php?search=', 's', 'https://en.wiktionary.org/w/api.php?action=query&format=json&generator=prefixsearch&gpssearch=', function(response) {
+    return Object.values(JSON.parse(response.text).query.pages).map((p) => p.title);
 });
+
 
 
 // Appearance
