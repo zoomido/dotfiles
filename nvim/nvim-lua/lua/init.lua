@@ -387,7 +387,7 @@ require('lazy').setup({
         dependencies = { 'nvim-telescope/telescope.nvim' },
         cmd = 'Telekasten',
         opts = {
-            home = vim.fn.expand('$HOME/notes/zettelkasten'), -- Name of notes directory
+            home = vim.fn.expand('$HOME/private-notes'), -- Name of notes directory
         },
     },
     {

@@ -39,8 +39,7 @@ if status --is-interactive
     abbr --add l    eza --icons --group-directories-first
     abbr --add ll   eza -a --icons --group-directories-first
     abbr --add lll  eza -la --icons --group-directories-first --git
-    abbr --add del  trash
-    abbr --add rm   use del (or rip if installed)
+    abbr --add rm   use trash [for macos or rip if installed]
 
     # Git
     abbr --add gs      git status

@@ -94,9 +94,25 @@ hs.hotkey.bind({ "shift" }, "§", function()
     local app = hs.application.find('Alacritty')
     if (app and app:isFrontmost()) then
         app:hide()
+    elseif (app == nil) then
+        -- When alacritty is opened, also start a note sync
+        -- hs.alert.show("Alacritty first time open")
+        local home = hs.fs.pathToAbsolute("~")  -- This gets the path to the user's home directory
+        local notesPath = home .. "/private-notes"  -- Append your relative path to it
+        local gitSyncPath = home .. "/dotfiles/git-sync.sh"
+        hs.task.new("/Applications/Alacritty.app/Contents/MacOS/alacritty", nil, {"--working-directory", notesPath, "--command", gitSyncPath }):start()
+        hs.application.open("Alacritty.app")
     else
         hs.application.open("Alacritty.app")
     end
+end)
+-- Sync notes to git
+hs.hotkey.bind(mash, "n", function()
+    local home = hs.fs.pathToAbsolute("~")  -- This gets the path to the user's home directory
+    local notesPath = home .. "/private-notes"  -- Append your relative path to it
+    local gitSyncPath = home .. "/dotfiles/git-sync.sh"
+
+    hs.task.new("/Applications/Alacritty.app/Contents/MacOS/alacritty", nil, { "--hold", "--working-directory", notesPath, "--command", gitSyncPath }):start()
 end)
 
 
