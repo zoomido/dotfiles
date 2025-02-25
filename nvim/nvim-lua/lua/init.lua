@@ -543,20 +543,6 @@ require('lazy').setup({
         },
     },
 
-    {
-        'dpayne/CodeGPT.nvim',
-        dependencies = {
-            'nvim-lua/plenary.nvim',
-            'MunifTanjim/nui.nvim',
-        },
-        config = function()
-            require('codegpt.config')
-        end,
-        opts = {
-            model = 'gpt-4-turbo',
-        },
-    },
-
     -- {
     --     'olimorris/codecompanion.nvim',
     --     dependencies = {
