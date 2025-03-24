@@ -66,7 +66,7 @@ hs.hotkey.bind({ "cmd" }, "§", function()
         hs.application.open("Brave Browser.app")
     end
 end)
--- Start/switch to browser and reload
+-- Start/switch to browser and reload (webdev)
 hs.hotkey.bind({ "cmd", "shift" }, "return", function()
     -- hs.eventtap.keyStrokes(":w")
     -- hs.eventtap.keyStroke({}, "return")
