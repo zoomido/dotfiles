@@ -36,9 +36,13 @@ if status --is-interactive
     abbr --add vng  nvim +"\"lua require('telekasten').search_notes()"\"
     abbr --add todo nvim ~/notes/zettelkasten/todo.md
     # +"lua require('telescope.builtin').find_files()"
-    abbr --add l    eza --icons --group-directories-first
-    abbr --add ll   eza -a --icons --group-directories-first
-    abbr --add lll  eza -la --icons --group-directories-first --git
+    abbr --add l    eza --icons --group-directories-first --classify -a
+    abbr --add ll   eza --icons --group-directories-first --classify -la
+    abbr --add lll  eza --icons --group-directories-first --classify -la --git --git-repos --header
+    # When eza not available use below
+    #abbr --add l    ls --classify --tabsize=0 --group-directories-first --human-readable --almost-all --literal
+    #abbr --add ll   ls --classify --tabsize=0 --group-directories-first --human-readable --almost-all -l
+    #abbr --add lll  ls --classify --tabsize=0 --group-directories-first --human-readable --almost-all -l --quoting-style=escape
     abbr --add rm   use trash [for macos or rip if installed]
 
     # Git
@@ -56,13 +60,6 @@ if status --is-interactive
     #abbr --add --global dot  'nvim (find ~/.dotfiles -path ~/.dotfiles/.git -prune -o -print -type f | fzf)' # Search in .dotfiles folder
     #abbr --add --global ff   'nvim (fzf)' # Search with fzf and open in nvim
     #abbr --add --global cdf   'cd (fd --type directory | fzf)' # Change directory
-
-    # Magento (uses -l for login-shell to respect nvm settings)
-    abbr --add ws       'warden shell'
-    abbr --add m2ccc    'warden env exec php-fpm bash -lc "/home/www-data/bin/m2ccc.sh"'
-    abbr --add m2ccce   'warden env exec php-fpm bash -lc "/home/www-data/bin/m2ccc.sh" && exit'
-    abbr --add m2css    'warden env exec php-fpm bash -lc "/home/www-data/bin/m2css.sh"'
-    abbr --add m2csse   'warden env exec php-fpm bash -lc "/home/www-data/bin/m2css.sh" && exit'
 
     # Tools
     abbr --add diskusage   ncdu
@@ -111,11 +108,13 @@ zoxide init fish | source
 # -------
 
 # Source private configs if exists
-if test -e ~/dotfiles-private/private.fish
-    source ~/dotfiles-private/private.fish
+if test -e $HOME/dotfiles-private/private.fish
+    source $HOME/dotfiles-private/private.fish
 end
 
-set -x OPENAI_API_KEY (head -1 $HOME/.openai_api_key)
+if test -e $HOME/.openai_api_key
+    set -x OPENAI_API_KEY (head -1 $HOME/.openai_api_key)
+end
 
 
 
