@@ -27,6 +27,7 @@ if status --is-interactive
     # System
     # abbr --add --global -- - 'cd -'
     # abbr --add --global ...  'cd ../../..'
+    #abbr --add rm   use trash [for macos or rip if installed]
     abbr --add c    clear
     abbr --add v    nvim
     abbr --add vp   nvim +"\"lua require('telescope').extensions.possession.list()"\"
@@ -43,7 +44,6 @@ if status --is-interactive
     #abbr --add l    ls --classify --tabsize=0 --group-directories-first --human-readable --almost-all --literal
     #abbr --add ll   ls --classify --tabsize=0 --group-directories-first --human-readable --almost-all -l
     #abbr --add lll  ls --classify --tabsize=0 --group-directories-first --human-readable --almost-all -l --quoting-style=escape
-    #abbr --add rm   use trash [for macos or rip if installed]
 
     # Git
     abbr --add gs      git status
