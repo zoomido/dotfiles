@@ -1,23 +1,23 @@
-# $HOME/.ripgreprc
+# $HOME/.config/ripgreprc
 # Set config path with env variable eg in fish config
 
 # Don't let ripgrep vomit really long lines to my terminal, and show a preview.
-#--max-columns=150
-#--max-columns-preview
+--max-columns=150
+--max-columns-preview
 
-# Search hidden files/directories (e.g. dotfiles) and don't care about .gitignore/other ignore files
+# Search hidden files/directories (e.g. dotfiles) and don't respect .gitignore
 --hidden
---no-ignore
+--no-ignore-vcs
 
 # Follow symlinks and search inside
 --follow
 
 # Because who cares about case!?
-#--smart-case
+--smart-case
 
 # Dot "." also includes multiple lines (multiline-dotall does nothing without --multiline)
-#--multiline
-#--multiline-dotall
+--multiline
+--multiline-dotall
 
 # Dont search fish_history file, it will always match the search...
-#--ignore-file=$HOME/.local/share/fish/fish_history
+--ignore-file=$HOME/.local/share/fish/fish_history
