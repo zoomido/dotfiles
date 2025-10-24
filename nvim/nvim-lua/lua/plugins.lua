@@ -128,7 +128,8 @@ local cfg = vim.loop.os_homedir() .. "/.nvim_plugins"
 if vim.loop.fs_stat(cfg) then
     for _, line in ipairs(vim.fn.readfile(cfg)) do
         local name = vim.trim(line)
-        if name ~= "" then
+        -- Skip empty lines or lines starting with #
+        if name ~= "" and not name:match("^#") then
             local ok, extra = pcall(require, name)
             if ok and type(extra) == "table" then
                 vim.list_extend(common_plugins, extra)
