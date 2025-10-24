@@ -112,35 +112,30 @@ local common_plugins = {
 }
 
 --
--- Load plugins from .nvim_plugins file in home directory
+-- Load specific plugins from nvim_plugins.lua file in home directory
 --
--- example .nvim_plugins file:
--- plugins_ai
--- plugins_git
--- plugins_helper
--- plugins_lsp
--- plugins_telescope
--- plugins_ui
--- plugins_yazi
+-- example nvim_plugins.lua file:
+-- local extra_plugins = {
+--     { import = "plugins_ai" },
+--     { import = "plugins_git" },
+--     { import = "plugins_helper" },
+--     { import = "plugins_lsp" },
+--     { import = "plugins_telescope" },
+--     { import = "plugins_ui" },
+--     { import = "plugins_yazi" },
+-- }
+-- return extra_plugins
 --
 
-local cfg = vim.loop.os_homedir() .. "/.nvim_plugins"
-if vim.loop.fs_stat(cfg) then
-    for _, line in ipairs(vim.fn.readfile(cfg)) do
-        local name = vim.trim(line)
-        -- Skip empty lines or lines starting with #
-        if name ~= "" and not name:match("^#") then
-            local ok, extra = pcall(require, name)
-            if ok and type(extra) == "table" then
-                vim.list_extend(common_plugins, extra)
-                -- vim.notify("Loaded plugin spec: " .. name, vim.log.levels.INFO)
-            else
-                vim.notify("⚠️ Failed to load plugin spec: " .. name, vim.log.levels.WARN)
-            end
-        end
-    end
+-- load optional machine-specific plugins from ~/nvim_plugins.lua
+local plugin_file = vim.loop.os_homedir() .. "/nvim_plugins.lua"
+local ok, extra_specs = pcall(dofile, plugin_file)
+if ok and type(extra_specs) == "table" then
+  vim.list_extend(common_plugins, extra_specs)
 else
-    vim.notify("No ~/.nvim_plugins file found", vim.log.levels.INFO)
+  if not ok then
+    vim.notify("⚠️ Failed to load ~/.nvim_plugins: " .. extra_specs, vim.log.levels.WARN)
+  end
 end
 
 require("lazy").setup(common_plugins)
