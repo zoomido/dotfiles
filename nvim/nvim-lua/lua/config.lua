@@ -1,4 +1,9 @@
--- options.lua
+-- config.lua
+
+-- Set <space> as the leader key. See `:help mapleader`
+--  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
 -- [[ Setting standard vim options ]]
 -- See `:help vim.o`
@@ -44,3 +49,34 @@ vim.o.termguicolors = true
 --  See `:help 'clipboard'`
 -- vim.o.clipboard = 'unnamedplus'
 
+
+--
+-- Customization
+--
+
+-- [[ Highlight on yank ]]
+-- See `:help vim.highlight.on_yank()`
+local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
+vim.api.nvim_create_autocmd('TextYankPost', {
+    callback = function()
+        vim.highlight.on_yank()
+    end,
+    group = highlight_group,
+    pattern = '*',
+})
+
+-- Restore cursor position
+vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+    pattern = { "*" },
+    callback = function()
+        vim.api.nvim_exec('silent! normal! g`"zv', false)
+    end,
+})
+
+
+--
+-- Load more configs
+--
+
+require('plugins')
+require('remaps')
