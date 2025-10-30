@@ -181,7 +181,7 @@ return {
             { '<leader>fg', function() require('telescope-live-grep-args.shortcuts').grep_visual_selection() end, mode = 'x', desc = '[f]ind word under cursor with live [g]rep args' },
             { '<leader>u', function() require('telescope').extensions.undo.undo() end, desc = 'Fuzzy search [u]ndo list' },
             { '<leader>fg', function() require('telescope').extensions.live_grep_args.live_grep_args() end, desc = '[f]ind with live [g]rep args' },
-            { '<leader>ff', function() require('telescope').extensions.smart_open.smart_open() end, desc = '[f]ind [f]iles with smart open' },
+            { '<leader>ff', function() require('telescope').extensions.smart_open.smart_open({ filename_first = false }) end, desc = '[f]ind [f]iles with smart open' },
             -- { '<leader>ff', function() require('telescope').extensions.frecency.frecency() end, desc = '[f]ind [f]iles with frecency' },
         },
         dependencies = {
