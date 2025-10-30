@@ -73,6 +73,21 @@ vim.api.nvim_create_autocmd({ "BufReadPost" }, {
     end,
 })
 
+-- Clipboard setup for WSL
+if vim.fn.has("wsl") then
+    vim.g.clipboard = {
+        name = 'OSC 52',
+        copy = {
+            ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+            ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+        },
+        paste = {
+            ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+            ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+        },
+    }
+end
+
 
 --
 -- Load more configs
