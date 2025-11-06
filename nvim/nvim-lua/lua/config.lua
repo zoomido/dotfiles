@@ -45,9 +45,21 @@ vim.o.termguicolors = true
 -- Enable mouse mode
 -- vim.o.mouse = 'a'
 -- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
+-- Remove this option if you want your OS clipboard to remain independent.
+-- See `:help 'clipboard'`
 -- vim.o.clipboard = 'unnamedplus'
+
+-- Prefer plugins_ui > 'lukas-reineke/indent-blankline.nvim',
+-- But this can be used as plugin-less solution
+-- vim.opt.list = true
+-- vim.opt.listchars = {
+--     leadmultispace = "┊ ",
+--     tab = "┆ ",
+--     -- multispace = "⋅ ",
+--     trail = "•",
+--     extends = "▶",
+--     precedes = "◀",
+-- }
 
 
 --
