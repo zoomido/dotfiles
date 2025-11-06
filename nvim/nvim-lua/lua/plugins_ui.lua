@@ -74,13 +74,15 @@ return {
     {
         -- Add indentation guides even on blank lines
         -- See `:help indent_blankline.txt`
+        -- Use listchars in config.lua for uglier but plugin-less solution
         'lukas-reineke/indent-blankline.nvim',
         event = 'VeryLazy',
         main = 'ibl',
         opts = {
             indent = {
                 char = '┊',
-                tab_char = { 'a', 'b', 'c' },
+                -- tab_char = { 'a', 'b', 'c' },
+                tab_char = { '>', '>', '>' },
                 smart_indent_cap = false,
             },
             whitespace = {
@@ -144,6 +146,7 @@ return {
 
     {
         -- Follows system theme (MacOS, Linux Windows))
+        -- Currently only enabled on macos == darwin
         'f-person/auto-dark-mode.nvim',
         enabled = vim.loop.os_uname().sysname == "Darwin",
         opts = {
