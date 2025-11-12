@@ -6,12 +6,12 @@
 -- {mode} Mode short-name (map command prefix: "n", "i", "v", "x", …) or "!" for :map!, or empty string for :map. "ia", "ca" or "!a" for abbreviation in Insert mode, Cmdline mode, or both, respectively
 
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true }) -- Holding down space wont repeat
-vim.keymap.set({ 'n', 'v' }, '{', '[{', { silent = true, desc = 'Jump to parent bracket' })
+-- vim.keymap.set({ 'n', 'v' }, '{', '[{', { silent = true, desc = 'Jump to parent bracket' })
 vim.keymap.set({ 'n', 'v' }, '<S-Tab>', '[{', { silent = true, desc = 'Jump to parent bracket' })
-vim.keymap.set({ 'n', 'v' }, '}', ']}', { silent = true, desc = 'Jump to next outer bracket' })
--- vim.keymap.set({ 'n', 'v' }, '<Tab>', '%', { silent = true, desc = 'Jump between matching pairs' })
-vim.keymap.set({ 'n' }, '<Tab>', '<Plug>(MatchitNormalForward)', { silent = true, desc = 'Jump between matching pairs' })
-vim.keymap.set({ 'v' }, '<Tab>', '<Plug>(MatchitVisualForward)', { silent = true, desc = 'Jump between matching pairs' })
+-- vim.keymap.set({ 'n', 'v' }, '}', ']}', { silent = true, desc = 'Jump to next outer bracket' })
+vim.keymap.set({ 'n', 'v' }, '<Tab>', '%', { silent = true, desc = 'Jump between matching pairs' })
+-- vim.keymap.set({ 'n' }, '<Tab>', '<Plug>(MatchitNormalForward)', { silent = true, desc = 'Jump between matching pairs' })
+-- vim.keymap.set({ 'v' }, '<Tab>', '<Plug>(MatchitVisualForward)', { silent = true, desc = 'Jump between matching pairs' })
 vim.keymap.set({ 'n' }, '<C-s>', '<Cmd>w<Cr>', { silent = true, desc = 'Save current buffer' })
 vim.keymap.set({ 'n' }, '<Leader><Leader>', '<Cmd>b#<Cr>', { silent = true, desc = 'Jump to previously edited buffer' })
 -- vim.keymap.set({ 'i' }, 'ii', '<Esc>', { silent = true, desc = 'Escape insert mode' })
@@ -42,6 +42,7 @@ vim.keymap.set({ 'v' }, 'p', '"0p', { silent = true, desc = '[p]aste latest yank
 vim.keymap.set({ 'v' }, 'p', '"0P', { silent = true, desc = '[P]aste latest yank in visual mode' })
 vim.keymap.set({ 'v' }, '+', '"0ygvd"', { silent = true, desc = 'Cut to yank register' }) -- Deletes go to register 1-9
  --         ["+"] = { "\"0p", "Paste latest yank" },
+vim.keymap.set({ 'v' }, ':p', "y:<C-r>\"<C-b>", { silent = true, desc = 'Paste visual selection in cmdline' })
 
 -- Search and replace
 -- " Replace word under cursor
@@ -60,4 +61,3 @@ vim.keymap.set('n', 'v_', "^vg_", { silent = true, desc = 'Select line without l
 -- Abbreviations
 --
 vim.cmd('abb clog; console.log( );<Left><Left><Left>')
-
