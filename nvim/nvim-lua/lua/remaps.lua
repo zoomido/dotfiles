@@ -47,12 +47,13 @@ vim.keymap.set({ 'v' }, '+', '"0ygvd"', { silent = true, desc = 'Cut to yank reg
 -- " Replace word under cursor
 -- nnoremap <leader>r :%s/\<<C-r><C-w>\>//c<Left><Left>
 -- vnoremap <leader>r :s/\<<C-r><C-w>\>//c<Left><Left>
+vim.keymap.set('v', ':re', "\"hy:%s/<C-r>h//c<Left><Left>", { silent = true, desc = 'Replace the visual selection elsewhere' })
+vim.keymap.set('v', ':ri', ":s/\\%V\\%V/<Left><Left><Left><Left>", { silent = true, desc = 'Replace inside visual selection' })
 
 vim.keymap.set('v', 'J', ":m '>+1<Cr>gv=gv", { silent = true, desc = 'Move visual selection down' })
 vim.keymap.set('v', 'K', ":m '<-2<Cr>gv=gv", { silent = true, desc = 'Move visual selection up' })
-vim.keymap.set('v', ':p', "y:<C-r>\"<C-b>", { silent = true, desc = 'Paste visual selection in cmdline' })
-vim.keymap.set('v', ':re', "\"hy:%s/<C-r>h//c<Left><Left>", { silent = true, desc = 'Replace the visual selection elsewhere' })
-vim.keymap.set('v', ':ri', ":s/\\%V\\%V/<Left><Left><Left><Left>", { silent = true, desc = 'Replace inside visual selection' })
+
+vim.keymap.set('n', 'v_', "^vg_", { silent = true, desc = 'Select line without line ending char' })
 
 
 --
