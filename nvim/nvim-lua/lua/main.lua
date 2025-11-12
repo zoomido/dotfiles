@@ -106,4 +106,5 @@ end
 --
 
 require('plugins')
+-- require('statusline')
 require('remaps')
