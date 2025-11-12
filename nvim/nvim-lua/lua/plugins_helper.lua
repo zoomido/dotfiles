@@ -106,12 +106,6 @@ return {
     },
 
     {
-        -- Vim "inner line" text object. Ignore leading and trailing whitespace. v_ y_ d_
-        'bruno-/vim-line',
-        event = 'VeryLazy'
-    },
-
-    {
         -- Splitting/joining blocks of code like arrays, hashes, statements, objects, dictionaries, etc with tree-sitter
         'Wansmer/treesj',
         keys = {
@@ -119,22 +113,6 @@ return {
         },
         opts = { use_default_keymaps = false, max_join_length = 150 },
     },
-
-    -- {
-    --     -- Help for working with paired characters "" () {} etc
-    --     'echasnovski/mini.pairs',
-    --     event = 'VeryLazy',
-    --     version = false, -- Use main branch (latest)
-    --     config = true,
-    -- },
-
-    -- {
-    --     -- When pressing tab and the line to the left of the cursor isn't all whitespace, the cursor will jump to the end of the syntax tree's parent node.
-    --     -- This is awesome with mini.pairs above
-    --     'boltlessengineer/smart-tab.nvim',
-    --     event = 'VeryLazy',
-    --     config = true,
-    -- },
 
     -- Detect tabstop and shiftwidth automatically
     -- {'Darazaki/indent-o-matic', event = 'VeryLazy', config = true}
