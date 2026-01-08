@@ -41,6 +41,108 @@ return {
     },
 
     {
+        'stevearc/resession.nvim',
+        opts = {
+            autosave = {
+                enabled = true,
+                interval = 120,
+                notify = true,
+            },
+        },
+        cmd = { "SSave", "SLoad", "SDelete" },
+        config = function(_, opts)
+            local resession = require("resession")
+            -- apply opts
+            resession.setup(opts)
+
+            vim.api.nvim_create_user_command("SSave", function(opts)
+                local name = opts.args ~= "" and opts.args or "last"
+                resession.save(name)
+            end, {
+                nargs = "?",
+                complete = function()
+                    return resession.list()
+                end,
+                desc = "Save a session",
+            })
+
+            vim.api.nvim_create_user_command("SLoad", function(opts)
+                local name = opts.args ~= "" and opts.args or nil  -- nil opens picker
+                resession.load(name)
+            end, {
+                nargs = "?",
+                complete = function(ArgLead)
+                    local sessions = resession.list()
+                    local matches = {}
+                    for _, s in ipairs(sessions) do
+                        if s:match("^" .. ArgLead) then
+                            table.insert(matches, s)
+                        end
+                    end
+                    return matches
+                end,
+                desc = "Load a session",
+            })
+
+            vim.api.nvim_create_user_command("SDelete", function(opts)
+                local name = opts.args
+                if name == "" or not name then
+                    print("You must provide a session name")
+                    return
+                end
+                resession.delete(name)
+            end, {
+                nargs = 1,
+                complete = function(ArgLead)
+                    local sessions = resession.list()
+                    local matches = {}
+                    for _, s in ipairs(sessions) do
+                        if s:match("^" .. ArgLead) then
+                            table.insert(matches, s)
+                        end
+                    end
+                    return matches
+                end,
+                desc = "Delete a session",
+            })
+
+            vim.api.nvim_create_autocmd("VimLeavePre", {
+                callback = function()
+                    -- Always save a special session named "last"
+                    resession.save("last")
+                end,
+            })
+        end,
+    },
+ 
+    -- {
+    --     -- Session management
+    --     'jedrzejboczar/possession.nvim',
+    --     dependencies = { 'nvim-lua/plenary.nvim' },
+    --     -- event = 'VeryLazy',
+    --     cmd = { 'PosSave', 'PosLoad', 'PosDelete', 'PosPick' },
+    --     config = function()
+    --         require('possession').setup {
+    --             autosave = {
+    --                 current = true,
+    --                 tmp = true,
+    --             },
+    --             plugins = {
+    --                 -- delete_hidden_buffers = false, -- Keep hidden buffers in session
+    --                 delete_buffers = true,         -- Delete all buffers before loading another session
+    --             },
+    --             commands = {
+    --                 save = 'PosSave',
+    --                 load = 'PosLoad',
+    --                 delete = 'PosDelete',
+    --                 pick = 'PosPick',
+    --             },
+    --         }
+    --         -- require('telescope').load_extension('possession')
+    --     end
+    -- },
+
+    {
         -- Navigate with search labels, enhanced character motions, and Treesitter integration
         'folke/flash.nvim',
         -- event = 'VeryLazy',
@@ -62,56 +164,51 @@ return {
                     -- shade = 5,
                 },
             },
+            -- options used when flash is activated through
+            -- `f`, `F`, `t`, `T`, `;` and `,` motions
+            modes = {
+                char = {
+                    enabled = false,
+                },
+            },
         },
         keys = {
-            { 's', mode = { 'n', 'x', 'o' }, function() require('flash').jump({ search = { mode = 'exact', incremental = true } }) end, desc = 'Flash' },
+            { 's/', mode = { 'n', 'x', 'o' }, function() require('flash').jump({ search = { mode = 'exact', incremental = true } }) end, desc = 'Flash' },
             -- Search only start of word
             -- { 's', mode = { 'n', 'x', 'o' }, function() require('flash').jump({search = {
             --     mode = function(str)
             --         return '\\<' .. str
             --     end,
             -- },}) end, desc = 'Flash' },
-            { 'S', mode = { 'n', 'o', 'x' }, function() require('flash').treesitter() end, desc = 'Flash Treesitter' },
-            { 'r', mode = 'o', function() require('flash').remote() end, desc = 'Remote Flash' },
-            { 'R', mode = { 'o', 'x' }, function() require('flash').treesitter_search() end, desc = 'Treesitter Search' },
-            { '<C-s>', mode = { 'c' }, function() require('flash').toggle() end, desc = 'Toggle Flash Search' },
+            { 'S/', mode = { 'n', 'o', 'x' }, function() require('flash').treesitter() end, desc = 'Flash Treesitter' },
+            -- { 'r', mode = 'o', function() require('flash').remote() end, desc = 'Remote Flash' },
+            -- { 'R', mode = { 'o', 'x' }, function() require('flash').treesitter_search() end, desc = 'Treesitter Search' },
+            -- { '<C-s>', mode = { 'c' }, function() require('flash').toggle() end, desc = 'Toggle Flash Search' },
         },
     },
-
     
     {
-        -- Session management
-        'jedrzejboczar/possession.nvim',
-        dependencies = { 'nvim-lua/plenary.nvim' },
-        -- event = 'VeryLazy',
-        cmd = { 'SSave', 'SLoad', 'SDelete' },
-        config = function()
-            require('possession').setup {
-                autosave = {
-                    current = true,
-                    tmp = true,
-                },
-                plugins = {
-                    delete_hidden_buffers = false, -- Keep hidden buffers in session
-                    delete_buffers = true,         -- Delete all buffers before loading another session
-                },
-                commands = {
-                    save = 'SSave',
-                    load = 'SLoad',
-                    delete = 'SDelete',
-                },
-            }
-            require('telescope').load_extension('possession')
-        end
-    },
+        'nvim-mini/mini.surround',
+        version = '*',
+        opts = {
+            mappings = {
+                add = 'sa', -- Add surrounding in Normal and Visual modes
+                delete = 'sd', -- Delete surrounding
+                find = 'sf', -- sf Find surrounding (to the right)
+                find_left = 'sF', -- sF Find surrounding (to the left)
+                highlight = 'sh', -- sh Highlight surrounding
+                replace = 'sr', -- Replace surrounding
 
-    {
-        -- Splitting/joining blocks of code like arrays, hashes, statements, objects, dictionaries, etc with tree-sitter
-        'Wansmer/treesj',
-        keys = {
-            { '<Leader>j', '<Cmd>TSJToggle<cr>', desc = 'Join Toggle' },
+                suffix_last = 'l', -- Suffix to search with "prev" method
+                suffix_next = 'n', -- Suffix to search with "next" method
+            },
         },
-        opts = { use_default_keymaps = false, max_join_length = 150 },
+    },
+    {
+        -- gS (split/join with treesitter)
+        'nvim-mini/mini.splitjoin',
+        version = '*',
+        config = true,
     },
 
     -- Detect tabstop and shiftwidth automatically

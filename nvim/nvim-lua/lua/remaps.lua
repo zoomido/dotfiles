@@ -63,6 +63,16 @@ vim.keymap.set({ 'v' }, ':p', "y:<C-r>\"<C-b>", { silent = true, desc = 'Paste v
 vim.keymap.set('v', ':re', "\"hy:%s/<C-r>h//c<Left><Left>", { silent = true, desc = 'Replace the visual selection elsewhere' })
 vim.keymap.set('v', ':ri', ":s/\\%V\\%V/<Left><Left><Left><Left>", { silent = true, desc = 'Replace inside visual selection' })
 
+local function search_in_visible_lines()
+  local scrolloff = vim.o.scrolloff
+  vim.o.scrolloff = 0
+  vim.cmd.norm(vim.api.nvim_replace_termcodes("VHoL<Esc>", true, true, true))
+  vim.o.scrolloff = scrolloff
+  vim.cmd.norm("``")
+  vim.fn.feedkeys("/\\%V")
+end
+vim.keymap.set("n", "z/", search_in_visible_lines)
+
 --
 -- Abbreviations
 --

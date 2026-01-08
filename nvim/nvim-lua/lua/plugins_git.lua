@@ -8,30 +8,30 @@ return {
 
     -- 2 way git merge conflicts
     -- {'whiteinge/diffconflicts', cmd = 'DiffConflicts'},
-    { 'samoshkin/vim-mergetool', cmd = 'MergetoolStart' },
+    -- { 'samoshkin/vim-mergetool', cmd = 'MergetoolStart' },
 
-    {
-        -- List diff for current repo
-        -- The current branch: :DiffviewFileHistory
-        -- The current file: :DiffviewFileHistory %
-        'sindrets/diffview.nvim',
-        cmd = 'DiffviewOpen',
-        keys = {
-            { '<leader>gs', '<Cmd>DiffviewOpen<Cr>', desc = 'Open Diffview for [g]it [s]tatus' },
-        },
-        opts = {
-            enhanced_diff_hl = true,
-            view = {
-                default = {
-                    layout = 'diff2_vertical',
-                    winbar = true,
-                },
-            },
-            file_panel = {
-                listing_style = 'list',
-            },
-        },
-    },
+    -- {
+    --     -- List diff for current repo
+    --     -- The current branch: :DiffviewFileHistory
+    --     -- The current file: :DiffviewFileHistory %
+    --     'sindrets/diffview.nvim',
+    --     cmd = 'DiffviewOpen',
+    --     keys = {
+    --         { '<leader>gs', '<Cmd>DiffviewOpen<Cr>', desc = 'Open Diffview for [g]it [s]tatus' },
+    --     },
+    --     opts = {
+    --         enhanced_diff_hl = true,
+    --         view = {
+    --             default = {
+    --                 layout = 'diff2_vertical',
+    --                 winbar = true,
+    --             },
+    --         },
+    --         file_panel = {
+    --             listing_style = 'list',
+    --         },
+    --     },
+    -- },
 
     {
         -- Adds git related signs to the gutter, as well as utilities for managing changes
