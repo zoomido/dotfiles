@@ -3,15 +3,14 @@ return {
     {
         -- Highlight, edit, and navigate code
         'nvim-treesitter/nvim-treesitter',
+        -- branch = 'main',
         dependencies = {
             { 
                 -- Currently rewriting master->main branches
                 -- wait for a fix to treesitter configs not found
                 -- recommended with nvim-surround
                 -- 'nvim-treesitter/nvim-treesitter-textobjects',
-                -- opts = {
-                --     branch = 'main',
-                -- },
+                -- branch = 'main',
             },
             {
                 'nvim-treesitter/nvim-treesitter-context',
