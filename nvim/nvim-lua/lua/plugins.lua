@@ -100,6 +100,7 @@ local common_plugins = {
 --     { import = "plugins_git" },
 --     { import = "plugins_helper" },
 --     { import = "plugins_lsp" },
+--     { import = "plugins_snacks" },
 --     { import = "plugins_telescope" },
 --     { import = "plugins_ui" },
 --     { import = "plugins_yazi" },

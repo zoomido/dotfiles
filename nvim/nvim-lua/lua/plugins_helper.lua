@@ -4,7 +4,41 @@ return {
         -- Highlight, edit, and navigate code
         'nvim-treesitter/nvim-treesitter',
         dependencies = {
-            'nvim-treesitter/nvim-treesitter-textobjects', -- recommended with nvim-surround
+            { 
+                -- Currently rewriting master->main branches
+                -- wait for a fix to treesitter configs not found
+                -- recommended with nvim-surround
+                -- 'nvim-treesitter/nvim-treesitter-textobjects',
+                -- opts = {
+                --     branch = 'main',
+                -- },
+            },
+            {
+                'nvim-treesitter/nvim-treesitter-context',
+                opts = {
+                    max_lines = 5,
+                    min_window_height = 20,
+                    multiline_threshold = 3,
+                    -- separator = '—',
+                },
+            },
+            -- setting the commentstring option based on cursor location, via treesitter queries.
+            { 'JoosepAlviste/nvim-ts-context-commentstring', opts = { enable_autocmd = false } },
+        },
+        build = ':TSUpdate',
+        config = true,
+    },
+    --[[{
+        -- Highlight, edit, and navigate code
+        'nvim-treesitter/nvim-treesitter',
+	branch = 'main',
+        dependencies = {
+		{ 
+			-- Currently rewriting master->main branches
+			-- recommended with nvim-surround
+			'nvim-treesitter/nvim-treesitter-textobjects',
+			branch = 'main',
+		},
             {
                 'nvim-treesitter/nvim-treesitter-context',
                 opts = {
@@ -19,12 +53,12 @@ return {
         },
         build = ':TSUpdate',
         config = function()
-            local configs = require('nvim-treesitter.configs')
+            local configs = require('nvim-treesitter.config')
             configs.setup({
                 -- ensure_installed = { 'lua', 'vim', 'vimdoc', 'javascript', 'html', 'less' },
                 -- Automatically install missing parsers when entering buffer
                 -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-                auto_install = true,
+                -- auto_install = true,
                 highlight = { enable = true },
                 -- indent = { enable = true }, -- Breaks indentation
                 incremental_selection = {
@@ -38,7 +72,7 @@ return {
                 },
             })
         end,
-    },
+    },]]
 
     {
         'stevearc/resession.nvim',
