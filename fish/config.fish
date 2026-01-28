@@ -48,7 +48,7 @@ if status --is-interactive
     # Git
     abbr --add gs      git status
     abbr --add gss     git switch
-    abbr --add gpr     git pull --rebase
+    abbr --add gpr     "git pull --rebase && git log -1 --oneline"
     abbr --add gpf     git push --force-with-lease
     #abbr --add --global gtb    "git switch master && git pull --rebase && git switch -c"
     abbr --add cdg     "cd (git rev-parse --show-toplevel)"
