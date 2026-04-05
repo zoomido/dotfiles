@@ -10,9 +10,6 @@
 [push]
     autoSetupRemote = true
 
-[diff]
-    external = difft # Use difftastic for diffing
-
 [merge]
     tool = vim_mergetool
     conflictstyle = diff3 # For vim_mergetool
