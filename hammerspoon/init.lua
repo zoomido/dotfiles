@@ -17,6 +17,7 @@
 -- listenForKeyPress:start()
 
 
+
 ---------------------------
 -- Load custom keybindings
 ---------------------------
@@ -218,6 +219,7 @@ end)
 hs.loadSpoon('ControlEscape'):start() -- Load Hammerspoon bits from https://github.com/jasonrudolph/ControlEscape.spoon
 
 
+
 ---------------------
 -- Global Mute spoon
 ---------------------
@@ -262,6 +264,7 @@ end
 
 inputDevice:watcherCallback(muteWatcher)
 inputDevice:watcherStart()
+
 
 
 ----------------------------------------------------------
@@ -357,6 +360,7 @@ batteryWatcher = hs.battery.watcher.new(function()
 end):start()
 
 
+
 -------------------------------------------------------
 -- Change Kitty colors based on Mac OS light/dark mode
 -------------------------------------------------------
@@ -387,3 +391,27 @@ end
 notificationName = "AppleInterfaceThemeChangedNotification"
 appearanceWatcher = hs.distributednotifications.new(cb, notificationName, nil)
 appearanceWatcher:start()
+
+
+
+--------------------------------------------------------
+-- Kill Apple Music on start (autostarts on bluetooth)
+--------------------------------------------------------
+local musicWatcher = hs.application.watcher.new(function(appName, eventType, appObject)
+    if eventType == hs.application.watcher.launched then
+        if appName == "Music" then
+            hs.timer.doAfter(0.2, function()
+                local app = hs.appfinder.appFromName("Music")
+                if app then
+                    app:kill()
+                    hs.notify.new({
+                        title = "Hammerspoon",
+                        informativeText = "Apple Music was terminated"
+                    }):send()
+                end
+            end)
+        end
+    end
+end)
+
+musicWatcher:start()
