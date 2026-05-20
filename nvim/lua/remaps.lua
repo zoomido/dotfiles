@@ -84,19 +84,24 @@ vim.cmd('abb clog; console.log( );<Left><Left><Left>')
 vim.keymap.set('n', '<leader>x', function()
     local line = vim.api.nvim_get_current_line()
 
-    -- [ ] -> [X]
-    if line:match("^%[ %]") then
-        line = line:gsub("^%[ %]", "[X]", 1)
-
-    -- [X] -> [ ]
-    elseif line:match("^%[X%]") then
-        line = line:gsub("^%[X%]", "[ ]", 1)
-
-    -- no checkbox -> prepend [ ]
-    else
-        line = "[ ] " .. line
+    -- capture leading whitespace + optional list marker
+    local indent, bullet, rest = line:match("^(%s*)([-*+]%s+)(.*)")
+    if not indent then
+        indent, rest = line:match("^(%s*)(.*)")
+        bullet = ""
     end
 
-    vim.api.nvim_set_current_line(line)
-end, { desc = "Toggle checkbox" })
+    -- toggle states [ ] -> [X] -> '' inside the "rest"
+    if rest:match("^%[ %]") then
+        rest = rest:gsub("^%[ %]%s*", "[X] ", 1)
+
+    elseif rest:match("^%[X%]") then
+        rest = rest:gsub("^%[X%]%s*", "", 1)
+
+    else
+        rest = "[ ] " .. rest
+    end
+
+    vim.api.nvim_set_current_line(indent .. (bullet or "") .. rest)
+end, { desc = 'Toggle markdown checkbox (3-state)' })
 
