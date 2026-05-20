@@ -77,3 +77,26 @@ vim.keymap.set("n", "z/", search_in_visible_lines)
 -- Abbreviations
 --
 vim.cmd('abb clog; console.log( );<Left><Left><Left>')
+
+--
+-- Toggle checkboxes
+--
+vim.keymap.set('n', '<leader>x', function()
+    local line = vim.api.nvim_get_current_line()
+
+    -- [ ] -> [X]
+    if line:match("^%[ %]") then
+        line = line:gsub("^%[ %]", "[X]", 1)
+
+    -- [X] -> [ ]
+    elseif line:match("^%[X%]") then
+        line = line:gsub("^%[X%]", "[ ]", 1)
+
+    -- no checkbox -> prepend [ ]
+    else
+        line = "[ ] " .. line
+    end
+
+    vim.api.nvim_set_current_line(line)
+end, { desc = "Toggle checkbox" })
+
