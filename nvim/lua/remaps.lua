@@ -56,6 +56,7 @@ vim.keymap.set({ 'v' }, 'p', '"0P', { silent = true, desc = '[P]aste latest yank
 vim.keymap.set({ 'v' }, '+', '"0ygvd"', { silent = true, desc = 'Cut to yank register' }) -- Deletes go to register 1-9
  --         ["+"] = { "\"0p", "Paste latest yank" },
 vim.keymap.set({ 'v' }, ':p', "y:<C-r>\"<C-b>", { silent = true, desc = 'Paste visual selection in cmdline' })
+vim.keymap.set({ 'v' }, '<leader>v', '"*y', { silent = true, desc = 'Copy to system clipboard' })
 
 --
 -- Search and replace
